@@ -7,6 +7,8 @@ Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Modules", "Modules\Modules.
 EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Scripts", "Scripts\Scripts.pssproj", "{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}"
 EndProject
+Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Tests.Powershell", "Tests.Powershell\Tests.Powershell.pssproj", "{04CF575A-1CB7-4E8E-B39C-71687FD15F54}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04CF575A-1CB7-4E8E-B39C-71687FD15F54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04CF575A-1CB7-4E8E-B39C-71687FD15F54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04CF575A-1CB7-4E8E-B39C-71687FD15F54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04CF575A-1CB7-4E8E-B39C-71687FD15F54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
