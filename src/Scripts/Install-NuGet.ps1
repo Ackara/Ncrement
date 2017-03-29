@@ -22,7 +22,7 @@ Install-NuGet
 This example downloads the latest nuget.exe to the current directory.
 
 .EXAMPLE
-Install-NuGet "4.0.0"  -OutFile "C:\project\tools\nuget.exe"
+Install-NuGet "4.0.0" -OutFile "C:\project\tools\nuget.exe"
 This example downloads version 4.0 to a specified path.
 
 #>
@@ -42,7 +42,6 @@ if ((Test-Path $OutFile -PathType Leaf))
 	else { return; }
 }
 
-#
 $parentDir = (Split-Path $OutFile -Parent);
 if (-not (Test-Path $parentDir -PathType Container)) { New-Item $parentDir -ItemType Directory | Out-Null; }
 
