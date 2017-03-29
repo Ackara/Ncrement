@@ -9,6 +9,12 @@ Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Scripts", "Scripts\Scripts.
 EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Tests.Powershell", "Tests.Powershell\Tests.Powershell.pssproj", "{04CF575A-1CB7-4E8E-B39C-71687FD15F54}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DD3527FA-2678-4884-86F5-5819D9CB445A}"
+	ProjectSection(SolutionItems) = preProject
+		..\.gitignore = ..\.gitignore
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
