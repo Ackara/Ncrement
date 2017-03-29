@@ -37,7 +37,7 @@ Describe "New-WinSCPSession" {
 
 Describe "Get-WinSCPFiles" {
     $remoteFiles = "/$($serverInfo.host)/wwwroot/miscellaneous/buildbox/*";
-    $destination = "$sampleDir\downloads";
+    $destination = "$PSScriptRoot\bin\downloads";
 
     Context "FTP" {
         $sut = New-WinSCPSession -HostName $serverInfo.host -Username $serverInfo.user -Password $serverInfo.password;
