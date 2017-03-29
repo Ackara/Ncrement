@@ -25,7 +25,14 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="nuget.tests.ps1" />
+    <Compile Include="Run-Tests.ps1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Samples\" />
+    <Folder Include="Samples\nuget\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />
 </Project>

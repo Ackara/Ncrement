@@ -2,47 +2,58 @@ function Install-NuGet()
 {
 	<#
 	.SYSNOPSIS
-	This cmdlet downloads the nuget.exe tool to a specified path from nuget.org.
+	This cmdlet downloads the nuget CLI tool to a specified path.
 
 	.PARAMETER Version
-    The version of the nuget.exe to download.
+	The nuget.exe version number.
 
 	.PARAMETER OutFile
-    The path of.
+	The path to save the nuget.exe.
 
-    .PARAMETER Overwrite
-    Determines whether 
+	.PARAMETER Overwrite
+	Determines whether to overwrite the nuget.exe if it already exist.
 
 	.INPUTS
 	NONE
 
 	.OUTPUTS
-	NONE
+	System.String
 
 	.EXAMPLE
-    Install-NuGet
-    This cmdlet downloads the latest nuget.exe to the current 
+	Install-NuGet
+	This example downloads the latest nuget.exe to the current directory.
+
+	.EXAMPLE
+	Install-NuGet "4.0.0"  -OutFile "C:\project\tools\nuget.exe"
+	This example downloads version 4.0 to a specified path.
 
 	#>
-    
-    Params(
-        [string]$Version,
-        [string]$OutFile,
-        [switch]$Overwrite
-    )
 
+	Param(
+		[string]$Version,
+		[string]$OutFile,
+		[switch]$Overwrite
+	)
+	
 	if ([String]::IsNullOrWhiteSpace($Version)) { $Version = "latest"; }
-    if ([String]::IsNullOrWhiteSpace($OutFile)) { $OutFile = "$PSScriptRoot\bin\nuget\nuget.exe"; }
+	if ([String]::IsNullOrWhiteSpace($OutFile)) { $OutFile = "$PWD\bin\nuget\nuget.exe"; }
 
-    if ((Test-Path $OutFile -PathType Leaf))
-    {
-        if ($Overwrite) { Remove-Item $OutFile -Force; }
-        else { return; }
-    }
+	if ((Test-Path $OutFile -PathType Leaf))
+	{
+		if ($Overwrite) { Remove-Item $OutFile -Force; }
+		else { return; }
+	}
 
-    #
-    $parentDir = (Split-Path $OutFile -Parent);
-    if (-not (Test-Path $parentDir -PathType Container)) { New-Item $parentDir -ItemType Directory; }
+	#
+	$parentDir = (Split-Path $OutFile -Parent);
+	if (-not (Test-Path $parentDir -PathType Container)) { New-Item $parentDir -ItemType Directory; }
 
-    Invoke-WebRequest "https://dist.nuget.org/win-x86-commandline/$Version/nuget.exe" -OutFile $OutFile;
+	Invoke-WebRequest "https://dist.nuget.org/win-x86-commandline/$Version/nuget.exe" -OutFile $OutFile;
+	return $OutFile;
 }
+
+function Unpublish-NugetFeed()
+{
+
+}
+
