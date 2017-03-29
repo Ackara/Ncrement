@@ -26,12 +26,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="nuget.tests.ps1" />
+    <Compile Include="Samples\winscp\buildbox-file1.txt" />
+    <Compile Include="winscp.tests.ps1" />
     <Compile Include="Run-Tests.ps1" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Samples\" />
     <Folder Include="Samples\nuget\" />
+    <Folder Include="Samples\winscp\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />
