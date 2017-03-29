@@ -6,7 +6,7 @@ Import-Module $module -Force;
 # Assign Values
 $sampleDir = "$PSScriptRoot\Samples\winscp";
 $sampleFile = "$sampleDir\buildbox-file1.txt";
-$serverInfo = (Get-Content "$sampleDir\credentials.json" | Out-String | ConvertFrom-Json);
+$serverInfo = (Get-Content "$PSScriptRoot\credentials.json" | Out-String | ConvertFrom-Json).ftp;
 
 Describe "New-WinSCPSession" {
     Context "FTP" {
