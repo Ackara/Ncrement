@@ -27,7 +27,7 @@ New-WinSCPSession "host" "userId" "password" | Get-WinSCPFiles -from "/example.c
 ```
 Downloads the example.com site to a local directory.
 
-## Publish Website (using WebDeploy )
+## Publish Website (using WebDeploy)
 Use the **[Invoke-WAWSDeploy.ps1](/src/Scripts/Invoke-WAWSDeploy.ps1)** script to publish a website to azure or any server where WebDeploy is enabled. The script uses the [WAWSDeploy](https://github.com/davidebbo/WAWSDeploy) project to perform it's operation.
 
 |Args|Description|
@@ -51,6 +51,5 @@ Publishes a site with the bare minimum arguments passed.
 Publishes a clean copy of the site to the server.
 
 ## Contribute!
-
 ## Share the love
 :star: this repository and tell your friends if you find it useful in anyway.
