@@ -20,7 +20,7 @@ try
 {
     Push-Location $PSScriptRoot;
     if ($Tests.Length -gt 0) 
-    { Invoke-Pester -TestName $SelectedTests; }
+    { Invoke-Pester -Script $SelectedTests; }
     else 
     { Invoke-Pester; }    
 }
