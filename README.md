@@ -4,10 +4,10 @@
 |**status**|![master]()|![dev](https://acklann.visualstudio.com/_apis/public/build/definitions/86cb9590-1aed-43de-984c-768155a6970f/14/badge)|
 
 ----------
-Buildbox is a collection of build scripts, modules and tools designed for continuous integration and deployment.
+Buildbox is a collection of scripts, modules and tools designed for continuous integration and deployment. The goal for each script is to reduce the number of steps required to perform common operations; with little to no configurations required.
 
 ## FTP Operations
-The **winscp.psm1** module is used for basic ftp operations. It leverage the [WinSCP](https://winscp.net/eng/index.php) [nuget package](https://www.nuget.org/packages/WinSCP/) to complete all operations.
+The **[winscp.psm1](src/Modules/winscp.psm1)** module is used for basic ftp operations. It leverage the [WinSCP](https://winscp.net/eng/index.php) [nuget package](https://www.nuget.org/packages/WinSCP/) to complete all operations.
 
 |Function|Description|
 |--------|-----------|
@@ -27,13 +27,30 @@ New-WinSCPSession "host" "userId" "password" | Get-WinSCPFiles -from "/example.c
 ```
 Downloads the example.com site to a local directory.
 
-## Web Deploy
+## Publish Website (using WebDeploy )
+Use the **[Invoke-WAWSDeploy.ps1](/src/Scripts/Invoke-WAWSDeploy.ps1)** script to publish a website to azure or any server where WebDeploy is enabled. The script uses the [WAWSDeploy](https://github.com/davidebbo/WAWSDeploy) project to perform it's operation.
 
+|Args|Description|
+|----|-----------|
+|**Site**|The folder or `.zip` file containing the site.|
+|**PublishSettings**|the `.PublishSettings` file.|
+|Password|The server web deploy password.|
+|DeleteExistingFiles|Remove all files from the server before publishing.|
+|AppOffline|Takes the site offline before publishing the site.|
+
+#### Exampe 1
+```powershell
+> .\Invoke-WAWSDeploy.ps1 "C:\yoursite" "yoursite.com.publishsettings"
+```
+Publishes a site with the bare minimum arguments passed.
+
+#### Example 2
+```powershell
+> .\Invoke-WAWSDeploy.ps1 -Site "C:\mysite" -Settings "example.com.publishsettings" -Password "p@55w0rd" -DeleteExistingFiles -AppOffline
+```
+Publishes a clean copy of the site to the server.
 
 ## Contribute!
 
-
-
-
-
-
+## Share the love
+:star: this repository and tell your friends if you find it useful in anyway.
