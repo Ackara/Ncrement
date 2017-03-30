@@ -27,4 +27,5 @@ try
 finally
 {
     Pop-Location;
+    if (Get-Module pester) { Remove-Module pester; }
 }
