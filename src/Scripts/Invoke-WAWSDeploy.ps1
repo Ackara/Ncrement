@@ -1,12 +1,12 @@
 <#
 .SYNOPSIS
-Deploys a website to IIS using msdeploy.
+Publish a website to a web server using web deploy.
 
 .PARAMETER Site
-The path to the site's folder or .zip package.
+The path to the site's folder or '.zip' file.
 
 .PARAMETER PublishSettings
-The path to the .publishSettings file.
+The path to the '.publishSettings' file.
 
 .PARAMETER Password
 The web deploy password
@@ -87,7 +87,7 @@ function Install-WAWSDeploy([string]$Version = "1.8.0")
 	}
 }
 
-if ($PSCmdlet.ShouldProcess(""))
+if ($PSCmdlet.ShouldProcess("site: $Site, settings: $PublishSettings"))
 {
 	Install-WAWSDeploy;
 
@@ -106,7 +106,7 @@ if ($PSCmdlet.ShouldProcess(""))
 
 			if (-not ([String]::IsNullOrEmpty($Rule))) { $Rule = "/rule $Rule"; }
 
-			$options = (("$pwd $deleteFiles $offline").Trim().Split(' ', [StringSplitOptions]::RemoveEmptyEntries));
+			$options = (("$pwd $deleteFiles $offline").Trim().Split(" ", [StringSplitOptions]::RemoveEmptyEntries));
 
 			(& $Script:WAWSDeploy $Site $PublishSettings $options);
 		}
