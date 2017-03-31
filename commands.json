@@ -1,0 +1,11 @@
+{
+  "commands":
+  {
+    "start-build":
+    {
+      "fileName": "powershell.exe",
+      "workingDirectory": ".",
+      "arguments": "-ExecutionPolicy Bypass -NonInteractive -File start-build.ps1"
+    }
+  }
+}
