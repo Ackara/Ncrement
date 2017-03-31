@@ -20,12 +20,12 @@ The **[winscp.psm1](src/Modules/winscp.psm1)** module is used for basic ftp oper
 ```powershell
 New-WinSCPSession "host" "userId" "password" | Send-WinSCPFiles -from "C:\site\*" "/-to example.com/wwwroot/";
 ```
-Upload all files within your site's directory to your server.
+In this example, `C:\site` is uploaded to the *example.com* `wwwrooot/` folder.
 #### Example 2
 ```powershell
 New-WinSCPSession "host" "userId" "password" | Get-WinSCPFiles -from "/example.com/wwwroot/" -to "C:\file.txt";
 ```
-Downloads the example.com site to a local directory.
+In this example, Downloads the example.com site to a local directory.
 
 ## Publish Website (using WebDeploy)
 Use the **[Invoke-WAWSDeploy.ps1](/src/Scripts/Invoke-WAWSDeploy.ps1)** script to publish a website to azure or any server where WebDeploy is enabled. The script uses the [WAWSDeploy](https://github.com/davidebbo/WAWSDeploy) project to perform it's operation.
