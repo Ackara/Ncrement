@@ -1,10 +1,14 @@
 <#
 .SYNOPSIS
-Bootstrap build script
+Bootstrap build script.
 #>
 
 Param(
-    
+	[Parameter(Position=2)]
+	[string]$NugetKey = "",
+
+	[Parameter(Position=3)]
+	[string]$PowershellGalleryKey = "",
 
     [Parameter(Position=1)]
     [string[]]$Tasks = @("setup"),
@@ -35,5 +39,7 @@ else
     Invoke-psake -buildFile $buildFile -taskList $Tasks -nologo -notr `
     -properties @{
         "nuget"=$nuget;
+		""=$NugetKey;
+
     }
 }
