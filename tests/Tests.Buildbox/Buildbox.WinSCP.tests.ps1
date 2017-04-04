@@ -1,6 +1,6 @@
 # Import Module
-$srcDir = Split-Path $PSScriptRoot -Parent;
-$module = "$srcDir\Modules\winscp.psm1";
+$rootDir = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent;
+$module = "$rootDir\src\Buildbox.WinSCP\Buildbox.WinSCP.psm1";
 Import-Module $module -Force;
 
 # Assign Values

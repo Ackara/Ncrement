@@ -53,10 +53,12 @@
   <ItemGroup>
     <None Include="buildbox.wawsdeploy.tests.ps1" />
     <None Include="Buildbox.WinSCP.tests.ps1" />
+    <None Include="credentials.json" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Samples\" />
+    <None Include="Samples\winscp\buildbox-file1.txt" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
