@@ -25,11 +25,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="releaseNotes.txt" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="buildbox.wawsdeploy.psd1" />
     <Compile Include="buildbox.wawsdeploy.psm1" />
-    <Compile Include="buildbox.wawsdeploy.tests.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />
