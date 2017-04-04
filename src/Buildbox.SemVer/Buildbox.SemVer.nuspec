@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Buildbox.SemVer</id>
+    <authors>Ackara</authors>
+    <owners>$author$</owners>
+    <version>$version$</version>
+    <projectUrl>https://github.com/Ackara/Buildbox</projectUrl>
+    <licenseUrl>https://github.com/Ackara/Buildbox/blob/master/LICENSE</licenseUrl>
+    <iconUrl>http://static.acklann.com/images/daterpillar.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>$description$</description>
+    <copyright>$copyright$</copyright>
+    <tags>ci version semantic</tags>
+    <releaseNotes>
+      Version: 0.0.0
+      -----------------
+      *
+    </releaseNotes>
+  </metadata>
+</package>
