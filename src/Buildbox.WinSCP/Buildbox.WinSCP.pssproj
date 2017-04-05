@@ -25,7 +25,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="releaseNotes.txt" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Buildbox.WinSCP.psd1" />
     <Compile Include="Buildbox.WinSCP.psm1" />
