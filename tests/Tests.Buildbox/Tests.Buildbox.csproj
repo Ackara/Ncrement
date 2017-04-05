@@ -51,7 +51,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="buildbox.wawsdeploy.tests.ps1" />
+    <None Include="Buildbox.WAWSDeploy.tests.ps1" />
     <None Include="Buildbox.WinSCP.tests.ps1" />
     <None Include="credentials.json" />
     <None Include="packages.config" />
