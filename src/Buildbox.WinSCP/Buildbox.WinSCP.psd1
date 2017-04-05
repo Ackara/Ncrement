@@ -12,7 +12,7 @@
 # RootModule = ''
 
 # Version number of this module.
-ModuleVersion = '0.1.91'
+ModuleVersion = '0.1.100'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -123,6 +123,10 @@ PrivateData = @{
 # DefaultCommandPrefix = ''
 
 }
+
+
+
+
 
 
 
