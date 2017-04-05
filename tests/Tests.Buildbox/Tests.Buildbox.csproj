@@ -51,12 +51,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Buildbox.Flyway.tests.ps1" />
     <None Include="Buildbox.WAWSDeploy.tests.ps1" />
     <None Include="Buildbox.WinSCP.tests.ps1" />
     <None Include="credentials.json" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Samples\waws\index.html" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Samples\winscp\buildbox-file1.txt" />
   </ItemGroup>
