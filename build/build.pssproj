@@ -25,10 +25,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="config.json" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="packages.config" />
     <Compile Include="tasks.ps1" />
+    <Compile Include="utils.psm1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

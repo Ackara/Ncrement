@@ -10,11 +10,25 @@ Param(
 	[Parameter(Position=3)]
 	[string]$PowershellGalleryKey = "",
 
+    [string]$BuildConfiguration = "Release",
+
     [Parameter(Position=1)]
     [string[]]$Tasks = @("setup"),
 
+    [string]$TestName = "",
+
     [switch]$Help
 )
+
+# Assign Values
+$config = Get-Content "$PSScriptRoot\build\config.json" | Out-String | ConvertFrom-Json;
+
+if ([String]::IsNullOrEmpty($NugetKey)) { $NugetKey = $config.nuget.apiKey; }
+if ([String]::IsNullOrEmpty($PowershellGalleryKey)) { $PowershellGalleryKey = $config.powershellGallery.apiKey; }
+$branch = ((& git branch)[0].Trim('*', ' '));
+$releaseTag = "";
+if ($branch -ne "master")
+{ $releaseTag = "alpha"; }
 
 # Restore Packages
 $nuget = "$PSScriptRoot\tools\nuget.exe";
@@ -36,10 +50,15 @@ if ($Help)
 { Invoke-psake -buildFile $buildFile -detailedDocs; }
 else
 {
-    Invoke-psake -buildFile $buildFile -taskList $Tasks -nologo -notr `
+    Invoke-psake -buildFile $buildFile -taskList $Tasks -framework 4.5.2 -nologo -notr `
     -properties @{
+        "TestName"=$TestName;
         "nuget"=$nuget;
-		""=$NugetKey;
-
+        "Config"=$config;
+        "Branch"=$branch;
+		"NugetKey"=$NugetKey;
+        "ReleaseTag"=$releaseTag;
+        "PsGalleryKey"=$PowershellGalleryKey;
+        "BuildConfiguration"=$BuildConfiguration;
     }
 }
