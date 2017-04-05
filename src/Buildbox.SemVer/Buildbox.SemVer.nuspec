@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <package>
   <metadata>
-    <id>Buildbox.SemVer</id>
+    <id>$id$</id>
+    <title>Buildbox.SemVer</title>
     <authors>Ackara</authors>
     <owners>$author$</owners>
     <version>0.1.81-alpha</version>
