@@ -4,7 +4,7 @@
     <id>Buildbox.SemVer</id>
     <authors>Ackara</authors>
     <owners>$author$</owners>
-    <version>$version$</version>
+    <version>0.1.81-alpha</version>
     <projectUrl>https://github.com/Ackara/Buildbox</projectUrl>
     <licenseUrl>https://github.com/Ackara/Buildbox/blob/master/LICENSE</licenseUrl>
     <iconUrl>http://static.acklann.com/images/daterpillar.png</iconUrl>
