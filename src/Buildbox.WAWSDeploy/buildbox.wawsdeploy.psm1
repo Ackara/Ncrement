@@ -1,20 +1,21 @@
 $Script:WAWSDeploy = "$PSScriptRoot\bin\wawsdeploy\WAWSDeploy.exe";
 
-<#
-.SYNOPSIS
-Download WAWSDeploy in the current directory.
-
-.PARAMETER Version
-The version number.
-
-.INPUTS
-None
-
-.OUTPUTS
-None
-#>
 function Install-WAWSDeploy([string]$Version = "1.8.0")
 {
+	<#
+	.SYNOPSIS
+	Download WAWSDeploy in the current directory.
+	
+	.PARAMETER Version
+	The version number.
+	
+	.INPUTS
+	None
+	
+	.OUTPUTS
+	None
+	#>
+
 	if (-not (Test-Path $Script:WAWSDeploy -PathType Leaf))
 	{
 		$zip = "$PSScriptRoot\wawsdeploy.zip";
@@ -29,12 +30,12 @@ function Install-WAWSDeploy([string]$Version = "1.8.0")
 			}
 
 			$wawsDir = Split-Path $Script:WAWSDeploy -Parent;
-			if (Test-Path $wawsDir -PathType Container) { Remove-Item $wawsDir -Recurse -Force; }
-			New-Item $wawsDir -ItemType Directory | Out-Null;
-			Expand-Archive $zip $wawsDir;
+			if (-not (Test-Path $wawsDir -PathType Container)) { New-Item $wawsDir -ItemType Directory | Out-Null; }
+
+			Expand-Archive $zip $wawsDir -Force;
 			Get-ChildItem $wawsDir -Exclude @("tools") | Remove-Item -Recurse -Force;
 			Get-ChildItem "$wawsDir\tools" | Move-Item -Destination $wawsDir;
-			Remove-Item "$wawsDir\tools";
+			Remove-Item "$wawsDir\tools" -Recurse -Force;
 
 			Write-Verbose "WAWSDeploy was installed.";
 		}
@@ -42,39 +43,40 @@ function Install-WAWSDeploy([string]$Version = "1.8.0")
 	}
 }
 
-<#
-.SYNOPSIS
-Publish a website to a web server using web deploy.
-
-.PARAMETER Site
-The path to the site's folder or '.zip' file.
-
-.PARAMETER PublishSettings
-The path to the '.publishSettings' file.
-
-.PARAMETER Password
-The web deploy password.
-
-.PARAMETER Rule
-The deployment rule to enable.
-
-.PARAMETER DeleteExistingFiles
-Determines whether to remove all old files before publishing.
-
-.PARAMETER AppOffline
-Determines whether the app should be switched off before publishing.
-
-.INPUTS
-None
-
-.OUTPUTS
-None
-
-.LINK
-https://github.com/Ackara/Buildbox
-#>
 function Invoke-WAWSDeploy()
 {
+	<#
+	.SYNOPSIS
+	Publish a website to a web server using web deploy.
+	
+	.PARAMETER Site
+	The path to the site's folder or '.zip' file.
+	
+	.PARAMETER PublishSettings
+	The path to the '.publishSettings' file.
+	
+	.PARAMETER Password
+	The web deploy password.
+	
+	.PARAMETER Rule
+	The deployment rule to enable.
+	
+	.PARAMETER DeleteExistingFiles
+	Determines whether to remove all old files before publishing.
+	
+	.PARAMETER AppOffline
+	Determines whether the app should be switched off before publishing.
+	
+	.INPUTS
+	None
+	
+	.OUTPUTS
+	None
+	
+	.LINK
+	https://github.com/Ackara/Buildbox
+	#>
+
 	[CmdletBinding(SupportsShouldProcess, ConfirmImpact = "Medium")]
 	Param (
 		[Parameter(Mandatory)]
@@ -90,31 +92,33 @@ function Invoke-WAWSDeploy()
 		[switch]$AppOffline
 	)
 
-	if ($PSCmdlet.ShouldProcess("site: $Site, settings: $PublishSettings"))
+	Install-WAWSDeploy;
+	
+	if (Test-Path $Site)
 	{
-		Install-WAWSDeploy;
-
-		if (Test-Path $Site)
+		if (Test-Path $PublishSettings -PathType Leaf)
 		{
-			if (Test-Path $PublishSettings -PathType Leaf)
+			$pwd = "";
+			if (-not ([String]::IsNullOrEmpty($Password))) { $pwd = "/p $Password"; }
+	
+			$deleteFiles = "";
+			if ($DeleteExistingFiles) { $deleteFiles = "/d"; }
+	
+			$offline = "";
+			if ($AppOffline) { $offline = "/appoffline"; }
+	
+			if (-not ([String]::IsNullOrEmpty($Rule))) { $Rule = "/rule $Rule"; }
+	
+			$options = (("$pwd $deleteFiles $offline").Trim().Split(" ", [StringSplitOptions]::RemoveEmptyEntries));
+
+			if ($PSCmdlet.ShouldProcess("site: $Site, settings: $PublishSettings $options"))
 			{
-				$pwd = "";
-				if (-not ([String]::IsNullOrEmpty($Password))) { $pwd = "/p $Password"; }
-
-				$deleteFiles = "";
-				if ($DeleteExistingFiles) { $deleteFiles = "/d"; }
-
-				$offline = "";
-				if ($AppOffline) { $offline = "/appoffline"; }
-
-				if (-not ([String]::IsNullOrEmpty($Rule))) { $Rule = "/rule $Rule"; }
-
-				$options = (("$pwd $deleteFiles $offline").Trim().Split(" ", [StringSplitOptions]::RemoveEmptyEntries));
-
 				(& $Script:WAWSDeploy $Site $PublishSettings $options);
 			}
-			else { throw "cannot find $PublishSettings."; }
 		}
-		else { throw "cannot find $Site."; }
+		else { throw "cannot find $PublishSettings."; }
 	}
+	else { throw "cannot find $Site."; }
 }
+
+Export-ModuleMember -Function @("Invoke-*");
