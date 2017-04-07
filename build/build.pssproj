@@ -29,6 +29,7 @@
     <Content Include="config.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="New-CredentialsJson.ps1" />
     <Compile Include="packages.config" />
     <Compile Include="tasks.ps1" />
     <Compile Include="utils.psm1" />
