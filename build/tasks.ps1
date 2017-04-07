@@ -129,16 +129,16 @@ Task "Increment-Version" -alias "version" -description "This task increment the 
         
         if ($extension -eq ".pssproj")
         {
-            $manifest = [IO.Path]::ChangeExtension($proj, "psd1");
+            [string]$manifest = [IO.Path]::ChangeExtension($proj, "psd1");
             if (Test-Path $manifest -PathType Leaf)
             {
                 $content = Get-Content $manifest | Out-String;
                 $content = $content -replace 'ModuleVersion(\s)*=(\s)*(''|")(?<ver>\d\.?)+(''|")', "ModuleVersion = '$value'";
                 $content | Out-File $manifest -Encoding utf8;
 
-                Exec { 
+                Exec {
                     & git add $manifest;
-                    & git commit -m "Update $(Split-Path $proj -Leaf) version to $value";
+                    & git commit -m "Update $(Split-Path $manifest -Leaf) verstion to $value.";
                 }
             }
         }
@@ -149,7 +149,7 @@ Task "Increment-Version" -alias "version" -description "This task increment the 
 
 
 Task "Create-Packages" -alias "pack" -description "This task generates a nuget package for each project." `
--depends @("Init", "Increment-Version", "Run-Tests") -action {
+-depends @("Init", "Run-Tests") -action {
     foreach ($proj in (Get-ChildItem "$RootDir\src" -Recurse -Filter "*.*proj" | Select-Object -ExpandProperty FullName))
     {
         $extension = [IO.Path]::GetExtension($proj);
@@ -202,6 +202,11 @@ Task "Publish-Packages" -alias "publish" -description "Publish all nuget package
             Update-ModuleManifest $manifest -LicenseUri $config.project.license;
             Update-ModuleManifest $manifest -IconUri $config.project.icon;
             Update-ModuleManifest $manifest -ProjectUri $config.project.site;
+            Update-ModuleManifest $manifest -HelpInfoUri $config.project.site;
+
+            Update-ModuleManifest $manifest -Author "Ackara";
+            Update-ModuleManifest $manifest -CompanyName "Ackara and Contributors";
+            Update-ModuleManifest $manifest -Copyright "Copyright (c) Ackara & Contributors $((Get-Date).Year), licensed under MIT License";
             
             Publish-Module -Name $manifest -NuGetApiKey $PsGalleryKey;
             Write-Host "`t* published $(Split-Path $manifest -Leaf) to 'https://www.powershellgallery.com'." -ForegroundColor Green;

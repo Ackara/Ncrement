@@ -10,14 +10,14 @@ Param(
 	[Parameter(Position=3)]
 	[string]$PowershellGalleryKey = "",
 
-    [string]$BuildConfiguration = "Release",
+	[string]$BuildConfiguration = "Release",
 
-    [Parameter(Position=1)]
-    [string[]]$Tasks = @("setup"),
+	[Parameter(Position=1)]
+	[string[]]$Tasks = @("setup"),
 
-    [string]$TestName = "",
+	[string]$TestName = "",
 
-    [switch]$Help
+	[switch]$Help
 )
 
 # Assign Values
@@ -34,9 +34,9 @@ if ($branch -ne "master")
 $nuget = "$PSScriptRoot\tools\nuget.exe";
 if (-not (Test-Path $nuget -PathType Leaf))
 {
-    $parentDir = Split-Path $nuget -Parent;
-    if (-not (Test-Path $parentDir -PathType Container)) { New-Item $parentDir -ItemType Directory | Out-Null; }
-    Invoke-WebRequest "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe" -OutFile $nuget;
+	$parentDir = Split-Path $nuget -Parent;
+	if (-not (Test-Path $parentDir -PathType Container)) { New-Item $parentDir -ItemType Directory | Out-Null; }
+	Invoke-WebRequest "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe" -OutFile $nuget;
 }
 
 & $nuget restore "$PSScriptRoot\Buildbox.sln" -Verbosity quiet;
@@ -50,15 +50,15 @@ if ($Help)
 { Invoke-psake -buildFile $buildFile -detailedDocs; }
 else
 {
-    Invoke-psake -buildFile $buildFile -taskList $Tasks -framework 4.5.2 -nologo -notr `
-    -properties @{
-        "TestName"=$TestName;
-        "nuget"=$nuget;
-        "Config"=$config;
-        "Branch"=$branch;
+	Invoke-psake -buildFile $buildFile -taskList $Tasks -framework 4.5.2 -nologo -notr `
+	-properties @{
+		"TestName"=$TestName;
+		"nuget"=$nuget;
+		"Config"=$config;
+		"Branch"=$branch;
 		"NugetKey"=$NugetKey;
-        "ReleaseTag"=$releaseTag;
-        "PsGalleryKey"=$PowershellGalleryKey;
-        "BuildConfiguration"=$BuildConfiguration;
-    }
+		"ReleaseTag"=$releaseTag;
+		"PsGalleryKey"=$PowershellGalleryKey;
+		"BuildConfiguration"=$BuildConfiguration;
+	}
 }
