@@ -61,6 +61,8 @@
     <Content Include="Samples\waws\index.html" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Samples\flyway\flyway.conf" />
+    <None Include="Samples\flyway\mock.db3" />
     <None Include="Samples\winscp\buildbox-file1.txt" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
