@@ -1,0 +1,20 @@
+{
+  "version": {
+    "major": 0,
+    "minor": 0,
+    "patch": 0,
+    "releaseTag": ""
+  },
+  "targets": [
+    "dotnetcore",
+    "dotnet",
+    "powershell"
+  ],
+  "releaseTags": {
+    "master": "",
+    "*": "-alpha"
+  },
+  "shouldCommitChanges": true,
+  "shouldTagCommit": true,
+  "shouldAddAllUnstagedFilesWhenCommitting": false
+}

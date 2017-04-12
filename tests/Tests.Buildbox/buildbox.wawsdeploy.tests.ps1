@@ -6,13 +6,13 @@ Import-Module $module -Force;
 $sampleDir = "$PSScriptRoot\Samples\waws";
 
 Describe "Install-WAWSDeploy" {
-    $settings = "$sampleDir\waws.publishsettings";
-    "abc" | Out-File $settings;
+	$settings = "$sampleDir\waws.publishsettings";
+	"abc" | Out-File $settings;
 
-    Invoke-WAWSDeploy $sampleDir $settings -WhatIf;
-    
+	Invoke-WAWSDeploy $sampleDir $settings -WhatIf;
+	
 	It "should install wawsdeploy to the module's directory." {
-        $expectedWAWSDeployPath = Get-Item "$(Split-Path $module -Parent)\bin\wawsdeploy" -Filter "*.exe" | Select-Object -ExpandProperty FullName -First 1;
-        $expectedWAWSDeployPath | Should Exist;
+		$expectedWAWSDeployPath = Get-Item "$(Split-Path $module -Parent)\bin\wawsdeploy" -Filter "*.exe" | Select-Object -ExpandProperty FullName -First 1;
+		$expectedWAWSDeployPath | Should Exist;
 	}
 }

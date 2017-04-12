@@ -29,9 +29,19 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Management.Automation.dll.10.0.10586.0\lib\net40\System.Management.Automation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,12 +50,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cmdlets\CmdletBase.cs" />
+    <Compile Include="Cmdlets\GetVersionNumberCmdlet.cs" />
+    <Compile Include="Cmdlets\StepVersionNumberCmdlet.cs" />
+    <Compile Include="Cmdlets\UpdateVersionNumberCmdlet.cs" />
+    <Compile Include="Git.cs" />
+    <Compile Include="Handlers\DotNetCoreProjectFileHandler.cs" />
+    <Compile Include="Handlers\DotNetProjectFileHandler.cs" />
+    <Compile Include="Handlers\FileHandlerFactory.cs" />
+    <Compile Include="Handlers\FileHandlerIdAttribute.cs" />
+    <Compile Include="Handlers\IFileHandler.cs" />
+    <Compile Include="Handlers\NullFileHandler.cs" />
+    <Compile Include="Handlers\PowershellManifestFileHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="VersionInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Buildbox.SemVer.nuspec">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

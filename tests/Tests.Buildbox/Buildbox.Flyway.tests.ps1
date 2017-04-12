@@ -85,7 +85,7 @@ Describe "Invoke-Flyway" {
 	Edit-FlywayConfig $sampleConfig -User "ackara";
 	Edit-FlywayConfig $sampleConfig -Password "password1";
 
-    $cred = New-Object pscredential("zorc", ("pasdfkaj" | ConvertTo-SecureString -AsPlainText -Force));
+	$cred = New-Object pscredential("zorc", ("pasdfkaj" | ConvertTo-SecureString -AsPlainText -Force));
 	
 	It "should return a [FlywayResults] object with its 'State' property set to Empty" {
 		$result = Invoke-Flyway "info" $sampleConfig;
