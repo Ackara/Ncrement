@@ -114,7 +114,6 @@ Task "Increment-Version" -alias "version" -description "This task increment the 
 			$assemblyInfo = "$(Split-Path $proj -Parent)\Properties\AssemblyInfo.cs";
 			$content = Get-Content $assemblyInfo | Out-String;
 			$content = $content -replace '"(\d+\.?)+"', "`"$value`"";
-			$content = $content -replace '\[assembly:\s*AssemblyInformationalVersion\("\d+\.\d+\.\d+(-?\w+)*"\)\]', "[assembly: AssemblyInformationalVersion(`"$value-$ReleaseTag`")]";
 			$content | Out-File $assemblyInfo;
 
 			Exec {  & git add $assemblyInfo; }
@@ -144,26 +143,22 @@ Task "Increment-Version" -alias "version" -description "This task increment the 
 
 Task "Create-Packages" -alias "pack" -description "This task generates a nuget package for each project." `
 -depends @("Init", "Run-Tests") -action {
-	foreach ($proj in (Get-ChildItem "$RootDir\src" -Recurse -Filter "*.csproj" | Select-Object -ExpandProperty FullName))
+	$nuspec = "$RootDir\buildbox.nuspec";
+	if (Test-Path $nuspec -PathType Leaf)
 	{
-		$nuspec = [IO.Path]::ChangeExtension($proj, ".nuspec");
-		$outDir = "$ArtifactsDir";
+		$version = $config.version;
+		$versionNumber = "$($version.major).$($version.minor).$($version.patch)";
+	
+		$properties = "";
+		$properties += "Configuration=$BuildConfiguration";
+		$properties += ";version=$versionNumber";
 		
-		if (-not (Test-Path $outDir -PathType Container)) { New-Item $outDir -ItemType Directory | Out-Null; }
-		
-		if (Test-Path $nuspec -PathType Leaf)
-		{
-			[xml]$nuspecDef = Get-Content $nuspec;
-			
-			$nuspecDef.SelectSingleNode("package/metadata/projectUrl").InnerText = $Config.project.site;
-			$nuspecDef.SelectSingleNode("package/metadata/licenseUrl").InnerText = $Config.project.license;
-			$nuspecDef.SelectSingleNode("package/metadata/iconUrl").InnerText = $Config.project.icon;
-			$nuspecDef.Save($nuspec);
-			
-			Write-BreakLine "NUGET";
-			Exec { & $nuget pack $proj -OutputDirectory $outDir -Prop "Configuration=$BuildConfiguration" -IncludeReferencedProjects; }
-			Write-BreakLine;
-		}
+		Write-BreakLine "NUGET";
+		if ([string]::IsNullOrEmpty($ReleaseTag))
+		{ Exec { & $nuget pack $nuspec -OutputDirectory $ArtifactsDir -Prop $properties; } }
+		else
+		{ Exec { & $nuget pack $nuspec -OutputDirectory $ArtifactsDir -Prop $properties -Suffix $ReleaseTag; } }
+		Write-BreakLine;
 	}
 }
 
