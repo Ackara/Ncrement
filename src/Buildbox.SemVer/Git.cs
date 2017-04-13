@@ -2,17 +2,12 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace Ackara.Buildbox.SemVer
 {
     public class Git
     {
-        public Git() : this("")
-        {
-        }
-
         public Git(string pathToRepository)
         {
             _repository = pathToRepository;
@@ -32,39 +27,6 @@ namespace Ackara.Buildbox.SemVer
         public static bool GitRepositoryExist(string path)
         {
             return Directory.Exists(path);
-        }
-
-        public static bool FindGitRepository(out DirectoryInfo directory)
-        {
-            string repo;
-            directory = null;
-
-            if (foundGitRepoIn(Environment.CurrentDirectory, out repo))
-            {
-                directory = new DirectoryInfo(repo);
-                return true;
-            }
-            else if (foundGitRepoIn(Assembly.GetExecutingAssembly().Location, out repo))
-            {
-                directory = new DirectoryInfo(repo);
-                return true;
-            }
-            else return false;
-
-            bool foundGitRepoIn(string path, out string result)
-            {
-                bool noMatchFound = true;
-                if (!string.IsNullOrEmpty(path))
-                    do
-                    {
-                        string git = Path.Combine(path, ".git");
-                        noMatchFound = (Directory.Exists(git) == false);
-                        if (noMatchFound) path = Path.GetDirectoryName(path);
-                    } while (noMatchFound);
-
-                result = path;
-                return !noMatchFound;
-            }
         }
 
         public static string Execute(string command, string repository)
