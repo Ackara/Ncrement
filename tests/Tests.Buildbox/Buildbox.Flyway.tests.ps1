@@ -2,7 +2,7 @@ $rootDir = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent;
 $module = "$rootDir\src\Buildbox.Flyway\buildbox.flyway.psm1";
 Import-Module $module -Force;
 
-$testResultsDir = "$rootDir\tests\TestResults";
+$testResultsDir = "$rootDir\TestResults";
 if (Test-Path $testResultsDir -PathType Container)
 { Remove-Item $testResultsDir -Recurse; }
 New-Item $testResultsDir -ItemType Directory | Out-Null;
