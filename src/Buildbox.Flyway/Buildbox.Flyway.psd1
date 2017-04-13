@@ -12,7 +12,7 @@
 # RootModule = ''
 
 # Version number of this module.
-ModuleVersion = '0.1.104'
+ModuleVersion = '0.1.105'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -123,5 +123,6 @@ HelpInfoURI = 'https://github.com/Ackara/Buildbox'
 # DefaultCommandPrefix = ''
 
 }
+
 
 
