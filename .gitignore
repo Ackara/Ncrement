@@ -288,6 +288,7 @@ __pycache__/
 *.xsd.cs
 
 # Generated Files
+run-pester.cmd
 downloads/
 tools/
 
