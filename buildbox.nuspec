@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package>
+  <metadata>
+    <packageTypes>
+      <packageType name="DotnetCliTool" />
+    </packageTypes>
+
+    <title>Buildbox</title>
+    <id>Ackara.Buildbox</id>
+    <version>$version$</version>
+    <description>A collection of powershell scripts and modules designed for continuous builds and deployments.</description>
+    
+    <owners>Ackara</owners>
+    <authors>Ackara and Contributors</authors>
+    <projectUrl>https://github.com/Ackara/Buildbox</projectUrl>
+    <iconUrl>http://static.acklann.com/images/buildbox.jpg</iconUrl>
+    <copyright>Copyright © Ackara 2017, licensed under MIT License</copyright>
+    <licenseUrl>https://github.com/Ackara/Buildbox/blob/master/LICENSE</licenseUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <tags>build deploy devops</tags>
+    
+    <releaseNotes>
+      version: 0.0.105
+      ----------------
+      * Add flyway module
+      * Add winscp module
+      * Add waswsdeploy module
+      * Add semver module
+
+      version: 0.0.1
+      --------------
+      Initial release
+    </releaseNotes>
+  </metadata>
+  <files>
+    <file src="README.md"
+          target="" />
+
+    <file src="src\Buildbox.Flyway\*.ps*1"
+          target="tools\flyway" />
+
+    <file src="src\Buildbox.WinSCP\*.ps*1"
+          target="tools\winscp" />
+
+    <file src="src\Buildbox.WAWSDeploy\*.ps*1"
+          target="tools\waswdeploy" />
+
+    <file src="src\Buildbox.SemVer\bin\$configuration$\*.dll"
+          target="tools\semver" />
+
+    <file src="src\Buildbox.SemVer\bin\$configuration$\*.pdb"
+          target="tools\semver" />
+  </files>
+</package>
