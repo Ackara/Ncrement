@@ -30,13 +30,9 @@
     </releaseNotes>
   </metadata>
   <files>
-    <file src="..\..\README.md"
-          target="tools\flyway" />
-    <file src="..\Buildbox.Flyway\*.ps*1"
-          target="tools\flyway" />
-    <file src="..\Buildbox.WinSCP\*.ps*1"
-          target="tools\winscp" />
-    <file src="..\Buildbox.WAWSDeploy\*.ps*1"
-          target="tools\waswdeploy" />
+    <file src="..\..\README.md" target="tools\flyway" />
+    <file src="..\Buildbox.Flyway\*.ps*1" target="tools\flyway" />
+    <file src="..\Buildbox.WinSCP\*.ps*1" target="tools\winscp" />
+    <file src="..\Buildbox.WAWSDeploy\*.ps*1" target="tools\waswdeploy" />
   </files>
 </package>
