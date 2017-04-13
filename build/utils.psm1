@@ -1,7 +1,7 @@
 
 function Write-BreakLine([string]$Title)
 {
-    $line = "`n----------------------------------------------------------------------";
+	$line = "`n----------------------------------------------------------------------";
 	$limit = $line.Length;
 	if (-not [String]::IsNullOrEmpty($Title))
 	{

@@ -1,6 +1,6 @@
 Param(
 	[Parameter(Mandatory)]
-	[string]$Host,
+	[string]$Server,
 
 	[Parameter(Mandatory)]
 	[string]$Username,
@@ -13,7 +13,7 @@ $content = @"
 {
   "ftp":
   {
-	"host": "$Host",
+	"host": "$Server",
 	"user": "$Username",
 	"password": "$password"
   }
