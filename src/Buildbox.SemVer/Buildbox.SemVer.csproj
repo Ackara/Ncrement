@@ -67,6 +67,7 @@
     <Compile Include="VersionInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Buildbox.SemVer.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

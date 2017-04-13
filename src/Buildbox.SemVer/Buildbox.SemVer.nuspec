@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>$id$</id>
+    <title>Buildbox</title>
+    <version>$version$</version>
+    <owners>$author$</owners>
+    <authors>$author$ and Contributors</authors>
+    <licenseUrl>https://github.com/Ackara/Buildbox/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/Ackara/Buildbox</projectUrl>
+    <iconUrl>http://static.acklann.com/images/buildbox.jpg</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>
+      version: 0.0.0
+      --------------
+      * 
+    </releaseNotes>
+    <copyright>$copyright$</copyright>
+    <tags>build deploy devops</tags>
+  </metadata>
+  <files>
+  </files>
+</package>
