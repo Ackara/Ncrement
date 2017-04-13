@@ -19,8 +19,8 @@ Properties {
 	# User Args
 	$TestName = $null;
 	$Config = $null;
-	$NuGetKey = "";
 	$PsGalleryKey = "";
+	$NuGetKey = "";
 }
 
 Task "setup" -description "Run this task to help configure your local enviroment for development." -depends @("Init");
@@ -28,7 +28,7 @@ Task "setup" -description "Run this task to help configure your local enviroment
 # -----
 
 Task "Init" -description "This task load all dependencies." -action {
-	foreach ($folder in @("$ArtifactsDir\nuget"))
+	foreach ($folder in @($ArtifactsDir))
 	{
 		if (Test-Path $folder -PathType Container)
 		{ Remove-Item $folder -Recurse -Force; }
@@ -85,7 +85,7 @@ Task "Run-Pester" -alias "pester" -description "This task invoke all selected pe
 Task "Run-Tests" -alias "test" -description "This task runs all tests." `
 -depends @("Build-Solution") -action {
 	Write-BreakLine "VSTEST";
-	foreach ($proj in (Get-ChildItem "$RootDir\tests" -Recurse -Filter "*.*proj" | Select-Object -ExpandProperty FullName))
+	foreach ($proj in (Get-ChildItem "$RootDir\tests\Tests.Buildbox" -Filter "*.csproj" | Select-Object -ExpandProperty FullName))
 	{
 		try
 		{
@@ -113,13 +113,11 @@ Task "Increment-Version" -alias "version" -description "This task increment the 
 		{
 			$assemblyInfo = "$(Split-Path $proj -Parent)\Properties\AssemblyInfo.cs";
 			$content = Get-Content $assemblyInfo | Out-String;
-			$content = $content = $content -replace '"(\d+\.?)+"', "`"$value`"";
+			$content = $content -replace '"(\d+\.?)+"', "`"$value`"";
+			$content = $content -replace '\[assembly:\s*AssemblyInformationalVersion\("\d+\.\d+\.\d+(-?\w+)*"\)\]', "[assembly: AssemblyInformationalVersion(`"$value-$ReleaseTag`")]";
 			$content | Out-File $assemblyInfo;
 
-			Exec { 
-				& git add $assemblyInfo;
-				& git commit -m "Update $(Split-Path $proj -Leaf) version to $value";
-			}
+			Exec {  & git add $assemblyInfo; }
 		}
 		
 		if ($extension -eq ".pssproj")
@@ -131,48 +129,40 @@ Task "Increment-Version" -alias "version" -description "This task increment the 
 				$content = $content -replace 'ModuleVersion(\s)*=(\s)*(''|")(?<ver>\d\.?)+(''|")', "ModuleVersion = '$value'";
 				$content | Out-File $manifest -Encoding utf8;
 
-				Exec {
-					& git add $manifest;
-					& git commit -m "Update $(Split-Path $manifest -Leaf) verstion to $value.";
-				}
+				Exec { & git add $manifest; }
 			}
 		}
 	}
 
+	Exec {
+		& git commit -m "Increment the project's version number to $value";
+		& git tag v$value;
+	}
 	Write-Host "`t* updated to version $value";
 }
 
 
 Task "Create-Packages" -alias "pack" -description "This task generates a nuget package for each project." `
 -depends @("Init", "Run-Tests") -action {
-	foreach ($proj in (Get-ChildItem "$RootDir\src" -Recurse -Filter "*.*proj" | Select-Object -ExpandProperty FullName))
+	foreach ($proj in (Get-ChildItem "$RootDir\src" -Recurse -Filter "*.csproj" | Select-Object -ExpandProperty FullName))
 	{
-		$extension = [IO.Path]::GetExtension($proj);
+		$nuspec = [IO.Path]::ChangeExtension($proj, ".nuspec");
+		$outDir = "$ArtifactsDir";
 		
-		if ($extension -eq ".csproj")
+		if (-not (Test-Path $outDir -PathType Container)) { New-Item $outDir -ItemType Directory | Out-Null; }
+		
+		if (Test-Path $nuspec -PathType Leaf)
 		{
-			$nuspec = [IO.Path]::ChangeExtension($proj, ".nuspec");
-			$outDir = "$ArtifactsDir\nuget";
-
-			if (-not (Test-Path $outDir -PathType Container)) { New-Item $outDir -ItemType Directory | Out-Null; }
+			[xml]$nuspecDef = Get-Content $nuspec;
 			
-			if (Test-Path $nuspec -PathType Leaf)
-			{
-				[xml]$nuspecDef = Get-Content $nuspec;
-				
-				$nuspecDef.SelectSingleNode("package/metadata/projectUrl").InnerText = $Config.project.site;
-				$nuspecDef.SelectSingleNode("package/metadata/licenseUrl").InnerText = $Config.project.license;
-				$nuspecDef.SelectSingleNode("package/metadata/iconUrl").InnerText = $Config.project.icon;
-				if (-not [String]::IsNullOrEmpty($ReleaseTag))
-				{
-					$nuspecDef.SelectSingleNode("package/metadata/version").InnerText = "$($Config.version.major).$($Config.version.minor).$($Config.version.patch)-$ReleaseTag";
-				}
-				$nuspecDef.Save($nuspec);
-				
-				Write-BreakLine "NUGET";
-				Exec { & $nuget pack $proj -OutputDirectory $outDir -Prop "Configuration=$BuildConfiguration" -IncludeReferencedProjects; }
-				Write-BreakLine;
-			}
+			$nuspecDef.SelectSingleNode("package/metadata/projectUrl").InnerText = $Config.project.site;
+			$nuspecDef.SelectSingleNode("package/metadata/licenseUrl").InnerText = $Config.project.license;
+			$nuspecDef.SelectSingleNode("package/metadata/iconUrl").InnerText = $Config.project.icon;
+			$nuspecDef.Save($nuspec);
+			
+			Write-BreakLine "NUGET";
+			Exec { & $nuget pack $proj -OutputDirectory $outDir -Prop "Configuration=$BuildConfiguration" -IncludeReferencedProjects; }
+			Write-BreakLine;
 		}
 	}
 }
@@ -203,7 +193,7 @@ Task "Publish-Packages" -alias "publish" -description "Publish all nuget package
 			Update-ModuleManifest $manifest -CompanyName "Ackara and Contributors";
 			Update-ModuleManifest $manifest -Copyright "Copyright (c) Ackara & Contributors $((Get-Date).Year), licensed under MIT License";
 			
-			Publish-Module -Name $manifest -NuGetApiKey $PsGalleryKey;
+			#Publish-Module -Name $manifest -NuGetApiKey $PsGalleryKey;
 			Write-Host "`t* published $(Split-Path $manifest -Leaf) to 'https://www.powershellgallery.com'." -ForegroundColor Green;
 		}
 	}
