@@ -25,9 +25,9 @@ $config = Get-Content "$PSScriptRoot\build\config.json" | Out-String | ConvertFr
 
 if ([String]::IsNullOrEmpty($NugetKey)) { $NugetKey = $config.nuget.apiKey; }
 if ([String]::IsNullOrEmpty($PowershellGalleryKey)) { $PowershellGalleryKey = $config.powershellGallery.apiKey; }
-$branch = ((& git branch)[0].Trim('*', ' '));
 $releaseTag = "";
-if ($branch -ne "master")
+$branch = (& git branch);
+if ($branch -notcontains "* master")
 { $releaseTag = "alpha"; }
 
 # Restore Packages
@@ -55,7 +55,6 @@ else
 		"TestName"=$TestName;
 		"nuget"=$nuget;
 		"Config"=$config;
-		"Branch"=$branch;
 		"NugetKey"=$NugetKey;
 		"ReleaseTag"=$releaseTag;
 		"PsGalleryKey"=$PowershellGalleryKey;
