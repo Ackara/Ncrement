@@ -24,7 +24,7 @@ GUID = '8bbb1d5d-91ac-4186-9594-e047ab6cfe11'
 Author = 'Ackara'
 
 # Company or vendor of this module
-CompanyName = 'Ackara & Contributors'
+CompanyName = 'Ackara'
 
 # Copyright statement for this module
 Copyright = 'Copyright (c) Ackara & Contributors 2017, licensed under MIT License.'
