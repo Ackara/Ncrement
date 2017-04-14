@@ -295,3 +295,4 @@ tools/
 # Sensitive Files
 credentials.json
 config.json
+!build/config.json
