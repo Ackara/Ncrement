@@ -105,6 +105,8 @@ Task "Increment-Version" -alias "version" -description "This task increment the 
 	$value = "$($version.major).$($version.minor).$($version.patch)";
 	$config | ConvertTo-Json | Out-File "$PSScriptRoot\config.json";
 
+	Exec { & git add "$PSScriptRoot\config.json"; }
+
 	foreach ($proj in (Get-ChildItem "$RootDir\src" -Recurse -Filter "*.*proj" | Select-Object -ExpandProperty FullName))
 	{
 		$extension = [IO.Path]::GetExtension($proj);

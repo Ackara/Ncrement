@@ -60,6 +60,8 @@ namespace Ackara.Buildbox.SemVer.Cmdlets
 
             if (CommitChanges.IsPresent || Config.ShouldCommitChanges)
             {
+                try { git.Add(Config.Filename); } catch { }
+
                 if (CommitAddUnstagedFiles.IsPresent || Config.ShouldAddUnstagedFilesWhenCommitting)
                 { git.Add(); }
                 else
