@@ -165,9 +165,6 @@ Task "Create-Packages" -alias "pack" -description "This task generates a nuget p
 
 Task "Publish-Packages" -alias "publish" -description "Publish all nuget packages to 'nuget.org' and 'powershell gallery'." `
 -depends @("Create-Packages") -action {
-	Assert (-not [String]::IsNullOrEmpty($NuGetKey)) "The 'nuget api key' was not assinged.";
-	Assert (-not [String]::IsNullOrEmpty($PsGalleryKey)) "The 'PS Gallery api key' was not assigned.";
-
 	foreach ($manifest in (Get-ChildItem "$RootDir\src" -Recurse -Filter "*.psd1" | Select-Object -ExpandProperty FullName))
 	{
 		$releaseNotes = "";
@@ -178,25 +175,28 @@ Task "Publish-Packages" -alias "publish" -description "Publish all nuget package
 		Write-Host "`t* verifying $(Split-Path $manifest -Leaf) manifest ...";
 		if (Test-ModuleManifest $manifest)
 		{
-			Update-ModuleManifest $manifest -ReleaseNotes $releaseNotes;
-			Update-ModuleManifest $manifest -LicenseUri $config.project.license;
-			Update-ModuleManifest $manifest -IconUri $config.project.icon;
-			Update-ModuleManifest $manifest -ProjectUri $config.project.site;
-			Update-ModuleManifest $manifest -HelpInfoUri $config.project.site;
+			#Update-ModuleManifest $manifest -ReleaseNotes $releaseNotes;
+			#Update-ModuleManifest $manifest -LicenseUri $config.project.license;
+			#Update-ModuleManifest $manifest -IconUri $config.project.icon;
+			#Update-ModuleManifest $manifest -ProjectUri $config.project.site;
+			#Update-ModuleManifest $manifest -HelpInfoUri $config.project.site;
 
-			Update-ModuleManifest $manifest -Author "Ackara";
-			Update-ModuleManifest $manifest -CompanyName "Ackara and Contributors";
-			Update-ModuleManifest $manifest -Copyright "Copyright (c) Ackara & Contributors $((Get-Date).Year), licensed under MIT License";
+			#Update-ModuleManifest $manifest -Author "Ackara";
+			#Update-ModuleManifest $manifest -CompanyName "Ackara and Contributors";
+			#Update-ModuleManifest $manifest -Copyright "Copyright (c) Ackara & Contributors $((Get-Date).Year), licensed under MIT License";
 			
 			#Publish-Module -Name $manifest -NuGetApiKey $PsGalleryKey;
-			Write-Host "`t* published $(Split-Path $manifest -Leaf) to 'https://www.powershellgallery.com'." -ForegroundColor Green;
+			#Write-Host "`t* published $(Split-Path $manifest -Leaf) to 'https://www.powershellgallery.com'." -ForegroundColor Green;
 		}
 	}
 
 	foreach ($package in (Get-ChildItem $ArtifactsDir -Recurse -Filter "*.nupkg" | Select-Object -ExpandProperty FullName))
 	{
 		Write-BreakLine "NUGET";
-		Exec { & $nuget push $package -Source $config.nuget.source -ApiKey $NuGetKey; }
+		if ([string]::IsNullOrEmpty($NuGetKey))
+		{ Exec { & $nuget push $package -Source "https://api.nuget.org/v3/index.json"; } }
+		else
+		{ Exec { & $nuget push $package -Source "https://api.nuget.org/v3/index.json" -ApiKey $NuGetKey; } }
 		Write-BreakLine;
 	}
 }

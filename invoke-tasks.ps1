@@ -21,10 +21,12 @@ Param(
 )
 
 # Assign Values
-$config = Get-Content "$PSScriptRoot\build\config.json" | Out-String | ConvertFrom-Json;
+$config = "$PSScriptRoot\build\config.json";
+if (Test-Path $config -PathType Leaf)
+{
+	$config = Get-Content "$PSScriptRoot\build\config.json" | Out-String | ConvertFrom-Json;
+}
 
-if ([String]::IsNullOrEmpty($NugetKey)) { $NugetKey = $config.nuget.apiKey; }
-if ([String]::IsNullOrEmpty($PowershellGalleryKey)) { $PowershellGalleryKey = $config.powershellGallery.apiKey; }
 $releaseTag = "";
 $branch = (& git branch);
 if ($branch -notcontains "* master")
