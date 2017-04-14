@@ -1,11 +1,17 @@
 {
   "commands":
   {
-    "start-build":
+    "increment version number":
     {
       "fileName": "powershell.exe",
       "workingDirectory": ".",
-      "arguments": "-ExecutionPolicy Bypass -NonInteractive -File start-build.ps1"
+      "arguments": "-ExecutionPolicy Bypass -NonInteractive -File invoke-tasks.ps1 version"
+    },
+    "run pester":
+    {
+      "fileName": "powershell.exe",
+      "workingDirectory": ".",
+      "arguments": "-ExecutionPolicy Bypass -NonInteractive -File invoke-tasks.ps1 pester"
     }
   }
 }
