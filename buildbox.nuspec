@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package>
   <metadata>
-    <packageTypes>
-      <packageType name="DotnetCliTool" />
-    </packageTypes>
-
     <title>Buildbox</title>
     <id>Ackara.Buildbox</id>
     <version>$version$</version>
@@ -20,7 +16,7 @@
     <tags>build deploy devops</tags>
     
     <releaseNotes>
-      version: 0.0.105
+      version: 1.0.0
       ----------------
       * Add flyway module
       * Add winscp module
