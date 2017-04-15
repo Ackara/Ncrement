@@ -16,7 +16,7 @@
     <tags>build deploy devops</tags>
     
     <releaseNotes>
-      version: 1.0.0
+      version: 0.0.111
       ----------------
       * Add flyway module
       * Add winscp module
