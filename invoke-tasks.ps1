@@ -17,6 +17,8 @@ Param(
 
 	[string]$TestName = "",
 
+	[string]$ReleaseTag = $null,
+
 	[switch]$Help
 )
 
@@ -27,10 +29,12 @@ if (Test-Path $config -PathType Leaf)
 	$config = Get-Content "$PSScriptRoot\build\config.json" | Out-String | ConvertFrom-Json;
 }
 
-$releaseTag = "";
-$branch = (& git branch);
-if ($branch -notcontains "* master")
-{ $releaseTag = "alpha"; }
+if ($ReleaseTag -eq $null)
+{
+	$branch = (& git branch);
+	if ($branch -notcontains "* master")
+	{ $ReleaseTag = "alpha"; }
+}
 
 # Restore Packages
 $nuget = "$PSScriptRoot\tools\nuget.exe";
@@ -40,7 +44,6 @@ if (-not (Test-Path $nuget -PathType Leaf))
 	if (-not (Test-Path $parentDir -PathType Container)) { New-Item $parentDir -ItemType Directory | Out-Null; }
 	Invoke-WebRequest "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe" -OutFile $nuget;
 }
-
 & $nuget restore "$PSScriptRoot\Buildbox.sln" -Verbosity quiet;
 
 # Invoke Psake
@@ -54,11 +57,11 @@ else
 {
 	Invoke-psake -buildFile $buildFile -taskList $Tasks -framework 4.5.2 -nologo -notr `
 	-properties @{
-		"TestName"=$TestName;
 		"nuget"=$nuget;
 		"Config"=$config;
+		"TestName"=$TestName;
 		"NugetKey"=$NugetKey;
-		"ReleaseTag"=$releaseTag;
+		"ReleaseTag"=$ReleaseTag;
 		"PsGalleryKey"=$PowershellGalleryKey;
 		"BuildConfiguration"=$BuildConfiguration;
 	}
