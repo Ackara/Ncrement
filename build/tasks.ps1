@@ -23,8 +23,6 @@ Properties {
 	$NuGetKey = "";
 }
 
-Task "setup" -description "Run this task to help configure your local enviroment for development." -depends @("Init");
-
 # -----
 
 Task "Init" -description "This task load all dependencies." -action {
@@ -50,6 +48,26 @@ Task "Init" -description "This task load all dependencies." -action {
 
 Task "Cleanup" -description "This task releases all resources." -action {
 	
+}
+
+
+Task "setup" -description "Run this task to help configure your local enviroment for development." `
+-depends @("Init") -action {
+	Write-Host "You will need a ftp server to run the winscp module tests. Provide the following so I can build a connection string" -ForegroundColor Cyan;
+	$address = Read-Host "host name";
+	$user = Read-Host "username";
+	$password = Read-Host "password";
+
+	$json = @"
+{
+  "ftp":
+  {
+	"host": "$address",
+	"user": "$user",
+	"password": "$password"
+  }
+}
+"@ | Out-File "$RootDir\tests\Tests.Buildbox\credentials.json";
 }
 
 
@@ -144,57 +162,33 @@ Task "Increment-Version" -alias "version" -description "This task increment the 
 
 
 Task "Create-Packages" -alias "pack" -description "This task generates a nuget package for each project." `
--depends @("Init", "Run-Tests") -action {
+-depends @("Init") -action {
+
 	$nuspec = "$RootDir\buildbox.nuspec";
 	if (Test-Path $nuspec -PathType Leaf)
 	{
+		$outDir = "$ArtifactsDir\nupkgs";
 		$version = $config.version;
-		$versionNumber = "$($version.major).$($version.minor).$($version.patch)";
-	
+
 		$properties = "";
 		$properties += "Configuration=$BuildConfiguration";
-		$properties += ";version=$versionNumber";
+		$properties += ";Version=$($version.major).$($version.minor).$($version.patch)";
 		
 		Write-BreakLine "NUGET";
 		if ([string]::IsNullOrEmpty($ReleaseTag))
-		{ Exec { & $nuget pack $nuspec -OutputDirectory $ArtifactsDir -Prop $properties; } }
+		{ Exec { & $nuget pack $nuspec -OutputDirectory $outDir -Prop $properties; } }
 		else
-		{ Exec { & $nuget pack $nuspec -OutputDirectory $ArtifactsDir -Prop $properties -Suffix $ReleaseTag; } }
-		Write-BreakLine;
+		{ Exec { & $nuget pack $nuspec -OutputDirectory $outDir -Prop $properties -Suffix $ReleaseTag; } }
 	}
 }
 
 
 Task "Publish-Packages" -alias "publish" -description "Publish all nuget packages to 'nuget.org' and 'powershell gallery'." `
--depends @("Create-Packages") -action {
-	foreach ($manifest in (Get-ChildItem "$RootDir\src" -Recurse -Filter "*.psd1" | Select-Object -ExpandProperty FullName))
-	{
-		$releaseNotes = "";
-		$path = "$(Split-Path $manifest -Parent)\releaseNotes.txt";
-		if (Test-Path $path -PathType Leaf)
-		{ $releaseNotes = Get-Content $path | Out-String; }
-		
-		Write-Host "`t* verifying $(Split-Path $manifest -Leaf) manifest ...";
-		if (Test-ModuleManifest $manifest)
-		{
-			#Update-ModuleManifest $manifest -ReleaseNotes $releaseNotes;
-			#Update-ModuleManifest $manifest -LicenseUri $config.project.license;
-			#Update-ModuleManifest $manifest -IconUri $config.project.icon;
-			#Update-ModuleManifest $manifest -ProjectUri $config.project.site;
-			#Update-ModuleManifest $manifest -HelpInfoUri $config.project.site;
-
-			#Update-ModuleManifest $manifest -Author "Ackara";
-			#Update-ModuleManifest $manifest -CompanyName "Ackara and Contributors";
-			#Update-ModuleManifest $manifest -Copyright "Copyright (c) Ackara & Contributors $((Get-Date).Year), licensed under MIT License";
-			
-			#Publish-Module -Name $manifest -NuGetApiKey $PsGalleryKey;
-			#Write-Host "`t* published $(Split-Path $manifest -Leaf) to 'https://www.powershellgallery.com'." -ForegroundColor Green;
-		}
-	}
+-depends @("Run-Tests", "Create-Packages") -action {
 
 	foreach ($package in (Get-ChildItem $ArtifactsDir -Recurse -Filter "*.nupkg" | Select-Object -ExpandProperty FullName))
 	{
-		Write-BreakLine "NUGET";
+		
 		if ([string]::IsNullOrEmpty($NuGetKey))
 		{ Exec { & $nuget push $package -Source "https://api.nuget.org/v3/index.json"; } }
 		else
