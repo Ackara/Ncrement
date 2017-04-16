@@ -68,6 +68,7 @@ Task "setup" -description "Run this task to help configure your local enviroment
   }
 }
 "@ | Out-File "$RootDir\tests\Tests.Buildbox\credentials.json";
+	Write-Host "`t* created '$RootDir\tests\Tests.Buildbox\credentials.json'";
 }
 
 
