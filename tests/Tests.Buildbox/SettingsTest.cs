@@ -4,6 +4,7 @@ using ApprovalTests.Namers;
 using ApprovalTests.Reporters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
+using System;
 using System.IO;
 
 namespace Tests.Buildbox
@@ -29,6 +30,21 @@ namespace Tests.Buildbox
             result.ShouldNotBeNull();
             settingsFileWasCreated.ShouldBeTrue();
             Approvals.VerifyFile(Settings.DefaultSettingsPath);
+        }
+
+        [TestMethod]
+        public void Load_should_deserialize_a_settings_file_when_passed()
+        {
+            // Arrange
+            string pathToConfigFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Samples", "semver", "config.json");
+
+            // Act
+            var results = Settings.Load(pathToConfigFile);
+
+            // Assert
+            results.ShouldNotBeNull();
+            results.Version.Patch.ShouldBe(8);
+            results.Version.Suffix.ShouldNotBeNullOrWhiteSpace();
         }
     }
 }

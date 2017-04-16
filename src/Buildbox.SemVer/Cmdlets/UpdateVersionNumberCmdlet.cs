@@ -46,7 +46,7 @@ namespace Ackara.Buildbox.SemVer.Cmdlets
         {
             if (Directory.Exists(ProjectDirectory) == false) ProjectDirectory = Environment.CurrentDirectory;
             var git = new Git(ProjectDirectory);
-            Config.Version.ReleaseTag = ReleaseTag ?? GetReleaseTag(git);
+            Config.Version.Suffix = ReleaseTag ?? GetReleaseTag(git);
 
             var modifiedFiles = new List<FileInfo>();
             foreach (var handler in _handlers)
@@ -87,16 +87,16 @@ namespace Ackara.Buildbox.SemVer.Cmdlets
 
         private string GetReleaseTag(Git git)
         {
-            if (Config.ReleaseTags.Count == 0) return string.Empty;
+            if (Config.BranchToSuffixMap.Count == 0) return string.Empty;
             else try
                 {
                     string branchName = git.GetCurrentBranch();
-                    branchName = (Config.ReleaseTags.ContainsKey("*") && (Config.ReleaseTags.ContainsKey(branchName) == false)) ? "*" : branchName;
-                    return Config.ReleaseTags[branchName];
+                    branchName = (Config.BranchToSuffixMap.ContainsKey("*") && (Config.BranchToSuffixMap.ContainsKey(branchName) == false)) ? "*" : branchName;
+                    return Config.BranchToSuffixMap[branchName];
                 }
                 catch (KeyNotFoundException)
                 {
-                    return Config.Version.ReleaseTag ?? string.Empty;
+                    return Config.Version.Suffix ?? string.Empty;
                 }
         }
 

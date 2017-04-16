@@ -47,8 +47,8 @@ namespace Ackara.Buildbox.SemVer
                     ShouldCommitChanges = true,
                     ShouldTagCommit = true
                 };
-                settings.ReleaseTags.Add("master", string.Empty);
-                settings.ReleaseTags.Add("*", "-alpha");
+                settings.BranchToSuffixMap.Add("master", string.Empty);
+                settings.BranchToSuffixMap.Add("*", "-alpha");
                 settings.Save();
                 return settings;
             }
@@ -66,7 +66,7 @@ namespace Ackara.Buildbox.SemVer
             Filename = pathToSettingFile;
             Handlers = new string[0];
             Version = new VersionInfo();
-            ReleaseTags = new Dictionary<string, string>();
+            BranchToSuffixMap = new Dictionary<string, string>();
         }
 
         [JsonIgnore]
@@ -78,8 +78,8 @@ namespace Ackara.Buildbox.SemVer
         [JsonProperty("targets")]
         public string[] Handlers { get; set; }
 
-        [JsonProperty("releaseTags")]
-        public IDictionary<string, string> ReleaseTags { get; set; }
+        [JsonProperty("branchSuffixMap")]
+        public IDictionary<string, string> BranchToSuffixMap { get; set; }
 
         [JsonProperty("shouldCommitChanges")]
         public bool ShouldCommitChanges { get; set; }

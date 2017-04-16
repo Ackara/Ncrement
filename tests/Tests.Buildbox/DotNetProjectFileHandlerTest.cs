@@ -45,7 +45,7 @@ namespace Tests.Buildbox
                 Major = 1,
                 Minor = 2,
                 Patch = 3,
-                ReleaseTag = "-beta"
+                Suffix = "-beta"
             };
             var solutionDir = GetSampleSolutionDir();
             var sut = new DotNetProjectFileHandler();

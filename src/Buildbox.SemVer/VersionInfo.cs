@@ -13,8 +13,8 @@ namespace Ackara.Buildbox.SemVer
         [JsonProperty("patch")]
         public int Patch { get; set; }
 
-        [JsonProperty("releaseTag")]
-        public string ReleaseTag { get; set; } = "";
+        [JsonProperty("suffix")]
+        public string Suffix { get; set; } = "";
 
         public void IncrementMajor()
         {
@@ -41,7 +41,7 @@ namespace Ackara.Buildbox.SemVer
 
         public string ToString(bool withoutTag)
         {
-            string tag = (string.IsNullOrWhiteSpace(ReleaseTag) || withoutTag) ? string.Empty : ReleaseTag;
+            string tag = (string.IsNullOrWhiteSpace(Suffix) || withoutTag) ? string.Empty : Suffix;
             return $"{Major}.{Minor}.{Patch}{tag}";
         }
     }
