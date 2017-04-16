@@ -32,7 +32,9 @@ namespace Ackara.Buildbox.SemVer
             if (File.Exists(pathToSettingsFile))
             {
                 string content = File.ReadAllText(pathToSettingsFile);
-                return JsonConvert.DeserializeObject<Settings>(content);
+                Settings settings = JsonConvert.DeserializeObject<Settings>(content);
+                settings.Filename = pathToSettingsFile;
+                return settings;
             }
             else if (pathToSettingsFile == DefaultSettingsPath)
             {
@@ -70,7 +72,7 @@ namespace Ackara.Buildbox.SemVer
         }
 
         [JsonIgnore]
-        public readonly string Filename;
+        public string Filename { get; private set; }
 
         [JsonProperty("version")]
         public VersionInfo Version { get; set; }
