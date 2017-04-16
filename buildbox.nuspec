@@ -16,6 +16,10 @@
     <tags>build deploy devops</tags>
 
     <releaseNotes>
+      version 1.2.0
+      -------------
+      * Add Read-MultiLineInputBoxDialog cmdlet
+      
       version 1.1.2
       -------------
       * Fix semver settings file not being saved when a custom file is used.
