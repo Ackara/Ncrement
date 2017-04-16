@@ -30,6 +30,9 @@ namespace Ackara.Buildbox.SemVer.Cmdlets
         [Parameter]
         public SwitchParameter CommitAddUnstagedFiles { get; set; }
 
+        [Parameter]
+        public SwitchParameter UsecommitMessageAsDescription { get; set; }
+
         protected override void BeginProcessing()
         {
             base.BeginProcessing();
@@ -67,11 +70,18 @@ namespace Ackara.Buildbox.SemVer.Cmdlets
                 else
                 { git.Add(modifiedFiles.Select(x => x.FullName).ToArray()); }
 
+                var message = new StringBuilder();
+                message.AppendLine($"Increment the project's version number to {Config.Version.ToString(withoutTag: true)}");
+
                 if (string.IsNullOrWhiteSpace(CommitMessage))
                 {
-                    var defaultMessage = new StringBuilder();
-                    defaultMessage.AppendLine($"Increment the project's version number to {Config.Version.ToString(withoutTag: true)}");
-                    CommitMessage = defaultMessage.ToString();
+                    CommitMessage = message.ToString();
+                }
+                else if ((string.IsNullOrWhiteSpace(CommitMessage) == false) && UsecommitMessageAsDescription.IsPresent)
+                {
+                    message.AppendLine();
+                    message.AppendLine(CommitMessage);
+                    CommitMessage = message.ToString();
                 }
 
                 git.Commit(CommitMessage);
