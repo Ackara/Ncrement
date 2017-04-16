@@ -5,7 +5,7 @@
     <id>Ackara.Buildbox</id>
     <version>$version$</version>
     <description>A collection of powershell scripts and modules designed for continuous builds and deployments.</description>
-    
+
     <owners>Ackara</owners>
     <authors>Ackara and Contributors</authors>
     <projectUrl>https://github.com/Ackara/Buildbox</projectUrl>
@@ -14,9 +14,17 @@
     <licenseUrl>https://github.com/Ackara/Buildbox/blob/master/LICENSE</licenseUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <tags>build deploy devops</tags>
-    
+
     <releaseNotes>
-      version: 0.0.111
+      version: 1.0.1
+      ----------------
+      * Add utils modules
+
+      Changes
+      * Rename VersionInfo.ReleaseTag field to 'Suffix"
+      * Rename Settings.ReleaseTag to 'branchSuffixMap'
+
+      version: 0.1.111
       ----------------
       * Add flyway module
       * Add winscp module
@@ -40,6 +48,9 @@
 
     <file src="src\Buildbox.WAWSDeploy\*.ps*1"
           target="tools\waswdeploy" />
+
+    <file src="src\Buildbox.Utils\*.ps*1"
+          target="tools\utils" />
 
     <file src="src\Buildbox.SemVer\bin\$configuration$\*.dll"
           target="tools\semver" />
