@@ -16,7 +16,7 @@
     <tags>build deploy devops</tags>
 
     <releaseNotes>
-      version 1.2.0
+      version 1.2.4
       -------------
       * Add Read-MultiLineInputBoxDialog cmdlet
       
