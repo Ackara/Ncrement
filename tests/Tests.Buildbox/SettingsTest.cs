@@ -11,7 +11,7 @@ namespace Tests.Buildbox
 {
     [TestClass]
     [UseApprovalSubdirectory(nameof(ApprovalTests))]
-    [UseReporter(typeof(FileLauncherReporter), typeof(ClipboardReporter))]
+    [UseReporter(typeof(DiffReporter), typeof(ClipboardReporter))]
     public class SettingsTest
     {
         [TestMethod]
