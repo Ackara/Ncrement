@@ -1,0 +1,21 @@
+﻿{
+  "version":
+  {
+    "major": 2,
+    "minor": 4,
+    "patch": 8,
+    "suffix": "test"
+  },
+  "targets":
+  [
+    "dotnet"
+  ],
+  "branchSuffixMap":
+  {
+    "master": "",
+    "*": "-alpha"
+  },
+  "shouldCommitChanges": true,
+  "shouldTagCommit": true,
+  "shouldAddAllUnstagedFilesWhenCommitting": false
+}

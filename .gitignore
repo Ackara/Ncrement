@@ -296,3 +296,4 @@ tools/
 credentials.json
 config.json
 !build/config.json
+!**/semver/config.json
