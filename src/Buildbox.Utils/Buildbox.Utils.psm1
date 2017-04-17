@@ -1,9 +1,4 @@
-function Write-Breakline () {
-
-	Param(
-		[string]$Title = ""
-	)
-
+function Write-LineBreak ([string]$Title = "") {
 	$line = "`n----------------------------------------------------------------------";
 	$limit = $line.Length;
 	if (-not [String]::IsNullOrEmpty($Title))
@@ -16,7 +11,7 @@ function Write-Breakline () {
 	Write-Host "";
 }
 
-function Read-MultiLineInputBoxDialog([string]$Message, [string]$WindowTitle = "Please enter some text.", [string]$DefaultText)
+function Show-Inputbox([string]$Message, [string]$WindowTitle = "Please enter some text.", [string]$DefaultText)
 {
 	<#
     .SYNOPSIS
@@ -35,7 +30,7 @@ function Read-MultiLineInputBoxDialog([string]$Message, [string]$WindowTitle = "
     The default text to show in the input box.
      
     .EXAMPLE
-    $userText = Read-MultiLineInputDialog "Input some text please:" "Get User's Input"
+    $userText = Show-Inputbox "Input some text please:" "Get User's Input"
      
     Shows how to create a simple prompt to get mutli-line input from a user.
      
@@ -48,7 +43,7 @@ function Read-MultiLineInputBoxDialog([string]$Message, [string]$WindowTitle = "
     A1B 2C3
     '@
      
-    $address = Read-MultiLineInputDialog "Please enter your full address, including name, street, city, and postal code:" "Get User's Address" $defaultAddress
+    $address = Show-Inputbox "Please enter your full address, including name, street, city, and postal code:" "Get User's Address" $defaultAddress
     if ($address -eq $null)
     {
         Write-Error "You pressed the Cancel button on the multi-line input box."
@@ -58,7 +53,7 @@ function Read-MultiLineInputBoxDialog([string]$Message, [string]$WindowTitle = "
     If the user pressed the Cancel button an error is written to the console.
      
     .EXAMPLE
-    $inputText = Read-MultiLineInputDialog -Message "If you have a really long message you can break it apart`nover two lines with the powershell newline character:" -WindowTitle "Window Title" -DefaultText "Default text for the input box."
+    $inputText = Show-Inputbox -Message "If you have a really long message you can break it apart`nover two lines with the powershell newline character:" -WindowTitle "Window Title" -DefaultText "Default text for the input box."
      
     Shows how to break the second parameter (Message) up onto two lines using the powershell newline character (`n).
     If you break the message up into more than two lines the extra lines will be hidden behind or show ontop of the TextBox.
