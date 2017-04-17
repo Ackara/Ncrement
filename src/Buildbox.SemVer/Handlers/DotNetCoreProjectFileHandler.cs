@@ -42,7 +42,7 @@ namespace Ackara.Buildbox.SemVer.Handlers
             {
                 XElement element = csproj.XPathSelectElement(expression);
                 string nodeName = expression.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries).Last();
-                string version = (nodeName == "Version") ? versionInfo.ToString() : versionInfo.ToString(withoutTag: true);
+                string version = versionInfo.ToString(withoutTag: true);
 
                 if (element == null)
                     csproj.XPathSelectElement("Project/PropertyGroup").Add(new XElement(nodeName, version));

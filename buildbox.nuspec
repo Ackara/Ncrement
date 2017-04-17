@@ -16,10 +16,13 @@
     <tags>build deploy devops</tags>
 
     <releaseNotes>
-      version 1.2.5
+      version 1.2.6
       -------------
       * Add Write-LineBreak cmdlet
       * Add Show-Inputbox cmdlet
+      
+      Fixes
+      * Stop DotNetCoreProjectFileHandler from append the version suffix.
       
       version 1.1.2
       -------------
