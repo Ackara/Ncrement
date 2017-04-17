@@ -36,8 +36,7 @@ namespace Ackara.Buildbox.SemVer.Cmdlets
         protected override void BeginProcessing()
         {
             base.BeginProcessing();
-            Config.Save();
-
+            
             var factory = new FileHandlerFactory();
             foreach (var handler in Config.Handlers)
             {
@@ -51,6 +50,7 @@ namespace Ackara.Buildbox.SemVer.Cmdlets
             if (Directory.Exists(ProjectDirectory) == false) ProjectDirectory = Environment.CurrentDirectory;
             var git = new Git(ProjectDirectory);
             Config.Version.Suffix = ReleaseTag ?? GetReleaseTag(git);
+            Config.Save();
 
             var modifiedFiles = new List<FileInfo>();
             foreach (var handler in _handlers)
