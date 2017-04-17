@@ -36,6 +36,7 @@ namespace Ackara.Buildbox.SemVer.Cmdlets
         protected override void BeginProcessing()
         {
             base.BeginProcessing();
+            Config.Save();
 
             var factory = new FileHandlerFactory();
             foreach (var handler in Config.Handlers)
@@ -90,6 +91,8 @@ namespace Ackara.Buildbox.SemVer.Cmdlets
 
             WriteObject(modifiedFiles, enumerateCollection: true);
         }
+
+        protected override void EndProcessing() { }
 
         #region Private Members
 
