@@ -37,7 +37,7 @@ namespace Ackara.Buildbox.SemVer.Cmdlets
 
         protected override void EndProcessing()
         {
-            Config.Save();
+            Config.Save(partial: true);
         }
 
         protected override void StopProcessing()

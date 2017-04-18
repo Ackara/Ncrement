@@ -74,6 +74,9 @@
     <Compile Include="GitTest.cs" />
     <None Include="Buildbox.SemVer.tests.ps1" />
     <None Include="Buildbox.Utils.tests.ps1" />
+    <None Include="Samples\semver\config-partial.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Samples\semver\config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

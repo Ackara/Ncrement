@@ -14,6 +14,8 @@ namespace Tests.Buildbox
     [UseReporter(typeof(DiffReporter), typeof(ClipboardReporter))]
     public class SettingsTest
     {
+        public TestContext TestContext { get; set; }
+
         [TestMethod]
         public void Load_should_generate_a_default_settings_file_when_it_do_not_exist()
         {
@@ -45,6 +47,26 @@ namespace Tests.Buildbox
             results.ShouldNotBeNull();
             results.Version.Patch.ShouldBe(8);
             results.Version.Suffix.ShouldNotBeNullOrWhiteSpace();
+        }
+
+        [TestMethod]
+        public void Load_should_deserialize_a_partial_settings_file_when_passed()
+        {
+            // Arrange
+            string pathToSourceFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Samples", "semver", "config-partial.json");
+            string pathToConfigFile = Path.Combine(TestContext.DeploymentDirectory, "config-partial.json");
+            File.Copy(pathToSourceFile, pathToConfigFile, overwrite: true);
+
+            // Act
+            var settingsFile = Settings.Load(pathToConfigFile);
+            var contentsBeforeSave = File.ReadAllText(pathToConfigFile);
+            settingsFile.Save();
+            var contentsAfterSave = File.ReadAllText(pathToConfigFile);
+
+            // Assert
+            settingsFile.ShouldNotBeNull();
+            //Approvals.VerifyJson(contentsAfterSave);
+            contentsBeforeSave.ShouldBe(contentsAfterSave);
         }
     }
 }

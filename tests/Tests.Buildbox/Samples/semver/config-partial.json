@@ -1,0 +1,34 @@
+﻿{
+  "metadata":
+  {
+    "owner": "Ackara",
+    "projectUrl": ""
+  },
+  "nested":
+  {
+    "semanticVersion":
+    {
+      "version":
+      {
+        "major": 4,
+        "minor": 0,
+        "patch": 8,
+        "suffix": "-alpha"
+      },
+      "targets":
+      [
+        "dotnetcore",
+        "dotnet",
+        "powershell"
+      ],
+      "branchSuffixMap":
+      {
+        "master": "",
+        "*": "alpha"
+      },
+      "shouldCommitChanges": true,
+      "shouldTagCommit": false,
+      "shouldAddAllUnstagedFilesWhenCommitting": false
+    }
+  }
+}

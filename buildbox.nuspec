@@ -16,6 +16,10 @@
     <tags>build deploy devops</tags>
 
     <releaseNotes>
+      version 1.3.9
+      -------------
+      * Add ability to parse settings file where the values are nested within another object.
+      
       version 1.2.8
       -------------
       * Add Write-LineBreak cmdlet

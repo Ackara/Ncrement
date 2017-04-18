@@ -1,14 +1,16 @@
 ﻿using Ackara.Buildbox.SemVer.Handlers;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace Ackara.Buildbox.SemVer
 {
-    [JsonObject("semanticVersion")]
+    [JsonObject(semanticVersion)]
     public class Settings
     {
         #region Static Members
@@ -32,7 +34,7 @@ namespace Ackara.Buildbox.SemVer
             if (File.Exists(pathToSettingsFile))
             {
                 string content = File.ReadAllText(pathToSettingsFile);
-                Settings settings = JsonConvert.DeserializeObject<Settings>(content);
+                Settings settings = Parse(content);
                 settings.Filename = pathToSettingsFile;
                 return settings;
             }
@@ -56,6 +58,21 @@ namespace Ackara.Buildbox.SemVer
             }
             else throw new FileNotFoundException($"cannot find '{pathToSettingsFile}'.", pathToSettingsFile);
         }
+
+        public static Settings Parse(string json)
+        {
+            var root = JObject.Parse(json);
+            JProperty semver = (
+                from prop in root.Descendants()
+                where prop.Type == JTokenType.Property && (prop as JProperty).Name.Equals(semanticVersion, StringComparison.CurrentCultureIgnoreCase)
+                select prop as JProperty).FirstOrDefault();
+
+            return (semver == null) ?
+                JsonConvert.DeserializeObject<Settings>(json) :
+                JsonConvert.DeserializeObject<Settings>(semver.Value.ToString());
+        }
+
+        private const string semanticVersion = "semanticVersion";
 
         #endregion Static Members
 
@@ -92,18 +109,36 @@ namespace Ackara.Buildbox.SemVer
         [JsonProperty("shouldAddAllUnstagedFilesWhenCommitting")]
         public bool ShouldAddUnstagedFilesWhenCommitting { get; set; }
 
-        public void Save()
+        public void Save(bool partial = false)
         {
-            Save(Filename);
+            Save(Filename, partial);
         }
 
-        public void Save(string path)
+        public void Save(string path, bool partial = false)
         {
-            string json = JsonConvert.SerializeObject(this, Formatting.Indented);
             string parentDir = Path.GetDirectoryName(path);
             if (!Directory.Exists(parentDir)) Directory.CreateDirectory(parentDir);
 
-            File.WriteAllText(path, json);
+            if (partial)
+            {
+                string versionJson = JsonConvert.SerializeObject(Version, Formatting.Indented);
+                string contents = File.ReadAllText(path);
+                contents = Regex.Replace(contents, @"""version""\s*:\s*(?<body>{[^}]+})", delegate (Match match)
+                {
+                    string value = match.Value;
+                    value = Regex.Replace(value, @"""major""\s*:\s*\d+", $"\"major\": {Version.Major}");
+                    value = Regex.Replace(value, @"""minor""\s*:\s*\d+", $"\"minor\": {Version.Minor}");
+                    value = Regex.Replace(value, @"""patch""\s*:\s*\d+", $"\"patch\": {Version.Patch}");
+
+                    return value;
+                });
+                File.WriteAllText(path, contents);
+            }
+            else
+            {
+                string json = JsonConvert.SerializeObject(this, Formatting.Indented);
+                File.WriteAllText(path, json);
+            }
         }
     }
 }
