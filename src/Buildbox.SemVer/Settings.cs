@@ -43,10 +43,10 @@ namespace Ackara.Buildbox.SemVer
                 // Create Default Settings
                 var settings = new Settings()
                 {
-                    Handlers = (
+                    Handlers = ((
                     from id in (new FileHandlerFactory().GetFileHandlerIds())
                     where id != nameof(NullFileHandler)
-                    select id).ToArray(),
+                    select id).ToArray()),
                     ShouldAddUnstagedFilesWhenCommitting = false,
                     ShouldCommitChanges = true,
                     ShouldTagCommit = true

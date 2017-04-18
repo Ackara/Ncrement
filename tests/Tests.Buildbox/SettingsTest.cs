@@ -60,12 +60,12 @@ namespace Tests.Buildbox
             // Act
             var settingsFile = Settings.Load(pathToConfigFile);
             var contentsBeforeSave = File.ReadAllText(pathToConfigFile);
-            settingsFile.Save();
+            settingsFile.Save(partial: true);
             var contentsAfterSave = File.ReadAllText(pathToConfigFile);
 
             // Assert
             settingsFile.ShouldNotBeNull();
-            //Approvals.VerifyJson(contentsAfterSave);
+            Approvals.VerifyJson(contentsAfterSave);
             contentsBeforeSave.ShouldBe(contentsAfterSave);
         }
     }
