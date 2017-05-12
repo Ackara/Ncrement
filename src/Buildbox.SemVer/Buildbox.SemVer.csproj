@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cmdlets\CmdletBase.cs" />
+    <Compile Include="Cmdlets\GetBranchSuffixCmdlet.cs" />
     <Compile Include="Cmdlets\GetVersionNumberCmdlet.cs" />
     <Compile Include="Cmdlets\StepVersionNumberCmdlet.cs" />
     <Compile Include="Cmdlets\UpdateVersionNumberCmdlet.cs" />

@@ -89,3 +89,18 @@ Describe "Update-VersionNumber" {
 	Context "using custom settings file" {
 	}
 }
+
+Describe "Get-BranchSuffixCmdlet" {
+	It "should return an empty string when 'master' is passed" {
+		$result = Get-BranchSuffix "master";
+		$result | Should Be "";
+	}
+
+	It "should return the string 'alpha' when a random string is passed" {
+		$result1 = Get-BranchSuffix "random";
+		$result2 = "" | Get-BranchSuffix;
+
+		$result1 | Should Be "alpha";
+		$result2 | Should Be "alpha";
+	}
+}

@@ -17,7 +17,12 @@
 
 		<releaseNotes>
 			
+			version 1.5.1
+			-------------
+			* Add Get-BranchSuffix cmdlet.
+
 			version 1.4.1
+			-------------
 			* Add Find-MSBuildPath cmdlet.
 
 			version 1.3.9

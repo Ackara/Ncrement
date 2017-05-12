@@ -52,7 +52,7 @@ namespace Ackara.Buildbox.SemVer
                     ShouldTagCommit = true
                 };
                 settings.BranchToSuffixMap.Add("master", string.Empty);
-                settings.BranchToSuffixMap.Add("*", "-alpha");
+                settings.BranchToSuffixMap.Add("*", "alpha");
                 settings.Save();
                 return settings;
             }
