@@ -10,3 +10,9 @@ Import-Module "$PSScriptRoot\utils.psm1" -Force;
 $rootDir = Get-RootDir;
 $module = "$rootDir\src\Buildbox.Utils\buildbox.Utils.psm1";
 Import-Module $module -Force;
+
+Describe "Find-MSBuildPath" {
+	It "should return a valid path" {
+		$result = Find-MSBuildPath;
+		$result | Should Exist;	}
+}

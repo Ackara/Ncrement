@@ -123,3 +123,31 @@ function Show-Inputbox([string]$Message, [string]$WindowTitle = "Please enter so
     # Return the text that the user entered.
     return $form.Tag
 }
+
+function Find-MSBuildPath()
+{
+	<#
+	.SYNOPSIS
+	This cmdlets locates the latest msbuild.exe installed on the current machine for VS2017 newer.
+
+	.INPUTS
+	None
+
+	.OUTPUTS
+	String
+	#>
+
+	$vssetup = "$PSScriptRoot\bin\VSSetup";
+	if (-not (Test-Path $vssetup -PathType Container))
+	{
+		New-Item $vssetup -ItemType Directory | Out-Null;
+		Save-Module -Name VSSetup -Path $vssetup;
+	}
+
+	$vssetup = Get-ChildItem $vssetup -Recurse -Filter "*.psd1" | Select-Object -ExpandProperty FullName -First 1;
+	Import-Module $vssetup;
+
+	$vsInstallationPath = (Get-VSSetupInstance | Select-VSSetupInstance -Latest).InstallationPath;
+	$msbuild = Get-ChildItem "$vsInstallationPath\MSBuild\*\Bin" -Recurse -Filter "MSBuild.exe" | Sort-Object $_.Name | Select-Object -Last 1;
+	return $msbuild;
+}
