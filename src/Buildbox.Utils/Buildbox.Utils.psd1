@@ -12,7 +12,7 @@
 # RootModule = 'Module.psd1'
 
 # Version number of this module.
-ModuleVersion = '1.5.1'
+ModuleVersion = '1.5.2'
 
 # ID used to uniquely identify this module
 GUID = '0a39b6ef-cffd-4c3d-b175-a7570bd23633'
@@ -93,6 +93,7 @@ AliasesToExport = '*'
 # DefaultCommandPrefix = ''
 
 }
+
 
 
 
