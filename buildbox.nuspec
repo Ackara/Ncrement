@@ -2,14 +2,14 @@
 <package>
 	<metadata>
 		<title>Buildbox</title>
-		<id>Ackara.Buildbox</id>
+		<id>Acklann.Buildbox</id>
 		<version>$version$</version>
 		<description>A collection of powershell scripts and modules designed for continuous builds and deployments.</description>
 
 		<owners>Ackara</owners>
 		<authors>Ackara and Contributors</authors>
 		<projectUrl>https://github.com/Ackara/Buildbox</projectUrl>
-		<iconUrl>http://static.acklann.com/images/buildbox.jpg</iconUrl>
+		
 		<copyright>Copyright © Ackara 2017, licensed under MIT License</copyright>
 		<licenseUrl>https://github.com/Ackara/Buildbox/blob/master/LICENSE</licenseUrl>
 		<requireLicenseAcceptance>true</requireLicenseAcceptance>
@@ -69,9 +69,9 @@
 		</releaseNotes>
 	</metadata>
 	<files>
-		<file src="README.md"
+		<file src="assets\icon.png"
 					target="" />
-
+		
 		<file src="src\Buildbox.Flyway\*.ps*1"
 					target="tools\flyway" />
 

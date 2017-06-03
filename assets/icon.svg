@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   height="256"
+   width="256"
+   viewBox="0 0 256 256"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname="icon.svg"
+   inkscape:version="0.92.1 r15371">
+  <title
+     id="title4547">buildbox</title>
+  <metadata
+     id="metadata11">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>buildbox</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs9" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     id="namedview7"
+     showgrid="false"
+     inkscape:zoom="0.921875"
+     inkscape:cx="72.677966"
+     inkscape:cy="128"
+     inkscape:window-x="1911"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer3" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="background"
+     style="display:inline">
+    <rect
+       style="fill:#281aea;fill-opacity:1;fill-rule:evenodd;stroke-width:1.75809824"
+       id="rect849"
+       width="258.16949"
+       height="258.16949"
+       x="1.0847456"
+       y="1.4224295e-006" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot4521"
+       style="fill:#000000;fill-opacity:1;stroke:none;font-family:sans-serif;font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;letter-spacing:0px;word-spacing:0px;"><flowRegion
+         id="flowRegion4523"
+         style="fill:#000000;fill-opacity:1;"><rect
+           id="rect4525"
+           width="144.27118"
+           height="55.322033"
+           x="73.762711"
+           y="187.66101"
+           style="fill:#000000;fill-opacity:1;" /></flowRegion><flowPara
+         id="flowPara4527"></flowPara></flowRoot>  </g>
+  <flowRoot
+     xml:space="preserve"
+     id="flowRoot818"
+     style="fill:black;fill-opacity:1;stroke:none;font-family:sans-serif;font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;letter-spacing:0px;word-spacing:0px"><flowRegion
+       id="flowRegion820"><rect
+         id="rect822"
+         width="198.50847"
+         height="47.728813"
+         x="35.796612"
+         y="196.33899" /></flowRegion><flowPara
+       id="flowPara824"></flowPara></flowRoot>  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="icon"
+     style="display:inline">
+    <g
+       transform="matrix(1.1572095,0,0,1.2418608,-23.783837,-90.00903)"
+       id="g3"
+       style="fill:#fdfdfd;fill-opacity:1">
+      <path
+         inkscape:connector-curvature="0"
+         id="path1"
+         d="m 66.777182,170.78898 h 59.081308 v 8.625 c 0,0.43128 0.43112,0.86255 0.86255,0.86255 h 15.9563 c 0.43116,0 0.86229,-0.43127 0.86229,-0.86255 v -8.625 h 59.51271 v 36.65627 H 66.777182 Z m 63.393808,-12.50623 h 9.48755 v 17.25001 h -9.48755 z M 84.889734,129.8202 h 17.681146 v 6.46876 c 0,3.44995 3.0188,6.46875 6.46875,6.46875 h 9.05641 V 129.8202 h 32.7749 v 12.93751 h 9.0564 c 3.44995,0 6.46875,-3.0188 6.46875,-6.46875 v -6.46876 h 19.8374 l 18.11255,17.68129 v 17.68129 h -60.375 v -10.78126 c 0,-0.43127 -0.43141,-0.86255 -0.86255,-0.86255 h -16.38745 c -0.43141,0 -0.86255,0.43128 -0.86255,0.86255 v 10.78126 H 66.346037 v -17.25001 z m 24.149896,-12.07495 h 51.31886 c 0.43114,0 0.86255,0.43114 0.86255,0.86242 v 17.25001 c 0,0.43128 -0.43141,0.86255 -0.86255,0.86255 h -3.44995 v -12.9375 c 0,-0.43128 -0.43141,-0.86256 -0.86255,-0.86256 h -42.69386 c -0.43112,0 -0.86229,0.43128 -0.86229,0.86256 v 12.9375 h -3.45021 c -0.43115,0 -0.86229,-0.43127 -0.86229,-0.86255 v -17.25001 c 0,-0.43128 0.43115,-0.86242 0.86229,-0.86242 z"
+         style="fill:#fdfdfd;fill-opacity:1;stroke-width:4.3125" />
+    </g>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="text"
+     style="display:inline">
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot4535"
+       style="fill:black;fill-opacity:1;stroke:none;font-family:sans-serif;font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;letter-spacing:0px;word-spacing:0px"><flowRegion
+         id="flowRegion4537"><rect
+           id="rect4539"
+           width="193.08475"
+           height="56.40678"
+           x="42.305084"
+           y="186.57628" /></flowRegion><flowPara
+         id="flowPara4541"></flowPara></flowRoot>    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#f6f4f4;fill-opacity:1;stroke:none"
+       x="36.474571"
+       y="206.80421"
+       id="text4545"><tspan
+         sodipodi:role="line"
+         id="tspan4543"
+         x="36.474571"
+         y="206.80421"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Orator Std';-inkscape-font-specification:'Orator Std'">Buildbox</tspan></text>
+  </g>
+</svg>

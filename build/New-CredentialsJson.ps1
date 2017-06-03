@@ -19,4 +19,4 @@ $content = @"
   }
 }
 "@;
-$content | Out-File "$(Split-Path $PSScriptRoot -Parent)\tests\Tests.Buildbox\credentials.json" -Encoding utf8;
+$content | Out-File "$(Split-Path $PSScriptRoot -Parent)\tests\MSTest.Buildbox\credentials.json" -Encoding utf8;
