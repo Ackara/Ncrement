@@ -9,7 +9,7 @@
 		<owners>Ackara</owners>
 		<authors>Ackara and Contributors</authors>
 		<projectUrl>https://github.com/Ackara/Buildbox</projectUrl>
-		
+		<iconUrl>http://static.acklann.com/images/buildbox.jpg</iconUrl>
 		<copyright>Copyright © Ackara 2017, licensed under MIT License</copyright>
 		<licenseUrl>https://github.com/Ackara/Buildbox/blob/master/LICENSE</licenseUrl>
 		<requireLicenseAcceptance>true</requireLicenseAcceptance>
@@ -68,10 +68,7 @@
 			Initial release
 		</releaseNotes>
 	</metadata>
-	<files>
-		<file src="assets\icon.png"
-					target="" />
-		
+	<files>		
 		<file src="src\Buildbox.Flyway\*.ps*1"
 					target="tools\flyway" />
 
