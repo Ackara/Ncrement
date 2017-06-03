@@ -1,4 +1,4 @@
-﻿using Ackara.Buildbox.SemVer.Handlers;
+﻿using Acklann.Buildbox.SemVer.Handlers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Management.Automation;
 using System.Text;
 
-namespace Ackara.Buildbox.SemVer.Cmdlets
+namespace Acklann.Buildbox.SemVer.Cmdlets
 {
     [Cmdlet(VerbsData.Update, "VersionNumber")]
     public class UpdateVersionNumberCmdlet : CmdletBase

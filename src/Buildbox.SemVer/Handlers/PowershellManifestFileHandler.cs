@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace Ackara.Buildbox.SemVer.Handlers
+namespace Acklann.Buildbox.SemVer.Handlers
 {
     [FileHandlerId("powershell")]
     public class PowershellManifestFileHandler : IFileHandler

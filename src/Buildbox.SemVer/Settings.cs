@@ -1,4 +1,4 @@
-﻿using Ackara.Buildbox.SemVer.Handlers;
+﻿using Acklann.Buildbox.SemVer.Handlers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-namespace Ackara.Buildbox.SemVer
+namespace Acklann.Buildbox.SemVer
 {
     [JsonObject(semanticVersion)]
     public class Settings

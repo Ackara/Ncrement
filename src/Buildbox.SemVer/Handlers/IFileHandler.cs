@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace Ackara.Buildbox.SemVer.Handlers
+namespace Acklann.Buildbox.SemVer.Handlers
 {
     public interface IFileHandler
     {

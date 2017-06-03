@@ -1,6 +1,6 @@
 ﻿using System.Management.Automation;
 
-namespace Ackara.Buildbox.SemVer.Cmdlets
+namespace Acklann.Buildbox.SemVer.Cmdlets
 {
     public abstract class CmdletBase : Cmdlet
     {

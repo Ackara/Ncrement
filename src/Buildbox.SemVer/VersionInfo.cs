@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Ackara.Buildbox.SemVer
+namespace Acklann.Buildbox.SemVer
 {
     public class VersionInfo
     {

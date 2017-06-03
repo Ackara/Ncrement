@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.4
+VisualStudioVersion = 15.0.26430.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{23C37FC4-E781-4F6D-BC24-2202BF3DF0ED}"
 	ProjectSection(SolutionItems) = preProject
@@ -19,13 +19,17 @@ Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Buildbox.WAWSDeploy", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buildbox.SemVer", "src\Buildbox.SemVer\Buildbox.SemVer.csproj", "{CB57CC45-57AA-42CB-A3AB-872DC875A07D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Buildbox", "tests\Tests.Buildbox\Tests.Buildbox.csproj", "{DC0E76DC-3EED-4062-B5A7-B7BB5418C443}"
-EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Buildbox.WinSCP", "src\Buildbox.WinSCP\Buildbox.WinSCP.pssproj", "{19498132-EED5-478D-B672-CE45769A921C}"
 EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Buildbox.Flyway", "src\Buildbox.Flyway\Buildbox.Flyway.pssproj", "{AEFAAA6C-4036-4490-AB2D-4AEF4C59C5C6}"
 EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Buildbox.Utils", "src\Buildbox.Utils\Buildbox.Utils.pssproj", "{A31D9359-B30B-46CB-B1C3-C41D6799DEC7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{857D8C5E-DAED-42D1-86D1-06E8FDFF14A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSTest.Buildbox", "tests\MSTest.Buildbox\MSTest.Buildbox.csproj", "{5AD61078-895B-4CE2-92A1-323A1DF78E4A}"
+EndProject
+Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Pester.Buildbox", "tests\Pester.Buildbox\Pester.Buildbox.pssproj", "{B8BC60FA-9D6C-4186-A449-AE129A3C225E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,10 +49,6 @@ Global
 		{CB57CC45-57AA-42CB-A3AB-872DC875A07D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB57CC45-57AA-42CB-A3AB-872DC875A07D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB57CC45-57AA-42CB-A3AB-872DC875A07D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DC0E76DC-3EED-4062-B5A7-B7BB5418C443}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DC0E76DC-3EED-4062-B5A7-B7BB5418C443}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DC0E76DC-3EED-4062-B5A7-B7BB5418C443}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DC0E76DC-3EED-4062-B5A7-B7BB5418C443}.Release|Any CPU.Build.0 = Release|Any CPU
 		{19498132-EED5-478D-B672-CE45769A921C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{19498132-EED5-478D-B672-CE45769A921C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19498132-EED5-478D-B672-CE45769A921C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -61,8 +61,20 @@ Global
 		{A31D9359-B30B-46CB-B1C3-C41D6799DEC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A31D9359-B30B-46CB-B1C3-C41D6799DEC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A31D9359-B30B-46CB-B1C3-C41D6799DEC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AD61078-895B-4CE2-92A1-323A1DF78E4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AD61078-895B-4CE2-92A1-323A1DF78E4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AD61078-895B-4CE2-92A1-323A1DF78E4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AD61078-895B-4CE2-92A1-323A1DF78E4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8BC60FA-9D6C-4186-A449-AE129A3C225E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8BC60FA-9D6C-4186-A449-AE129A3C225E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8BC60FA-9D6C-4186-A449-AE129A3C225E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8BC60FA-9D6C-4186-A449-AE129A3C225E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5AD61078-895B-4CE2-92A1-323A1DF78E4A} = {857D8C5E-DAED-42D1-86D1-06E8FDFF14A7}
+		{B8BC60FA-9D6C-4186-A449-AE129A3C225E} = {857D8C5E-DAED-42D1-86D1-06E8FDFF14A7}
 	EndGlobalSection
 EndGlobal

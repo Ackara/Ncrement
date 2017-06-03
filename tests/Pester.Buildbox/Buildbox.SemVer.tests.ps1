@@ -5,7 +5,7 @@ $rootDir = Get-RootDir;
 $module = "$rootDir\src\Buildbox.SemVer\bin\$BuildConfiguration\*buildbox.semver.dll";
 Import-Module $module -Force;
 
-$sampleDir = "$PSScriptRoot\Samples\semver";
+$sampleDir = "$(Split-Path $PSScriptRoot -Parent)\MSTest.Buildbox\Samples\semver";
 $testResultsDir = "$env:TEMP\Buildbox\TestResults\pester\semver";
 $testResultsIn = "$testResultsDir\in";
 $testResultsOut = "$testResultsDir\out";

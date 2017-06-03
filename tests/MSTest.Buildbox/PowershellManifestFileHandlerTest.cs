@@ -1,5 +1,5 @@
-﻿using Ackara.Buildbox.SemVer;
-using Ackara.Buildbox.SemVer.Handlers;
+﻿using Acklann.Buildbox.SemVer;
+using Acklann.Buildbox.SemVer.Handlers;
 using ApprovalTests;
 using ApprovalTests.Namers;
 using ApprovalTests.Reporters;
@@ -9,7 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace Tests.Buildbox
+namespace MSTest.Buildbox
 {
     [TestClass]
     [UseApprovalSubdirectory(nameof(ApprovalTests))]
@@ -19,7 +19,7 @@ namespace Tests.Buildbox
         public TestContext TestContext { get; set; }
 
         [TestMethod]
-        public void FindTagets_should_return_all_powershell_manifest_files()
+        public void FindTargets_should_return_all_powershell_manifest_files()
         {
             // Arrange
             var sampleSolution = GetSampleSolutionDir();

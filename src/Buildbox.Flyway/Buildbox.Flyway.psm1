@@ -283,7 +283,6 @@ function Invoke-Flyway()
 	}
 }
 
-
 #region Classes
 
 Class FlywayResults

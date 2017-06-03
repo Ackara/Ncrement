@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ackara.Buildbox.SemVer.Handlers
+namespace Acklann.Buildbox.SemVer.Handlers
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
     public sealed class FileHandlerIdAttribute : Attribute

@@ -1,6 +1,6 @@
 ﻿using System.Management.Automation;
 
-namespace Ackara.Buildbox.SemVer.Cmdlets
+namespace Acklann.Buildbox.SemVer.Cmdlets
 {
     [Cmdlet(VerbsCommon.Get, "BranchSuffix")]
     public sealed class GetBranchSuffixCmdlet : CmdletBase

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
-namespace Ackara.Buildbox.SemVer.Handlers
+namespace Acklann.Buildbox.SemVer.Handlers
 {
     [FileHandlerId("dotnetcore")]
     public class DotNetCoreProjectFileHandler : IFileHandler

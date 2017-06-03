@@ -1,4 +1,4 @@
-﻿using Ackara.Buildbox.SemVer;
+﻿using Acklann.Buildbox.SemVer;
 using ApprovalTests;
 using ApprovalTests.Namers;
 using ApprovalTests.Reporters;
@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
 using System.IO;
 
-namespace Tests.Buildbox
+namespace MSTest.Buildbox
 {
     [TestClass]
     [UseApprovalSubdirectory(nameof(ApprovalTests))]

@@ -7,8 +7,8 @@
     <ProjectGuid>{CB57CC45-57AA-42CB-A3AB-872DC875A07D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ackara.Buildbox.SemVer</RootNamespace>
-    <AssemblyName>Ackara.Buildbox.SemVer</AssemblyName>
+    <RootNamespace>Acklann.Buildbox.SemVer</RootNamespace>
+    <AssemblyName>Acklann.Buildbox.SemVer</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

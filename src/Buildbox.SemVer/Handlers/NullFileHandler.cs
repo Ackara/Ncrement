@@ -1,4 +1,4 @@
-﻿namespace Ackara.Buildbox.SemVer.Handlers
+﻿namespace Acklann.Buildbox.SemVer.Handlers
 {
     internal class NullFileHandler : IFileHandler
     {

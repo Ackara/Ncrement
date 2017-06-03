@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Ackara.Buildbox.SemVer.Handlers
+namespace Acklann.Buildbox.SemVer.Handlers
 {
     public class FileHandlerFactory
     {

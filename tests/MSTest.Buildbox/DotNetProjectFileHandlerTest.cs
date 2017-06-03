@@ -1,5 +1,5 @@
-﻿using Ackara.Buildbox.SemVer;
-using Ackara.Buildbox.SemVer.Handlers;
+﻿using Acklann.Buildbox.SemVer;
+using Acklann.Buildbox.SemVer.Handlers;
 using ApprovalTests;
 using ApprovalTests.Namers;
 using ApprovalTests.Reporters;
@@ -8,37 +8,36 @@ using Shouldly;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Xml.Linq;
-using System.Xml.XPath;
 
-namespace Tests.Buildbox
+namespace MSTest.Buildbox
 {
     [TestClass]
     [UseApprovalSubdirectory(nameof(ApprovalTests))]
     [UseReporter(typeof(DiffReporter), typeof(ClipboardReporter))]
-    public class DotNetCoreProjectFileHandlerTest
+    public class DotNetProjectFileHandlerTest
     {
         public TestContext TestContext { get; set; }
 
         [TestMethod]
-        public void FindTagets_should_return_all_dotnetcore_csproj_files()
+        public void FindTargets_should_return_all_dotnet_project_assemblyInfo_files()
         {
             // Arrange
             var sampleSolution = GetSampleSolutionDir();
-            var sut = new DotNetCoreProjectFileHandler();
+            var sut = new DotNetProjectFileHandler();
 
             // Act
             var results = sut.FindTargets(sampleSolution).ToList();
-            var doc = XDocument.Load(results.First().OpenRead());
-            var targetFramework = doc.XPathSelectElement("Project//TargetFramework").Value;
+            var invalidFiles = from n in results
+                               where n.Name.Equals("assemblyInfo.cs", System.StringComparison.CurrentCultureIgnoreCase) == false
+                               select n;
 
             // Assert
             results.ShouldHaveSingleItem();
-            targetFramework.ShouldBe("netstandard1.4");
+            invalidFiles.ShouldBeEmpty();
         }
 
         [TestMethod]
-        public void Update_should_set_the_version_nodes_within_the_csproj_file()
+        public void Update_should_set_the_assembly_version_attributes_within_the_specified_file()
         {
             // Arrange
             var version = new VersionInfo()
@@ -49,11 +48,11 @@ namespace Tests.Buildbox
                 Suffix = "-beta"
             };
             var solutionDir = GetSampleSolutionDir();
-            var sut = new DotNetCoreProjectFileHandler();
+            var sut = new DotNetProjectFileHandler();
 
             // Act
             var sourceFile = sut.FindTargets(solutionDir).First();
-            var sampleFile = Path.Combine(TestContext.DeploymentDirectory, $"{nameof(DotNetCoreProjectFileHandlerTest)}_{nameof(sut.Update)}_result.xml");
+            var sampleFile = Path.Combine(TestContext.DeploymentDirectory, sourceFile.Name);
             sourceFile.CopyTo(sampleFile, overwrite: true);
 
             sut.Update(sampleFile, version);
