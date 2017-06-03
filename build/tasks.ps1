@@ -104,7 +104,7 @@ Task "Run-Pester" -alias "pester" -description "This task invoke all selected pe
 Task "Run-Tests" -alias "test" -description "This task runs all tests." `
 -depends @("Build-Solution") -action {
 	Write-BreakLine "VSTEST";
-	foreach ($proj in (Get-ChildItem "$RootDir\tests\Tests.Buildbox" -Filter "*.csproj" | Select-Object -ExpandProperty FullName))
+	foreach ($proj in (Get-ChildItem "$RootDir\tests\MSTest.Buildbox" -Filter "*.csproj" | Select-Object -ExpandProperty FullName))
 	{
 		try
 		{
