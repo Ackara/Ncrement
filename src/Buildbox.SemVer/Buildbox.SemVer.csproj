@@ -68,6 +68,7 @@
     <Compile Include="VersionInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Buildbox.SemVer.psd1" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

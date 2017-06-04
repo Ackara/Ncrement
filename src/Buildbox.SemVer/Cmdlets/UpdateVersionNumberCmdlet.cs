@@ -31,7 +31,7 @@ namespace Acklann.Buildbox.SemVer.Cmdlets
         public SwitchParameter CommitAddUnstagedFiles { get; set; }
 
         [Parameter]
-        public SwitchParameter UsecommitMessageAsDescription { get; set; }
+        public SwitchParameter UseCommitMessageAsDescription { get; set; }
 
         protected override void BeginProcessing()
         {
@@ -67,9 +67,13 @@ namespace Acklann.Buildbox.SemVer.Cmdlets
                 try { git.Add(Config.Filename); } catch { }
 
                 if (CommitAddUnstagedFiles.IsPresent || Config.ShouldAddUnstagedFilesWhenCommitting)
-                { git.Add(); }
+                {
+                    git.Add();
+                }
                 else
-                { git.Add(modifiedFiles.Select(x => x.FullName).ToArray()); }
+                {
+                    git.Add(modifiedFiles.Select(x => x.FullName).ToArray());
+                }
 
                 var message = new StringBuilder();
                 message.AppendLine($"Increment the project's version number to {Config.Version.ToString(withoutTag: true)}");
@@ -78,7 +82,7 @@ namespace Acklann.Buildbox.SemVer.Cmdlets
                 {
                     CommitMessage = message.ToString();
                 }
-                else if ((string.IsNullOrWhiteSpace(CommitMessage) == false) && UsecommitMessageAsDescription.IsPresent)
+                else if ((string.IsNullOrWhiteSpace(CommitMessage) == false) && UseCommitMessageAsDescription.IsPresent)
                 {
                     message.AppendLine();
                     message.AppendLine(CommitMessage);
@@ -86,7 +90,7 @@ namespace Acklann.Buildbox.SemVer.Cmdlets
                 }
 
                 git.Commit(CommitMessage);
-                if (TagCommit.IsPresent || Config.ShouldTagCommit) { git.CreateTag($"v{Config.Version}"); }
+                if (TagCommit.IsPresent || Config.ShouldTagCommit) { git.Tag($"v{Config.Version}"); }
             }
 
             WriteObject(modifiedFiles, enumerateCollection: true);

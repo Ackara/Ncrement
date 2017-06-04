@@ -9,52 +9,50 @@ using System.IO;
 namespace MSTest.Buildbox
 {
     [TestClass]
-    [UseApprovalSubdirectory(nameof(ApprovalTests))]
-    [UseReporter(typeof(FileLauncherReporter), typeof(ClipboardReporter))]
     public class GitTest
     {
-        public static string MockRepo;
+        public static string MockRepository;
 
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
-            MockRepo = CreateSampleRepo();
+            MockRepository = CreateSampleRepository();
         }
 
         [TestMethod]
         public void GetCurrentBranch_should_return_the_name_of_the_git_branch()
         {
-            System.Diagnostics.Debug.WriteLine($"repo: {MockRepo}");
+            System.Diagnostics.Debug.WriteLine($"repo: {MockRepository}");
 
             // Act
-            var branchName = new Git(MockRepo).GetCurrentBranch();
+            var branchName = new Git(MockRepository).GetCurrentBranch();
 
             // Assert
             branchName.ShouldBe("dev");
         }
 
         [TestMethod]
-        public void Commit_should_commit_all_specified_files_to_the_repo()
+        public void Commit_should_commit_all_specified_files_to_the_repository()
         {
-            System.Diagnostics.Debug.WriteLine($"repo: {MockRepo}");
+            System.Diagnostics.Debug.WriteLine($"repo: {MockRepository}");
 
             // Arrange
             var sampleFiles = new string[]
             {
-                Path.Combine(MockRepo, "file2.txt"),
-                Path.Combine(MockRepo, "file3.txt")
+                Path.Combine(MockRepository, "file2.txt"),
+                Path.Combine(MockRepository, "file3.txt")
             };
-            var sut = new Git(MockRepo);
+            var sut = new Git(MockRepository);
 
             // Act
             foreach (var file in sampleFiles)
             {
-                File.WriteAllText(file, nameof(Commit_should_commit_all_specified_files_to_the_repo));
+                File.WriteAllText(file, nameof(Commit_should_commit_all_specified_files_to_the_repository));
             }
             sut.Add(sampleFiles);
             sut.Commit("if you're reading this the test passed\n\nAlso quotation marks (\") and backlashes (\\) are acceptable.");
 
-            var output = Git.Execute("status", MockRepo);
+            var output = Git.Execute("status", MockRepository);
 
             // Assert
             Approvals.Verify(output);
@@ -64,19 +62,19 @@ namespace MSTest.Buildbox
         public void CreateTag_should_create_a_git_tag()
         {
             // Arrange
-            var localRepo = CreateSampleRepo();
-            System.Diagnostics.Debug.WriteLine($"repo: {localRepo}");
+            var repository = CreateSampleRepository();
+            System.Diagnostics.Debug.WriteLine($"repo: {repository}");
 
-            var sampleFiles = Path.Combine(localRepo, "file3.txt");
-            var sut = new Git(localRepo);
+            var sampleFiles = Path.Combine(repository, "file3.txt");
+            var sut = new Git(repository);
 
             // Act
             File.WriteAllText(sampleFiles, nameof(CreateTag_should_create_a_git_tag));
             sut.Add();
             sut.Commit("if you're reading this the test passed");
-            sut.CreateTag("v0.0.1");
+            sut.Tag("v0.0.1");
 
-            var output = Git.Execute("tag", localRepo);
+            var output = Git.Execute("tag", repository);
 
             // Assert
             output.ShouldBe("v0.0.1");
@@ -84,23 +82,23 @@ namespace MSTest.Buildbox
 
         #region Private Members
 
-        private static string CreateSampleRepo()
+        private static string CreateSampleRepository()
         {
-            string mockRepo = Path.Combine(Path.GetTempPath(), nameof(GitTest), Path.GetFileNameWithoutExtension(Path.GetTempFileName()));
-            if (Directory.Exists(mockRepo))
+            string repository = Path.Combine(Path.GetTempPath(), nameof(GitTest), Path.GetFileNameWithoutExtension(Path.GetTempFileName()));
+            if (Directory.Exists(repository))
             {
-                foreach (var file in Directory.GetFiles(mockRepo)) File.Delete(file);
+                foreach (var file in Directory.GetFiles(repository)) File.Delete(file);
             }
-            else Directory.CreateDirectory(mockRepo);
+            else Directory.CreateDirectory(repository);
 
-            string sampleFile = Path.Combine(mockRepo, "file1.txt");
+            string sampleFile = Path.Combine(repository, "file1.txt");
             File.WriteAllText(sampleFile, "this file contains some content");
 
-            Git.Execute("init", mockRepo);
-            Git.Execute("add .", mockRepo);
-            Git.Execute("commit -minit", mockRepo);
-            Git.Execute("checkout -b dev", mockRepo);
-            return mockRepo;
+            Git.Execute("init", repository);
+            Git.Execute("add .", repository);
+            Git.Execute("commit -minit", repository);
+            Git.Execute("checkout -b dev", repository);
+            return repository;
         }
 
         #endregion Private Members

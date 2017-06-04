@@ -12,8 +12,6 @@ using System.Reflection;
 namespace MSTest.Buildbox
 {
     [TestClass]
-    [UseApprovalSubdirectory(nameof(ApprovalTests))]
-    [UseReporter(typeof(DiffReporter), typeof(ClipboardReporter))]
     public class DotNetProjectFileHandlerTest
     {
         public TestContext TestContext { get; set; }

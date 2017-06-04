@@ -14,14 +14,13 @@ using System.Xml.XPath;
 namespace MSTest.Buildbox
 {
     [TestClass]
-    [UseApprovalSubdirectory(nameof(ApprovalTests))]
     [UseReporter(typeof(DiffReporter), typeof(ClipboardReporter))]
     public class DotNetCoreProjectFileHandlerTest
     {
         public TestContext TestContext { get; set; }
-
+        
         [TestMethod]
-        public void FindTargets_should_return_all_coreApp_project_files()
+        public void FindTargets_should_return_all_dotnet_core_project_files()
         {
             // Arrange
             var sampleSolution = GetSampleSolutionDir();
@@ -38,7 +37,7 @@ namespace MSTest.Buildbox
         }
 
         [TestMethod]
-        public void Update_should_set_the_version_nodes_within_the_csproj_file()
+        public void Update_should_set_the_version_nodes_within_the_dotnet_core_project_file()
         {
             // Arrange
             var version = new VersionInfo()

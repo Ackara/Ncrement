@@ -26,12 +26,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Buildbox.Flyway.tests.ps1" />
     <Compile Include="Buildbox.SemVer.tests.ps1" />
-    <Compile Include="Buildbox.Utils.tests.ps1" />
-    <Compile Include="Buildbox.WAWSDeploy.tests.ps1" />
-    <Compile Include="Buildbox.WinSCP.tests.ps1" />
-    <Compile Include="Script.ps1" />
     <Compile Include="utils.psm1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

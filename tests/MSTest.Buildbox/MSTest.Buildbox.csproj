@@ -67,6 +67,7 @@
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SetupTeardown.cs" />
     <Compile Include="DotNetCoreProjectFileHandlerTest.cs" />
     <Compile Include="DotNetProjectFileHandlerTest.cs" />
     <Compile Include="GitTest.cs" />

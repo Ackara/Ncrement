@@ -1,8 +1,6 @@
 ﻿using Acklann.Buildbox.SemVer;
 using Acklann.Buildbox.SemVer.Handlers;
 using ApprovalTests;
-using ApprovalTests.Namers;
-using ApprovalTests.Reporters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
 using System.IO;
@@ -12,8 +10,6 @@ using System.Reflection;
 namespace MSTest.Buildbox
 {
     [TestClass]
-    [UseApprovalSubdirectory(nameof(ApprovalTests))]
-    [UseReporter(typeof(FileLauncherReporter), typeof(ClipboardReporter))]
     public class PowershellManifestFileHandlerTest
     {
         public TestContext TestContext { get; set; }

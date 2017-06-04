@@ -59,7 +59,7 @@ namespace Acklann.Buildbox.SemVer
             return string.IsNullOrWhiteSpace(output) ? error : output;
         }
 
-        public void CreateTag(string name)
+        public void Tag(string name)
         {
             Execute($"tag \"{name}\"", _repository);
         }

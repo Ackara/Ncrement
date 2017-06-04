@@ -1,7 +1,5 @@
 ﻿using Acklann.Buildbox.SemVer;
 using ApprovalTests;
-using ApprovalTests.Namers;
-using ApprovalTests.Reporters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
 using System;
@@ -10,8 +8,6 @@ using System.IO;
 namespace MSTest.Buildbox
 {
     [TestClass]
-    [UseApprovalSubdirectory(nameof(ApprovalTests))]
-    [UseReporter(typeof(DiffReporter), typeof(ClipboardReporter))]
     public class SettingsTest
     {
         public TestContext TestContext { get; set; }
