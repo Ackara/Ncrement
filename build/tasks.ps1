@@ -52,6 +52,23 @@ Task "setup" -description "Run this task to help configure your local enviroment
 -depends @("Init") -action {
 }
 
+Task "Update-Manifests" -alias "manifests" -description "This task update all powershell manifests using the predefined static data." -action {
+	$version = $Manifest.version;
+	foreach ($psd1 in (Get-ChildItem "$RootDir\src\*\*" -Filter "*.psd1"))
+	{
+		Update-ModuleManifest $psd1 `
+		-CmdletsToExport @("*") -FunctionsToExport @("*") `
+		-ModuleVersion "$($version.major).$($version.minor).$($version.patch)" -PowerShellVersion "5.0" `
+		-Author $Manifest.project.author -CompanyName $Manifest.project.author `
+		-IconUri $Manifest.project.icon `
+		-ProjectUri $Manifest.project.site `
+		-LicenseUri $Manifest.project.license `
+		-Copyright $Manifest.project.copyright;
+
+		Write-Host "`t* updated $($psd1.Name)";
+	}
+}
+
 Task "Build-Solution" -alias "compile" -description "This task compile the solution." `
 -depends @("Init") -action {
 	Assert ("Debug", "Release" -contains $BuildConfiguration) "`$BuildConfiguration was '$BuildConfiguration' but expected 'Debug' or 'Release'.";
@@ -159,20 +176,6 @@ Task "Create-Packages" -alias "pack" -description "This task generates a nuget p
 		{
 			New-Item $dir -ItemType Directory | Out-Null;
 			Get-ChildItem "$($proj.DirectoryName)" -Filter "*.ps*1" | Copy-Item -Destination $dir;
-		}
-	}
-
-	foreach ($psd1 in (Get-ChildItem "$ArtifactsDir" -Recurse -Filter "*.psd1"))
-	{
-		if (Test-Path $psd1 -PathType Leaf)
-		{
-			Update-ModuleManifest $psd1 `
-			-ModuleVersion "$($version.major).$($version.minor).$($version.patch)" -PowerShellVersion "5.0" `
-			-Author $Manifest.project.author -CompanyName $Manifest.project.author `
-			-IconUri $Manifest.project.icon `
-			-ProjectUri $Manifest.project.site `
-			-LicenseUri $Manifest.project.license `
-			-Copyright $Manifest.project.copyright;
 		}
 	}
 
