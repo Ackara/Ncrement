@@ -5,7 +5,7 @@
     {
       "fileName": "powershell.exe",
       "workingDirectory": ".",
-      "arguments": "-ExecutionPolicy Bypass -NonInteractive -File invoke-tasks.ps1 version"
+      "arguments": "-ExecutionPolicy Bypass -NonInteractive -File build.ps1 version"
     }
   }
 }

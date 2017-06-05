@@ -76,7 +76,7 @@
   </ItemGroup>
 
   <Target Name="UpdateManifests" BeforeTargets="Build">
-    <Exec Command="powershell -noprofile -File ..\..\invoke-tasks.ps1 manifests" />
+    <Exec Command="powershell -noprofile -File ..\..\build.ps1 manifests" />
   </Target>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

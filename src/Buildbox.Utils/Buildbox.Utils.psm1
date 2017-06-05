@@ -10,7 +10,6 @@ function Write-LineBreak ([string]$Title = "") {
 	Write-Host $line; Write-Host "";
 }
 
-
 function Install-FlywayCLI()
 {
 	<#
