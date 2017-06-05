@@ -18,11 +18,12 @@
 
     <releaseNotes>
       version 2.0.2
+      -------------
       * Remove winscp module.
       * Remove flyway module.
       * Remove wawsdploy module.
       * Move wawsdeploy and flyway cmdlets to the utils module.
-      
+
       version 1.5.2
       * Rename namespaces.
 
