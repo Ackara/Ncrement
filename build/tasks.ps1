@@ -196,7 +196,7 @@ Task "Publish-Packages" -alias "publish" -description "Publish all nuget package
 		Write-BreakLine;
 	}
 
-	if (-not [String]::IsNullOrEmpty($PsGalleryKey))
+	if ((-not [String]::IsNullOrEmpty($PsGalleryKey)) -and ([String]::IsNullOrEmpty($ReleaseTag)))
 	{
 		foreach ($manifest in (Get-ChildItem $ArtifactsDir -Recurse -Filter "*.psd1"))
 		{
