@@ -4,18 +4,25 @@
     <title>Buildbox</title>
     <id>Acklann.Buildbox</id>
     <version>$version$</version>
+    <owners>$author$</owners>
+    <authors>$author$ and Contributors</authors>
     <description>A collection of powershell scripts and modules designed for continuous builds and deployments.</description>
 
-    <owners>Ackara</owners>
-    <authors>Ackara and Contributors</authors>
-    <projectUrl>https://github.com/Ackara/Buildbox</projectUrl>
-    <iconUrl>http://static.acklann.com/images/buildbox.jpg</iconUrl>
-    <copyright>Copyright © Ackara 2017, licensed under MIT License</copyright>
-    <licenseUrl>https://github.com/Ackara/Buildbox/blob/master/LICENSE</licenseUrl>
-    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <iconUrl>$icon$</iconUrl>
     <tags>build deploy devops</tags>
+    <licenseUrl>$license$</licenseUrl>
+    <projectUrl>$projectSite$</projectUrl>
+
+    <copyright>$copyright$</copyright>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
 
     <releaseNotes>
+      version 2.0.2
+      * Remove winscp module.
+      * Remove flyway module.
+      * Remove wawsdploy module.
+      * Move wawsdeploy and flyway cmdlets to the utils module.
+      
       version 1.5.2
       * Rename namespaces.
 
@@ -71,5 +78,8 @@
   <files>
     <file src="..\artifacts\*semver\*"
           target="tools\net452\semver" />
+
+    <file src="..\artifacts\*utils\*"
+          target="tools\net452\utils" />
   </files>
 </package>

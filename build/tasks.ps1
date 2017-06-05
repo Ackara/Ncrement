@@ -46,8 +46,6 @@ Task "Init" -description "This task load all dependencies." -action {
 	}
 }
 
-Task "Cleanup" -description "This task releases all resources." -action {}
-
 Task "setup" -description "Run this task to help configure your local enviroment for development." `
 -depends @("Init") -action {
 }
@@ -180,7 +178,12 @@ Task "Create-Packages" -alias "pack" -description "This task generates a nuget p
 	}
 
 	$nuspec = "$PSScriptRoot\buildbox.nuspec";
-	$properties = "version=$($version.major).$($version.minor).$($version.patch);";
+	$properties += "icon=$($Manifest.project.icon);";
+	$properties += "author=$($Manifest.project.author);";
+	$properties += "license=$($Manifest.project.license);";
+	$properties += "projectSite=$($Manifest.project.site);";
+	$properties += "copyright=$($Manifest.project.copyright);";
+	$properties += "version=$($version.major).$($version.minor).$($version.patch)";
 
 	if ([String]::IsNullOrEmpty($ReleaseTag))
 	{ Exec { & $nuget pack $nuspec -OutputDirectory $ArtifactsDir -Properties $properties; } }

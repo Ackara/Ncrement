@@ -1,4 +1,10 @@
-﻿Import-Module "$PSScriptRoot\helper.psm1" -Force;
+﻿#
+# This is a PowerShell Unit Test file.
+# You need a unit test framework such as Pester to run PowerShell Unit tests. 
+# You can download Pester from http://go.microsoft.com/fwlink/?LinkID=534084
+#
+
+Import-Module "$PSScriptRoot\helper.psm1" -Force;
 
 $rootDir = Get-RootDir;
 $sampleDir = "$(Split-Path $PSScriptRoot -Parent)\MSTest.Buildbox\Samples\semver";

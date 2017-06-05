@@ -29,3 +29,11 @@ function Get-RootDir()
 {
 	return Split-Path (Split-Path $PSScriptRoot -Parent) -Parent;
 }
+
+function New-TestResultsDir($name)
+{
+	$rootDir = Get-RootDir;
+	$testResultsDir = "$rootDir\TestResults\pester-$((Get-Date).ToString('yyyyMMddHHmmss'))\$name";
+	if (-not (Test-Path $testResultsDir -PathType Container)) { New-Item $testResultsDir -ItemType Directory | Out-Null; }
+	return $testResultsDir;
+}
