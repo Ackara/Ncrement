@@ -12,7 +12,7 @@
 RootModule = 'Acklann.Buildbox.SemVer.dll'
 
 # Version number of this module.
-ModuleVersion = '1.5.4'
+ModuleVersion = '1.5.5'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -123,5 +123,6 @@ PrivateData = @{
 # DefaultCommandPrefix = ''
 
 }
+
 
 
