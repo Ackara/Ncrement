@@ -1,9 +1,12 @@
-﻿using System.Management.Automation;
+﻿using System.Collections.Generic;
+using System.Management.Automation;
 
 namespace Acklann.Buildbox.SemVer.Cmdlets
 {
     public abstract class CmdletBase : Cmdlet
     {
+        protected Settings Config;
+
         [Parameter]
         [Alias(new string[] { "break", "b" })]
         public SwitchParameter Major { get; set; }
@@ -19,8 +22,6 @@ namespace Acklann.Buildbox.SemVer.Cmdlets
         [Parameter]
         [Alias(new string[] { "config", "settings", "c" })]
         public string ConfigFile { get; set; }
-
-        protected Settings Config;
 
         protected override void BeginProcessing()
         {
@@ -43,6 +44,28 @@ namespace Acklann.Buildbox.SemVer.Cmdlets
         protected override void StopProcessing()
         {
             EndProcessing();
+        }
+
+        protected string GetReleaseTag(Git git)
+        {
+            if (Config.BranchToSuffixMap.Count == 0) return string.Empty;
+            else try
+                {
+                    string branchName = git.GetCurrentBranch();
+                    if (Config.BranchToSuffixMap.ContainsKey(branchName))
+                    {
+                        return Config.BranchToSuffixMap[branchName];
+                    }
+                    else if (Config.BranchToSuffixMap.ContainsKey("*"))
+                    {
+                        return Config.BranchToSuffixMap["*"];
+                    }
+                    else return null;
+                }
+                catch (KeyNotFoundException)
+                {
+                    return Config.Version.Suffix;
+                }
         }
     }
 }

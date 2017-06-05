@@ -28,7 +28,7 @@ namespace Acklann.Buildbox.SemVer.Cmdlets
         public SwitchParameter CommitChanges { get; set; }
 
         [Parameter]
-        public SwitchParameter CommitAddUnstagedFiles { get; set; }
+        public SwitchParameter StageAllFiles { get; set; }
 
         [Parameter]
         public SwitchParameter UseCommitMessageAsDescription { get; set; }
@@ -38,9 +38,9 @@ namespace Acklann.Buildbox.SemVer.Cmdlets
             base.BeginProcessing();
 
             var factory = new FileHandlerFactory();
-            foreach (var handler in Config.Handlers)
+            foreach (var handlerType in factory.GetFileHandlerTypes())
             {
-                var instance = factory.Create(handler);
+                var instance = (IFileHandler)Activator.CreateInstance(handlerType);
                 _handlers.Add(instance);
             }
         }
@@ -66,7 +66,7 @@ namespace Acklann.Buildbox.SemVer.Cmdlets
             {
                 try { git.Add(Config.Filename); } catch { }
 
-                if (CommitAddUnstagedFiles.IsPresent || Config.ShouldAddUnstagedFilesWhenCommitting)
+                if (StageAllFiles.IsPresent || Config.ShouldStageAllFilesWhenCommitting)
                 {
                     git.Add();
                 }
@@ -93,31 +93,12 @@ namespace Acklann.Buildbox.SemVer.Cmdlets
                 if (TagCommit.IsPresent || Config.ShouldTagCommit) { git.Tag($"v{Config.Version}"); }
             }
 
-            WriteObject(modifiedFiles, enumerateCollection: true);
-        }
-
-        protected override void EndProcessing()
-        {
+            WriteObject(Config.Version);
         }
 
         #region Private Members
 
         private ICollection<IFileHandler> _handlers = new List<IFileHandler>();
-
-        private string GetReleaseTag(Git git)
-        {
-            if (Config.BranchToSuffixMap.Count == 0) return string.Empty;
-            else try
-                {
-                    string branchName = git.GetCurrentBranch();
-                    branchName = (Config.BranchToSuffixMap.ContainsKey("*") && (Config.BranchToSuffixMap.ContainsKey(branchName) == false)) ? "*" : branchName;
-                    return Config.BranchToSuffixMap[branchName];
-                }
-                catch (KeyNotFoundException)
-                {
-                    return Config.Version.Suffix ?? string.Empty;
-                }
-        }
 
         #endregion Private Members
     }

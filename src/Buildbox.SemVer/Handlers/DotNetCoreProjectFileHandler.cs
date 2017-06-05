@@ -7,7 +7,6 @@ using System.Xml.XPath;
 
 namespace Acklann.Buildbox.SemVer.Handlers
 {
-    [FileHandlerId("dotnetcore")]
     public class DotNetCoreProjectFileHandler : IFileHandler
     {
         public IEnumerable<FileInfo> FindTargets(string directory)

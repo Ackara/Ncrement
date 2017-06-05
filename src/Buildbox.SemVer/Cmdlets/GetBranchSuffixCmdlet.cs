@@ -5,7 +5,7 @@ namespace Acklann.Buildbox.SemVer.Cmdlets
     [Cmdlet(VerbsCommon.Get, "BranchSuffix")]
     public sealed class GetBranchSuffixCmdlet : CmdletBase
     {
-        [Alias("branch", "bn" , "key")]
+        [Alias("branch", "bn", "key")]
         [Parameter(ValueFromPipeline = true, Position = 0)]
         public string BranchName { get; set; }
 
@@ -21,7 +21,7 @@ namespace Acklann.Buildbox.SemVer.Cmdlets
             }
             else
             {
-                WriteObject(string.Empty);
+                WriteObject(null);
             }
         }
     }

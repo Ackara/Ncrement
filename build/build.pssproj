@@ -26,7 +26,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="config.json" />
+    <Content Include="manifest.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\invoke-tasks.ps1">
@@ -35,7 +35,7 @@
     <Compile Include="New-CredentialsJson.ps1" />
     <Compile Include="packages.config" />
     <Compile Include="tasks.ps1" />
-    <Compile Include="utils.psm1" />
+    <Compile Include="helper.psm1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

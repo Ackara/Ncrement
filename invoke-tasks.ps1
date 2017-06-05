@@ -4,7 +4,9 @@ Bootstrap build script.
 #>
 
 Param(
-	[Parameter(Position=2)]
+	[Parameter(Position=1)]
+	[string[]]$Tasks = @("setup"),
+
 	[string]$NugetKey = "",
 
 	[Parameter(Position=3)]
@@ -12,9 +14,7 @@ Param(
 
 	[string]$BuildConfiguration = "Release",
 
-	[Parameter(Position=1)]
-	[string[]]$Tasks = @("setup"),
-
+	[Parameter(Position=2)]
 	[string]$TestName = "",
 
 	[string]$ReleaseTag = $null,
@@ -32,8 +32,7 @@ if (Test-Path $config -PathType Leaf)
 if ($ReleaseTag -eq $null)
 {
 	$branch = (& git branch);
-	if ($branch -notcontains "* master")
-	{ $ReleaseTag = "alpha"; }
+	if ($branch -notcontains "* master") { $ReleaseTag = "alpha"; }
 }
 
 # Restore Packages
@@ -47,8 +46,11 @@ if (-not (Test-Path $nuget -PathType Leaf))
 & $nuget restore "$PSScriptRoot\Buildbox.sln" -Verbosity quiet;
 
 # Invoke Psake
-$psake = Get-Item "$PSScriptRoot\packages\psake.*\tools\psake.psm1" | Sort-Object { $_.Name } | Select-Object -Last 1;
-Import-Module $psake -Force;
+if (-not (Test-Path "$PSScriptRoot\tools\psake" -PathType Container))
+{
+	Save-Module psake -Path "$PSScriptRoot\tools";
+}
+Get-Item "$PSScriptRoot\tools\psake\*\*.psd1" | Import-Module -Force;
 
 $buildFile = "$PSScriptRoot\build\tasks.ps1";
 if ($Help) 
@@ -62,7 +64,10 @@ else
 		"TestName"=$TestName;
 		"NugetKey"=$NugetKey;
 		"ReleaseTag"=$ReleaseTag;
+		"RootDir" = $PSScriptRoot;
 		"PsGalleryKey"=$PowershellGalleryKey;
 		"BuildConfiguration"=$BuildConfiguration;
 	}
+	
+	if(-not $psake.build_success) { exit 1; }
 }

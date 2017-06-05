@@ -4,7 +4,6 @@ using System.Text.RegularExpressions;
 
 namespace Acklann.Buildbox.SemVer.Handlers
 {
-    [FileHandlerId("powershell")]
     public class PowershellManifestFileHandler : IFileHandler
     {
         public IEnumerable<FileInfo> FindTargets(string directory)

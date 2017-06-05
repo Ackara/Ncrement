@@ -12,7 +12,7 @@
   "nested": 
   {
         
-    "semanticVersion": 
+    "semver": 
     {
             
       "version": 
@@ -27,17 +27,6 @@
         "suffix":  "-alpha"
       
             },
-            
-      "targets": 
-      [
-                
-        "dotnetcore",
-                
-        "dotnet",
-                
-        "powershell"
-      
-            ],
             
       "branchSuffixMap": 
       {

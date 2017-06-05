@@ -1,5 +1,4 @@
-﻿using Acklann.Buildbox.SemVer.Handlers;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -17,6 +16,8 @@ namespace Acklann.Buildbox.SemVer
 
         public const string FILENAME = "semver.json";
         public static readonly string DefaultSettingsPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), FILENAME);
+
+        private const string semanticVersion = "semver";
 
         public static string FindSettingsFile()
         {
@@ -43,11 +44,7 @@ namespace Acklann.Buildbox.SemVer
                 // Create Default Settings
                 var settings = new Settings()
                 {
-                    Handlers = ((
-                    from id in (new FileHandlerFactory().GetFileHandlerIds())
-                    where id != nameof(NullFileHandler)
-                    select id).ToArray()),
-                    ShouldAddUnstagedFilesWhenCommitting = false,
+                    ShouldStageAllFilesWhenCommitting = false,
                     ShouldCommitChanges = true,
                     ShouldTagCommit = true
                 };
@@ -72,8 +69,6 @@ namespace Acklann.Buildbox.SemVer
                 JsonConvert.DeserializeObject<Settings>(semver.Value.ToString());
         }
 
-        private const string semanticVersion = "semanticVersion";
-
         #endregion Static Members
 
         public Settings() : this(DefaultSettingsPath)
@@ -83,7 +78,6 @@ namespace Acklann.Buildbox.SemVer
         public Settings(string pathToSettingFile)
         {
             Filename = pathToSettingFile;
-            Handlers = new string[0];
             Version = new VersionInfo();
             BranchToSuffixMap = new Dictionary<string, string>();
         }
@@ -94,20 +88,17 @@ namespace Acklann.Buildbox.SemVer
         [JsonProperty("version")]
         public VersionInfo Version { get; set; }
 
-        [JsonProperty("targets")]
-        public string[] Handlers { get; set; }
+        [JsonProperty("stage_all_files")]
+        public bool ShouldStageAllFilesWhenCommitting { get; set; }
 
-        [JsonProperty("branchSuffixMap")]
-        public IDictionary<string, string> BranchToSuffixMap { get; set; }
-
-        [JsonProperty("shouldCommitChanges")]
+        [JsonProperty("commit_changes")]
         public bool ShouldCommitChanges { get; set; }
 
-        [JsonProperty("shouldTagCommit")]
+        [JsonProperty("tag_commit")]
         public bool ShouldTagCommit { get; set; }
 
-        [JsonProperty("shouldAddAllUnstagedFilesWhenCommitting")]
-        public bool ShouldAddUnstagedFilesWhenCommitting { get; set; }
+        [JsonProperty("branch_to_suffix")]
+        public IDictionary<string, string> BranchToSuffixMap { get; set; }
 
         public void Save(bool partial = false)
         {
@@ -121,7 +112,6 @@ namespace Acklann.Buildbox.SemVer
 
             if (partial)
             {
-                string versionJson = JsonConvert.SerializeObject(Version, Formatting.Indented);
                 string contents = File.ReadAllText(path);
                 contents = Regex.Replace(contents, @"""version""\s*:\s*(?<body>{[^}]+})", delegate (Match match)
                 {

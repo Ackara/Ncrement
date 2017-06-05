@@ -4,15 +4,16 @@ Psake build tasks.
 #>
 
 Properties {
+	$Manifest = Get-Content "$PSScriptRoot\manifest.json" | Out-String | ConvertFrom-Json;
+
 	# Paths
-	$RootDir = (Split-Path $PSScriptRoot -Parent);
+	$RootDir = "";
 	$ArtifactsDir = "$RootDir\artifacts";
 
 	# Tools
 	$nuget = "";
 
 	# Enviroment Args
-	$Branch = "";
 	$ReleaseTag = "";
 	$BuildConfiguration = "";
 
@@ -26,12 +27,16 @@ Properties {
 # -----
 
 Task "Init" -description "This task load all dependencies." -action {
-	foreach ($folder in @($ArtifactsDir))
+	$modules = @("Pester", "VSSetup");
+	foreach ($name in $modules)
 	{
-		if (Test-Path $folder -PathType Container)
-		{ Remove-Item $folder -Recurse -Force; }
+		if (-not (Test-Path "$RootDir\tools\$name" -PathType Container))
+		{
+			Save-Module $name -Path "$RootDir\tools";
+		}
 
-		New-Item $folder -ItemType Directory | Out-Null;
+		$id = Get-Item "$RootDir\tools\$name\*\*" -Filter "*.psd1" | Import-Module -Force -PassThru;
+		Write-Host "`t* imported $id module.";
 	}
 	
 	foreach ($psm1 in (Get-ChildItem "$RootDir\build" -Filter "*.psm1" | Select-Object -ExpandProperty FullName))
@@ -39,36 +44,14 @@ Task "Init" -description "This task load all dependencies." -action {
 		Import-Module $psm1 -Force;
 		Write-Host "`t* $(Split-Path $psm1 -Leaf) imported.";
 	}
-
-	$pester = Get-Item "$RootDir\packages\Pester.*\tools\Pester.psm1" | Select-Object -ExpandProperty FullName;
-	Import-Module $pester;
-	Write-Host "`t* pester imported.";
 }
 
 
-Task "Cleanup" -description "This task releases all resources." -action {
-	
-}
+Task "Cleanup" -description "This task releases all resources." -action {}
 
 
 Task "setup" -description "Run this task to help configure your local enviroment for development." `
 -depends @("Init") -action {
-	Write-Host "You will need a ftp server to run the winscp module tests. Provide the following so I can build a connection string" -ForegroundColor Cyan;
-	$address = Read-Host "host name";
-	$user = Read-Host "username";
-	$password = Read-Host "password";
-
-	$json = @"
-{
-  "ftp":
-  {
-	"host": "$address",
-	"user": "$user",
-	"password": "$password"
-  }
-}
-"@ | Out-File "$RootDir\tests\MSTest.Buildbox\credentials.json";
-	Write-Host "`t* created '$RootDir\tests\MSTest.Buildbox\credentials.json'";
 }
 
 
@@ -77,34 +60,39 @@ Task "Build-Solution" -alias "compile" -description "This task compile the solut
 	Assert ("Debug", "Release" -contains $BuildConfiguration) "`$BuildConfiguration was '$BuildConfiguration' but expected 'Debug' or 'Release'.";
 
 	$sln = Get-Item "$RootDir\*.sln" | Select-Object -ExpandProperty FullName;
+	$latestVS = (Get-VSSetupInstance | Select-VSSetupInstance -Latest).InstallationPath;
+	$msbuild = Get-ChildItem "$latestVS\MSBuild\*\Bin" -Recurse -Filter "MSBuild.exe" | Sort-Object $_.Name | Select-Object -Last 1;
+
 	Write-Breakline "MSBUILD";
-	Exec { msbuild $sln "/p:Configuration=$BuildConfiguration;Platform=Any CPU"  "/v:minimal"; };
+	Exec { & $msbuild $sln "/p:Configuration=$BuildConfiguration;Platform=Any CPU"  "/v:minimal"; };
 	Write-BreakLine;
 }
 
 
 Task "Run-Pester" -alias "pester" -description "This task invoke all selected pester tests." `
--depends @("Init", "Build-Solution") -action {
+-depends @("Build-Solution") -action {
 	$totalFailedTests = 0;
 	if ([String]::IsNullOrEmpty($TestName))
 	{ 
 		foreach($script in (Get-ChildItem "$RootDir\tests" -Recurse -Filter "*.tests.ps1" | Select-Object -ExpandProperty FullName))
 		{
-			Invoke-Pester -Script $script -EnableExit;
+			$results = Invoke-Pester -Script $script -PassThru;
+			if ($results.FailedCount -gt 0) { throw "Passed: $($results.PassedCount), Failed: $($results.FailedCount)"; }
 		}
 	}
 	else
 	{
 		$script = Get-ChildItem "$RootDir\tests" -Recurse -Filter "*$TestName*.ps1" | Select-Object -ExpandProperty FullName -First 1;
-		Invoke-Pester -Script $script;
+		$results = Invoke-Pester -Script $script -PassThru;
+		if ($results.FailedCount -gt 0) { throw "Passed: $($results.PassedCount), Failed: $($results.FailedCount)"; }
 	}
 }
 
 
 Task "Run-Tests" -alias "test" -description "This task runs all tests." `
--depends @("Build-Solution") -action {
+-depends @("Build-Solution", "Run-Pester") -action {
 	Write-BreakLine "VSTEST";
-	foreach ($proj in (Get-ChildItem "$RootDir\tests\MSTest.Buildbox" -Filter "*.csproj" | Select-Object -ExpandProperty FullName))
+	foreach ($proj in (Get-ChildItem "$RootDir\tests\*\*" -Filter "*.csproj" | Select-Object -ExpandProperty FullName))
 	{
 		try
 		{
@@ -164,22 +152,20 @@ Task "Increment-Version" -alias "version" -description "This task increment the 
 
 Task "Create-Packages" -alias "pack" -description "This task generates a nuget package for each project." `
 -depends @("Init") -action {
-
-	$nuspec = "$RootDir\buildbox.nuspec";
-	if (Test-Path $nuspec -PathType Leaf)
+	$version = $Manifest.version;
+	if (Test-Path $ArtifactsDir -PathType Container)
 	{
-		$outDir = "$ArtifactsDir\nupkgs";
-		$version = $config.version;
+		Remove-Item $ArtifactsDir -Recurse;
+		New-Item $ArtifactsDir -ItemType Directory | Out-Null;
+	}
 
-		$properties = "";
-		$properties += "Configuration=$BuildConfiguration";
-		$properties += ";Version=$($version.major).$($version.minor).$($version.patch)";
-		
-		Write-BreakLine "NUGET";
-		if ([string]::IsNullOrEmpty($ReleaseTag))
-		{ Exec { & $nuget pack $nuspec -OutputDirectory $outDir -Prop $properties; } }
-		else
-		{ Exec { & $nuget pack $nuspec -OutputDirectory $outDir -Prop $properties -Suffix $ReleaseTag; } }
+	foreach ($csproj in (Get-ChildItem "$RootDir\src" -Recurse -Filter "*.csproj"))
+	{
+		$psd1 = [IO.Path]::ChangeExtension($csproj.FullName, "psd1");
+		if (Test-Path $psd1 -PathType Leaf)
+		{
+			Get-ChildItem "$($csproj.DirectoryName)\bin\$BuildConfiguration";
+		}
 	}
 }
 

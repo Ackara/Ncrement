@@ -4,7 +4,6 @@ using System.Text.RegularExpressions;
 
 namespace Acklann.Buildbox.SemVer.Handlers
 {
-    [FileHandlerId("dotnet")]
     public class DotNetProjectFileHandler : IFileHandler
     {
         public IEnumerable<FileInfo> FindTargets(string directory)
@@ -25,7 +24,7 @@ namespace Acklann.Buildbox.SemVer.Handlers
             string contents = File.ReadAllText(file.FullName);
             var regex = new Regex(@"\[assembly:\s*Assembly\w*Version\s*\(\s*""(?<version>(\d\.?)+(\*|-\w+)?)""\s*\)\s*\]");
 
-            contents = regex.Replace(contents, evaluator: delegate (Match match)
+            contents = regex.Replace(contents, delegate (Match match)
             {
                 return match.Value.Replace(match.Groups["version"].Value, versionInfo.ToString(withoutTag: true));
             });

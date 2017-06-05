@@ -5,16 +5,11 @@
     "patch": 0,
     "suffix": ""
   },
-  "targets": [
-    "dotnetcore",
-    "dotnet",
-    "powershell"
-  ],
-  "branchSuffixMap": {
+  "stage_all_files": false,
+  "commit_changes": true,
+  "tag_commit": true,
+  "branch_to_suffix": {
     "master": "",
     "*": "alpha"
-  },
-  "shouldCommitChanges": true,
-  "shouldTagCommit": true,
-  "shouldAddAllUnstagedFilesWhenCommitting": false
+  }
 }

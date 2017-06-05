@@ -74,6 +74,7 @@
     <Compile Include="PowershellManifestFileHandlerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SettingsTest.cs" />
+    <Compile Include="GetBranchSuffixCmdletTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="credentials.json" />

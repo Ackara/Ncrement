@@ -59,7 +59,6 @@
     <Compile Include="Handlers\DotNetCoreProjectFileHandler.cs" />
     <Compile Include="Handlers\DotNetProjectFileHandler.cs" />
     <Compile Include="Handlers\FileHandlerFactory.cs" />
-    <Compile Include="Handlers\FileHandlerIdAttribute.cs" />
     <Compile Include="Handlers\IFileHandler.cs" />
     <Compile Include="Handlers\NullFileHandler.cs" />
     <Compile Include="Handlers\PowershellManifestFileHandler.cs" />
@@ -68,7 +67,9 @@
     <Compile Include="VersionInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Buildbox.SemVer.psd1" />
+    <None Include="Buildbox.SemVer.psd1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
