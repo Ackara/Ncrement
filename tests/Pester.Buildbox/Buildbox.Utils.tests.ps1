@@ -6,8 +6,8 @@
 
 Import-Module "$PSScriptRoot\helper.psm1" -Force;
 $rootDir = Get-RootDir;
-$testResultsDir = New-TestResultsDir "utils";
 $sampleDir = "$PSScriptRoot\Samples";
+$testResultsDir = New-TestResultsDir "utils";
 $modulePath = Get-Item "$rootDir\src\*.Utils\*psd1";
 Import-Module $modulePath.FullName -Force;
 

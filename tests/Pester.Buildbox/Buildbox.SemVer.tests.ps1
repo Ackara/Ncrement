@@ -1,6 +1,6 @@
 ﻿#
 # This is a PowerShell Unit Test file.
-# You need a unit test framework such as Pester to run PowerShell Unit tests. 
+# You need a unit test framework such as Pester to run PowerShell Unit tests.
 # You can download Pester from http://go.microsoft.com/fwlink/?LinkID=534084
 #
 
@@ -21,48 +21,48 @@ Get-ChildItem "$rootDir\src\*Buildbox.SemVer\bin\*" -Recurse | Copy-Item -Destin
 $module = Get-Item "$testResultsOut\*.psd1";
 Import-Module $module.FullName -Force;
 
-Describe "Get-VersionNumber" {
-	It "should generate a default settings file if it do not exist." {
+Describe "Buildbox.SemVer" {
+	Context "Get-VersionNumber" {
+		It "should generate a default settings file if it do not exist." {
+			$version = Get-VersionNumber;
+			$defaultSettingFile | Should Exist;
+		}
+
+		It "should return a [versionNumber] object when invoked."{
+			$version = Get-VersionNumber;
+			$version | Should Not BeNullOrEmpty;
+			$version | Should BeOfType Acklann.Buildbox.SemVer.VersionInfo;
+		}
+	}
+
+	Context "Step-VersionNumber" {
 		$version = Get-VersionNumber;
-		$defaultSettingFile | Should Exist;
+
+		It "should increment the patch number only when the patch switch is set." {
+			$result = Step-VersionNumber -Patch;
+			$result.Patch | Should Be ($version.Patch + 1);
+			$result.Minor | Should Be $version.Minor;
+			$result.Major | Should Be $version.Major;
+			$version = $result;
+		}
+
+		It "should increment the minor number and reset the patch number when the minor switch is set." {
+			$result = Step-VersionNumber -Minor;
+			$result.Patch | Should Be 0;
+			$result.Minor | Should Be ($version.Minor + 1);
+			$result.Major | Should Be $version.Major;
+			$version = $result;
+		}
+
+		It "should increment the major number and reset the minor and patch numbers when the major switch is set." {
+			$result = Step-VersionNumber -Major;
+			$result.Patch | Should Be 0;
+			$result.Minor | Should Be 0;
+			$result.Major | Should Be ($version.Major + 1);
+		}
 	}
 
-	It "should return a [versionNumber] object when invoked."{
-		$version = Get-VersionNumber;
-		$version | Should Not BeNullOrEmpty;
-		$version | Should BeOfType Acklann.Buildbox.SemVer.VersionInfo;
-	}
-}
-
-Describe "Step-VersionNumber" {
-	$version = Get-VersionNumber;
-
-	It "should increment the patch number only when the patch switch is set." {
-		$result = Step-VersionNumber -Patch;
-		$result.Patch | Should Be ($version.Patch + 1);
-		$result.Minor | Should Be $version.Minor;
-		$result.Major | Should Be $version.Major;
-		$version = $result;
-	}
-
-	It "should increment the minor number and reset the patch number when the minor switch is set." {
-		$result = Step-VersionNumber -Minor;
-		$result.Patch | Should Be 0;
-		$result.Minor | Should Be ($version.Minor + 1);
-		$result.Major | Should Be $version.Major;
-		$version = $result;
-	}
-
-	It "should increment the major number and reset the minor and patch numbers when the major switch is set." {
-		$result = Step-VersionNumber -Major;
-		$result.Patch | Should Be 0;
-		$result.Minor | Should Be 0;
-		$result.Major | Should Be ($version.Major + 1);
-	}
-}
-
-Describe "Update-VersionNumber" {
-	Context "using default settings" {
+	Context "Update-VersionNumber" {
 		$workingDir = "$testResultsIn\default";
 		if (-not (Test-Path $workingDir -PathType Container)) { New-Item $workingDir -ItemType Directory; }
 
@@ -75,13 +75,10 @@ Describe "Update-VersionNumber" {
 		}
 	}
 
-	Context "using custom settings file" {
-	}
-}
-
-Describe "Get-BranchSuffixCmdlet" {
-	It "should return an empty string when 'master' is passed" {
-		$result = Get-BranchSuffix "master";
-		$result | Should BeNullOrEmpty;
+	Context "Get-BranchSuffixCmdlet" {
+		It "should return an empty string when 'master' is passed" {
+			$result = Get-BranchSuffix "master";
+			$result | Should BeNullOrEmpty;
+		}
 	}
 }
