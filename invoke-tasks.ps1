@@ -29,7 +29,7 @@ if (Test-Path $config -PathType Leaf)
 	$config = Get-Content "$PSScriptRoot\build\config.json" | Out-String | ConvertFrom-Json;
 }
 
-if ($ReleaseTag -eq $null)
+if ([String]::IsNullOrEmpty($ReleaseTag))
 {
 	$branch = (& git branch);
 	if ($branch -notcontains "* master") { $ReleaseTag = "alpha"; }

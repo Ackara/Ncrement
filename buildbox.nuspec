@@ -72,9 +72,6 @@
 		<file src="src\Buildbox.Flyway\*.ps*1"
 					target="tools\flyway" />
 
-		<file src="src\Buildbox.WinSCP\*.ps*1"
-					target="tools\winscp" />
-
 		<file src="src\Buildbox.WAWSDeploy\*.ps*1"
 					target="tools\waswdeploy" />
 

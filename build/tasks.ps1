@@ -7,7 +7,7 @@ Properties {
 	$Manifest = Get-Content "$PSScriptRoot\manifest.json" | Out-String | ConvertFrom-Json;
 
 	# Paths
-	$RootDir = "";
+	$RootDir = (Split-Path $PSScriptRoot -Parent);
 	$ArtifactsDir = "$RootDir\artifacts";
 
 	# Tools
@@ -38,7 +38,7 @@ Task "Init" -description "This task load all dependencies." -action {
 		$id = Get-Item "$RootDir\tools\$name\*\*" -Filter "*.psd1" | Import-Module -Force -PassThru;
 		Write-Host "`t* imported $id module.";
 	}
-	
+
 	foreach ($psm1 in (Get-ChildItem "$RootDir\build" -Filter "*.psm1" | Select-Object -ExpandProperty FullName))
 	{
 		Import-Module $psm1 -Force;
@@ -46,14 +46,11 @@ Task "Init" -description "This task load all dependencies." -action {
 	}
 }
 
-
 Task "Cleanup" -description "This task releases all resources." -action {}
-
 
 Task "setup" -description "Run this task to help configure your local enviroment for development." `
 -depends @("Init") -action {
 }
-
 
 Task "Build-Solution" -alias "compile" -description "This task compile the solution." `
 -depends @("Init") -action {
@@ -68,12 +65,11 @@ Task "Build-Solution" -alias "compile" -description "This task compile the solut
 	Write-BreakLine;
 }
 
-
 Task "Run-Pester" -alias "pester" -description "This task invoke all selected pester tests." `
 -depends @("Build-Solution") -action {
 	$totalFailedTests = 0;
 	if ([String]::IsNullOrEmpty($TestName))
-	{ 
+	{
 		foreach($script in (Get-ChildItem "$RootDir\tests" -Recurse -Filter "*.tests.ps1" | Select-Object -ExpandProperty FullName))
 		{
 			$results = Invoke-Pester -Script $script -PassThru;
@@ -87,7 +83,6 @@ Task "Run-Pester" -alias "pester" -description "This task invoke all selected pe
 		if ($results.FailedCount -gt 0) { throw "Passed: $($results.PassedCount), Failed: $($results.FailedCount)"; }
 	}
 }
-
 
 Task "Run-Tests" -alias "test" -description "This task runs all tests." `
 -depends @("Build-Solution", "Run-Pester") -action {
@@ -104,42 +99,30 @@ Task "Run-Tests" -alias "test" -description "This task runs all tests." `
 	Write-BreakLine;
 }
 
-
 Task "Increment-Version" -alias "version" -description "This task increment the the version number of each project." `
 -depends @() -action {
-	$version = $config.version;
+	$version = $Manifest.version;
 	$version.patch = ([Int]::Parse($version.patch) + 1);
 	$value = "$($version.major).$($version.minor).$($version.patch)";
-	$config | ConvertTo-Json | Out-File "$PSScriptRoot\config.json";
+	$Manifest | ConvertTo-Json | Out-File "$PSScriptRoot\manifest.json";
 
-	Exec { & git add "$PSScriptRoot\config.json"; }
+	Exec { & git add "$PSScriptRoot\manifest.json"; }
 
-	foreach ($proj in (Get-ChildItem "$RootDir\src" -Recurse -Filter "*.*proj" | Select-Object -ExpandProperty FullName))
+	foreach ($psd1 in (Get-ChildItem "$RootDir\src\*\*" -Filter "*.psd1"))
 	{
-		$extension = [IO.Path]::GetExtension($proj);
+		$content = Get-Content $psd1 | Out-String;
+		$content = $content -replace 'ModuleVersion(\s)*=(\s)*(''|")(?<ver>\d\.?)+(''|")', "ModuleVersion = '$value'";
+		$content | Out-File $psd1 -Encoding utf8;
+		Exec { & git add $($psd1.FullName); }
+	}
 
-		if ($extension -eq ".csproj")
-		{
-			$assemblyInfo = "$(Split-Path $proj -Parent)\Properties\AssemblyInfo.cs";
-			$content = Get-Content $assemblyInfo | Out-String;
-			$content = $content -replace '"(\d+\.?)+"', "`"$value`"";
-			$content | Out-File $assemblyInfo;
-
-			Exec {  & git add $assemblyInfo; }
-		}
-		
-		if ($extension -eq ".pssproj")
-		{
-			[string]$manifest = [IO.Path]::ChangeExtension($proj, "psd1");
-			if (Test-Path $manifest -PathType Leaf)
-			{
-				$content = Get-Content $manifest | Out-String;
-				$content = $content -replace 'ModuleVersion(\s)*=(\s)*(''|")(?<ver>\d\.?)+(''|")', "ModuleVersion = '$value'";
-				$content | Out-File $manifest -Encoding utf8;
-
-				Exec { & git add $manifest; }
-			}
-		}
+	foreach ($proj in (Get-ChildItem "$RootDir\src" -Recurse -Filter "*.csproj" | Select-Object -ExpandProperty FullName))
+	{
+		$assemblyInfo = "$(Split-Path $proj -Parent)\Properties\AssemblyInfo.cs";
+		$content = Get-Content $assemblyInfo | Out-String;
+		$content = $content -replace '"(\d+\.?)+"', "`"$value`"";
+		$content | Out-File $assemblyInfo;
+		Exec {  & git add $assemblyInfo; }
 	}
 
 	Exec {
@@ -149,37 +132,77 @@ Task "Increment-Version" -alias "version" -description "This task increment the 
 	Write-Host "`t* updated to version $value";
 }
 
-
 Task "Create-Packages" -alias "pack" -description "This task generates a nuget package for each project." `
 -depends @("Init") -action {
 	$version = $Manifest.version;
+	$suffix = "";
+
 	if (Test-Path $ArtifactsDir -PathType Container)
 	{
 		Remove-Item $ArtifactsDir -Recurse;
-		New-Item $ArtifactsDir -ItemType Directory | Out-Null;
 	}
 
-	foreach ($csproj in (Get-ChildItem "$RootDir\src" -Recurse -Filter "*.csproj"))
+	New-Item $ArtifactsDir -ItemType Directory | Out-Null;
+
+	foreach ($proj in (Get-ChildItem "$RootDir\src\*\*" -Filter "*.*proj"))
 	{
-		$psd1 = [IO.Path]::ChangeExtension($csproj.FullName, "psd1");
+		$psd1 = [IO.Path]::ChangeExtension($proj.FullName, "psd1");
+		$moduleName = [IO.Path]::GetFileNameWithoutExtension($proj.FullName);
+		$dir = "$ArtifactsDir\$moduleName";
+
 		if (Test-Path $psd1 -PathType Leaf)
 		{
-			Get-ChildItem "$($csproj.DirectoryName)\bin\$BuildConfiguration";
+			Update-ModuleManifest $psd1 `
+			-ModuleVersion "$($version.major).$($version.minor).$($version.patch)" -PowerShellVersion "5.0" `
+			-Author $Manifest.project.author -CompanyName $Manifest.project.author `
+			-IconUri $Manifest.project.icon `
+			-ProjectUri $Manifest.project.site `
+			-LicenseUri $Manifest.project.license `
+			-Copyright $Manifest.project.copyright;
+		}
+
+		if ((Test-Path $psd1 -PathType Leaf) -and ($proj.Extension -eq ".csproj"))
+		{
+			New-Item $dir -ItemType Directory | Out-Null;
+			Get-ChildItem "$($proj.DirectoryName)\bin\$BuildConfiguration" | Copy-Item -Destination $dir;
+		}
+		elseif (Test-Path $psd1 -PathType Leaf)
+		{
+			New-Item $dir -ItemType Directory | Out-Null;
+			Get-ChildItem "$($proj.DirectoryName)" -Filter "*.ps*1" | Copy-Item -Destination $dir;
 		}
 	}
+
+	$nuspec = "$PSScriptRoot\buildbox.nuspec";
+	$properties = "version=$($version.major).$($version.minor).$($version.patch);";
+
+	if ([String]::IsNullOrEmpty($ReleaseTag))
+	{ Exec { & $nuget pack $nuspec -OutputDirectory $ArtifactsDir -Properties $properties; } }
+	else
+	{ Exec { & $nuget pack $nuspec -OutputDirectory $ArtifactsDir -Properties $properties -Suffix $ReleaseTag; } }
 }
 
-
 Task "Publish-Packages" -alias "publish" -description "Publish all nuget packages to 'nuget.org' and 'powershell gallery'." `
--depends @("Run-Tests", "Create-Packages") -action {
-
+-depends @("Create-Packages") -action {
 	foreach ($package in (Get-ChildItem $ArtifactsDir -Recurse -Filter "*.nupkg" | Select-Object -ExpandProperty FullName))
 	{
-		
 		if ([string]::IsNullOrEmpty($NuGetKey))
 		{ Exec { & $nuget push $package -Source "https://api.nuget.org/v3/index.json"; } }
 		else
 		{ Exec { & $nuget push $package -Source "https://api.nuget.org/v3/index.json" -ApiKey $NuGetKey; } }
 		Write-BreakLine;
+	}
+
+	if (-not [String]::IsNullOrEmpty($PsGalleryKey))
+	{
+		foreach ($manifest in (Get-ChildItem $ArtifactsDir -Recurse -Filter "*.psd1"))
+		{
+			try
+			{
+				Push-Location $manifest.DirectoryName;
+				Publish-Module -Path $manifest.FullName -NuGetApiKey $PsGalleryKey;
+			}
+			finally { Pop-Location; }
+		}
 	}
 }
