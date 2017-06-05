@@ -150,17 +150,6 @@ Task "Create-Packages" -alias "pack" -description "This task generates a nuget p
 		$moduleName = [IO.Path]::GetFileNameWithoutExtension($proj.FullName);
 		$dir = "$ArtifactsDir\$moduleName";
 
-		if (Test-Path $psd1 -PathType Leaf)
-		{
-			Update-ModuleManifest $psd1 `
-			-ModuleVersion "$($version.major).$($version.minor).$($version.patch)" -PowerShellVersion "5.0" `
-			-Author $Manifest.project.author -CompanyName $Manifest.project.author `
-			-IconUri $Manifest.project.icon `
-			-ProjectUri $Manifest.project.site `
-			-LicenseUri $Manifest.project.license `
-			-Copyright $Manifest.project.copyright;
-		}
-
 		if ((Test-Path $psd1 -PathType Leaf) -and ($proj.Extension -eq ".csproj"))
 		{
 			New-Item $dir -ItemType Directory | Out-Null;
@@ -170,6 +159,20 @@ Task "Create-Packages" -alias "pack" -description "This task generates a nuget p
 		{
 			New-Item $dir -ItemType Directory | Out-Null;
 			Get-ChildItem "$($proj.DirectoryName)" -Filter "*.ps*1" | Copy-Item -Destination $dir;
+		}
+	}
+
+	foreach ($psd1 in (Get-ChildItem "$ArtifactsDir" -Recurse -Filter "*.psd1"))
+	{
+		if (Test-Path $psd1 -PathType Leaf)
+		{
+			Update-ModuleManifest $psd1 `
+			-ModuleVersion "$($version.major).$($version.minor).$($version.patch)" -PowerShellVersion "5.0" `
+			-Author $Manifest.project.author -CompanyName $Manifest.project.author `
+			-IconUri $Manifest.project.icon `
+			-ProjectUri $Manifest.project.site `
+			-LicenseUri $Manifest.project.license `
+			-Copyright $Manifest.project.copyright;
 		}
 	}
 
@@ -200,7 +203,8 @@ Task "Publish-Packages" -alias "publish" -description "Publish all nuget package
 			try
 			{
 				Push-Location $manifest.DirectoryName;
-				Publish-Module -Path $manifest.FullName -NuGetApiKey $PsGalleryKey;
+				Write-Host "publishing $($manifest.Name) ...";
+				Publish-Module -Path $manifest.DirectoryName -NuGetApiKey $PsGalleryKey;
 			}
 			finally { Pop-Location; }
 		}
