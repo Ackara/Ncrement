@@ -17,7 +17,7 @@ Param(
 	[Parameter(Position=2)]
 	[string]$TestName = "",
 
-	[string]$ReleaseTag = $null,
+	[string]$ReleaseTag = "alpha",
 
 	[switch]$Help
 )
@@ -29,11 +29,8 @@ if (Test-Path $config -PathType Leaf)
 	$config = Get-Content "$PSScriptRoot\build\config.json" | Out-String | ConvertFrom-Json;
 }
 
-if ([String]::IsNullOrEmpty($ReleaseTag))
-{
-	$branch = (& git branch);
-	if ($branch -notcontains "* master") { $ReleaseTag = "alpha"; }
-}
+$branchName = $env:BUILD_SOURCEBRANCHNAME;
+if ($branchName -eq "master") { $ReleaseTag = ""; }
 
 # Restore Packages
 $nuget = "$PSScriptRoot\tools\nuget.exe";

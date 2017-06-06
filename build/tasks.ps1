@@ -197,16 +197,17 @@ Task "Publish-Packages" -alias "publish" -description "Publish all nuget package
 	$psKeyAssigned = "o";
 	if ([String]::IsNullOrEmpty($NuGetKey)) { $nKeyAssigned = "x"; }
 	if ([String]::IsNullOrEmpty($PsGalleryKey)) { $psKeyAssigned = "x"; }
-	Write-Host "nuget key:`t $nKeyAssigned" -ForegroundColor Cyan;
-	Write-Host "ps gallery key:`t $psKeyAssigned" -ForegroundColor Cyan;
+	Write-Host "nuget key: $nKeyAssigned" -ForegroundColor Cyan;
+	Write-Host "psgallery key: $psKeyAssigned" -ForegroundColor Cyan;
+	Write-Host "release tag: '$ReleaseTag'" -ForegroundColor Cyan;
 	Write-Host "";
 	
 	foreach ($package in (Get-ChildItem $ArtifactsDir -Recurse -Filter "*.nupkg" | Select-Object -ExpandProperty FullName))
 	{
-		if ([string]::IsNullOrEmpty($NuGetKey))
-		{ Exec { & $nuget push $package -Source "https://api.nuget.org/v3/index.json"; } }
-		else
-		{ Exec { & $nuget push $package -Source "https://api.nuget.org/v3/index.json" -ApiKey $NuGetKey; } }
+		#if ([string]::IsNullOrEmpty($NuGetKey))
+		#{ Exec { & $nuget push $package -Source "https://api.nuget.org/v3/index.json"; } }
+		#else
+		#{ Exec { & $nuget push $package -Source "https://api.nuget.org/v3/index.json" -ApiKey $NuGetKey; } }
 	}
 
 	if ((-not [String]::IsNullOrEmpty($PsGalleryKey)) -and ([String]::IsNullOrEmpty($ReleaseTag)))
@@ -222,5 +223,5 @@ Task "Publish-Packages" -alias "publish" -description "Publish all nuget package
 			finally { Pop-Location; }
 		}
 	}
-	else { Write-Host "publishing to Powershell Gallery was cancelled."; }
+	else { Write-Host "publishing to Powershell Gallery was cancelled." -ForegroundColor Yellow; }
 }
