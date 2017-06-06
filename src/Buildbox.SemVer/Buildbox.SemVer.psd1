@@ -12,7 +12,7 @@
 RootModule = 'Acklann.Buildbox.SemVer.dll'
 
 # Version number of this module.
-ModuleVersion = '2.0.4'
+ModuleVersion = '2.0.5'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -95,7 +95,7 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.
-        Tags = 'versioning','ci','build'
+        Tags = 'semantic', 'versioning','ci','build', 'version'
 
         # A URL to the license for this module.
         LicenseUri = 'https://github.com/Ackara/Buildbox/blob/master/LICENSE'
@@ -123,6 +123,7 @@ PrivateData = @{
 # DefaultCommandPrefix = ''
 
 }
+
 
 
 
