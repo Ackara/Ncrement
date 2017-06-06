@@ -218,7 +218,7 @@ Task "Publish-Packages" -alias "publish" -description "Publish all nuget package
 			{
 				Push-Location $manifest.DirectoryName;
 				Write-Host "publishing $($manifest.Name) ...";
-				Publish-Module -Path $manifest.DirectoryName -NuGetApiKey $PsGalleryKey;
+				Publish-Module -Path $manifest.DirectoryName -NuGetApiKey $PsGalleryKey -Force;
 			}
 			finally { Pop-Location; }
 		}
