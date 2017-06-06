@@ -12,7 +12,7 @@
 RootModule = 'Buildbox.Utils.psm1'
 
 # Version number of this module.
-ModuleVersion = '2.0.6'
+ModuleVersion = '2.0.7'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -123,6 +123,7 @@ PrivateData = @{
 # DefaultCommandPrefix = ''
 
 }
+
 
 
 
