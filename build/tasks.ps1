@@ -204,10 +204,10 @@ Task "Publish-Packages" -alias "publish" -description "Publish all nuget package
 	
 	foreach ($package in (Get-ChildItem $ArtifactsDir -Recurse -Filter "*.nupkg" | Select-Object -ExpandProperty FullName))
 	{
-		#if ([string]::IsNullOrEmpty($NuGetKey))
-		#{ Exec { & $nuget push $package -Source "https://api.nuget.org/v3/index.json"; } }
-		#else
-		#{ Exec { & $nuget push $package -Source "https://api.nuget.org/v3/index.json" -ApiKey $NuGetKey; } }
+		if ([string]::IsNullOrEmpty($NuGetKey))
+		{ Exec { & $nuget push $package -Source "https://api.nuget.org/v3/index.json"; } }
+		else
+		{ Exec { & $nuget push $package -Source "https://api.nuget.org/v3/index.json" -ApiKey $NuGetKey; } }
 	}
 
 	if ((-not [String]::IsNullOrEmpty($PsGalleryKey)) -and ([String]::IsNullOrEmpty($ReleaseTag)))
