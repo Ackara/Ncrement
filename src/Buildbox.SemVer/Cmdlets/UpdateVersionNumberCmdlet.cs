@@ -52,7 +52,7 @@ namespace Acklann.Buildbox.SemVer.Cmdlets
             Config.Version.Suffix = ReleaseTag ?? GetReleaseTag(git);
             Config.Save(partial: true);
 
-            var modifiedFiles = new List<FileInfo>();
+            var modifiedFiles = new List<FileInfo>() { new FileInfo(Config.Filename) };
             foreach (var handler in _handlers)
             {
                 foreach (var file in handler.FindTargets(ProjectDirectory))
