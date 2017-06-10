@@ -12,7 +12,7 @@
 RootModule = 'Acklann.Buildbox.SemVer.dll'
 
 # Version number of this module.
-ModuleVersion = '2.0.13'
+ModuleVersion = '2.0.14'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
