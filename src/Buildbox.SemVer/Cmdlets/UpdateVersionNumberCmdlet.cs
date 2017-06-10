@@ -90,7 +90,7 @@ namespace Acklann.Buildbox.SemVer.Cmdlets
                 }
 
                 git.Commit(CommitMessage);
-                if (TagCommit.IsPresent || Config.ShouldTagCommit) { git.Tag($"v{Config.Version}"); }
+                if (TagCommit.IsPresent || Config.ShouldTagCommit) { git.Tag($"v{Config.Version.ToString(withoutTag: true)}"); }
             }
 
             WriteObject(Config.Version);
