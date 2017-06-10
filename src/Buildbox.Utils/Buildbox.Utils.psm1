@@ -41,7 +41,7 @@ function Install-FlywayCLI()
 	#>
 
 	Param(
-		[Alias('path', 'p')]
+		[Alias('p', 'path')]
 		[string]$InstallationPath = $PWD,
 
 		[Alias('v', 'ver')]
@@ -56,7 +56,8 @@ function Install-FlywayCLI()
 		{
 			if (-not (Test-Path $InstallationPath -PathType Container)) { New-Item $InstallationPath -ItemType Directory | Out-Null; }
 			if (-not (Test-Path $archive -PathType Leaf)) { Invoke-WebRequest "https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/$Version/flyway-commandline-$Version-windows-x64.zip" -OutFile $archive; }
-			Expand-Archive $archive -DestinationPath $InstallationPath;
+			Expand-Archive $archive -DestinationPath "$InstallationPath\flyway";
+			Get-Item "$InstallationPath\flyway\*$Version" | Rename-Item -NewName $Version;
 			$flyway = Get-ChildItem $InstallationPath -Recurse -Filter "flyway.cmd" | Select-Object -ExpandProperty FullName -First 1;
 		}
 		finally
@@ -193,7 +194,7 @@ function Install-WawsDeploy()
 			if (-not (Test-Path $InstallationPath -PathType Container)) { New-Item $InstallationPath -ItemType Directory | Out-Null; }
 			if (-not (Test-Path $nupkg -PathType Leaf)) { Invoke-WebRequest "https://chocolatey.org/api/v2/package/WAWSDeploy/$Version" -OutFile $nupkg; }
 
-			$wawsDir = "$InstallationPath\wawsdeploy-$Version";
+			$wawsDir = "$InstallationPath\WAWSDeploy\$Version";
 			Expand-Archive $nupkg -DestinationPath $wawsDir;
 			Get-ChildItem "$wawsDir\tools" | Move-Item -Destination $wawsDir;
 			Get-ChildItem $wawsDir -Recurse -Exclude @("WAWSDeploy.exe*", "Args.dll") | Remove-Item -Recurse -Force;

@@ -9,7 +9,7 @@ namespace Acklann.Buildbox.SemVer.Cmdlets
         [Alias(new string[] { "config", "settings", "c" })]
         public string ConfigFile { get; set; }
 
-        [Alias("branch", "bn", "key")]
+        [Alias("b", "branch", "bn", "key")]
         [Parameter(ValueFromPipeline = true, Position = 1)]
         public string BranchName { get; set; }
 
