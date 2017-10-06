@@ -30,7 +30,8 @@ function Install-Flyway()
 
 	Param(
 		[Alias('path', 'dir', 'p')]
-		[string]$InstallationDirectory = $PWD,
+		[Parameter(ValueFromPipeline)]
+		[string]$InstallationDirectory = "$(Split-Path $PSScriptRoot -Parent)\bin",
 
 		[Alias('v', 'ver')]
 		[string]$Version = "4.2.0"
@@ -53,5 +54,8 @@ function Install-Flyway()
 		}
 	}
 
-	return $flyway;
+	return New-Object PSObject -Property @{
+		"fileName"=$flyway;
+		"configFile"="$(Split-Path $flyway -Parent)\conf\flyway.conf";
+	};
 }

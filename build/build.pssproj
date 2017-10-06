@@ -28,11 +28,13 @@
   <ItemGroup>
     <Content Include="buildbox.nuspec" />
     <Content Include="manifest.json" />
+    <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\build.ps1">
       <Link>build.ps1</Link>
     </Compile>
+    <Compile Include="secrets.json" />
     <Compile Include="tasks.ps1" />
     <Compile Include="helper.psm1" />
   </ItemGroup>

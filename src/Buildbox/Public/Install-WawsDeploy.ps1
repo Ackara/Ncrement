@@ -1,4 +1,4 @@
-function Install-WawsDeploy()
+function Install-WAWSDeploy()
 {
 	<#
 	.SYNOPSIS
@@ -26,7 +26,8 @@ function Install-WawsDeploy()
 
 	Param(
 		[Alias("path", "dir", "p")]
-		[string]$InstallationDirectory,
+		[Parameter(ValueFromPipeline)]
+		[string]$InstallationDirectory = "$PSScriptRoot\bin",
 
 		[Alias("ver", "v")]
 		[string]$Version = "1.8.0"
@@ -39,7 +40,7 @@ function Install-WawsDeploy()
 		try
 		{
 			$wawsDir = "$InstallationDirectory\WAWSDeploy\$Version";
-			if (-not (Test-Path $InstallationDirectory -PathType Container)) { New-Item $waws -ItemType Directory | Out-Null; }
+			if (-not (Test-Path $InstallationDirectory -PathType Container)) { New-Item $wawsDir -ItemType Directory | Out-Null; }
 			if (-not (Test-Path $nupkg -PathType Leaf)) { Invoke-WebRequest "https://chocolatey.org/api/v2/package/WAWSDeploy/$Version" -OutFile $nupkg; }
 
 			Expand-Archive $nupkg -DestinationPath $wawsDir;

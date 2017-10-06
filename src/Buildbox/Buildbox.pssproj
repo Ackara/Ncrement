@@ -25,13 +25,19 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  
   <ItemGroup>
     <Compile Include="Buildbox.psd1" />
-    <Compile Include="Edit-FlywayConfig.ps1" />
-    <Compile Include="Install-Flyway.ps1" />
-    <Compile Include="Install-WawsDeploy.ps1" />
-    <Compile Include="Show-InputWindow.ps1" />
+    <Compile Include="Buildbox.psm1" />
+    <Compile Include="Public\Edit-FlywayConf.ps1" />
+    <Compile Include="Public\Install-Flyway.ps1" />
+    <Compile Include="Public\Install-WAWSDeploy.ps1" />
+    <Compile Include="Public\Show-InputDialog.ps1" />
+    <Compile Include="Public\Write-LineBreak.ps1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="lib\" />
+    <Folder Include="Public\" />
+    <Folder Include="Private\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

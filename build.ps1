@@ -1,73 +1,72 @@
 <#
 .SYNOPSIS
-Bootstrap build script.
+This is a [psake]() bootstrap script designed to be run on a windows machine or a [VSTS]() enviroment.
 #>
 
 Param(
-	[Parameter(Position=1)]
-	[string[]]$Tasks = @("setup"),
+    [Alias("t")]
+	[string[]]$Tasks = @("default"),
 
-	[string]$NugetKey = "",
+	[Alias("s")]
+	[hashtable]$Secrets = @{},
 
-	[Parameter(Position=3)]
-	[string]$PowershellGalleryKey = "",
-
+	[Alias("c")]
 	[string]$BuildConfiguration = "Release",
 
-	[Parameter(Position=2)]
-	[string]$TestName = "",
+    [Alias("n", "nuget")]
+    [string]$NugetVersion = "latest",
 
-	[string]$ReleaseTag = $null,
-
-	[switch]$Help
+	[switch]$Major,
+	[switch]$Minor,
+	[switch]$Help,
+	[switch]$SkipCompilation,
+	[switch]$InteractiveMode
 )
 
-# Assign Values
-$config = "$PSScriptRoot\build\config.json";
-if (Test-Path $config -PathType Leaf)
-{
-	$config = Get-Content "$PSScriptRoot\build\config.json" | Out-String | ConvertFrom-Json;
-}
+Write-Host "user: $env:USERNAME";
+Write-Host "machine: $env:COMPUTERNAME";
+Write-Host "configuration: $BuildConfiguration";
 
-if ([String]::IsNullOrEmpty($ReleaseTag))
+# Assign Variables
+$branchName = $env:BUILD_SOURCEBRANCHNAME;
+if ([string]::IsNullOrEmpty($branchName))
 {
-	$branch = (& git branch);
-	if ($branch -notcontains "* master") { $ReleaseTag = "alpha"; }
+	$results = (& git branch);
+	$regex = New-Object Regex('\*\s*(?<name>\w+)');
+	if ($regex.IsMatch($results)) { $branchName = $regex.Match($results).Groups["name"].Value; }
 }
+Write-Host "branch: '$branchName'";
 
-# Restore Packages
-$nuget = "$PSScriptRoot\tools\nuget.exe";
+# Restore packages
+$nuget = "$PSScriptRoot\tools\NuGet\$NugetVersion\nuget.exe";
 if (-not (Test-Path $nuget -PathType Leaf))
 {
-	$parentDir = Split-Path $nuget -Parent;
-	if (-not (Test-Path $parentDir -PathType Container)) { New-Item $parentDir -ItemType Directory | Out-Null; }
-	Invoke-WebRequest "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe" -OutFile $nuget;
+	$nugetDir = Split-Path $nuget -Parent;
+	if (-not (Test-Path $nugetDir -PathType Container)) { New-Item $nugetDir -ItemType Directory | Out-Null; }
+	Invoke-WebRequest https://dist.nuget.org/win-x86-commandline/$NugetVersion/nuget.exe -OutFile $nuget;
 }
-& $nuget restore "$PSScriptRoot\Buildbox.sln" -Verbosity quiet;
+
+& $nuget restore "$((Get-Item "$PSScriptRoot\*.sln").FullName)" | Out-Null;
 
 # Invoke Psake
-if (-not (Test-Path "$PSScriptRoot\tools\psake" -PathType Container))
-{
-	Save-Module psake -Path "$PSScriptRoot\tools";
-}
-Get-Item "$PSScriptRoot\tools\psake\*\*.psd1" | Import-Module -Force;
+Get-Item "$PSScriptRoot\packages\psake*\tools\psake.psd1" | Import-Module -Force;
+$taskFile = "$PSScriptRoot\build\tasks.ps1";
 
-$buildFile = "$PSScriptRoot\build\tasks.ps1";
-if ($Help) 
-{ Invoke-psake -buildFile $buildFile -detailedDocs; }
+if ($Help) { Invoke-psake -buildFile $taskFile -docs; }
 else
 {
-	Invoke-psake -buildFile $buildFile -taskList $Tasks -framework 4.5.2 -nologo -notr `
-	-properties @{
-		"nuget"=$nuget;
-		"Config"=$config;
-		"TestName"=$TestName;
-		"NugetKey"=$NugetKey;
-		"ReleaseTag"=$ReleaseTag;
-		"RootDir" = $PSScriptRoot;
-		"PsGalleryKey"=$PowershellGalleryKey;
-		"BuildConfiguration"=$BuildConfiguration;
-	}
-	
-	if(-not $psake.build_success) { exit 1; }
+	Write-Host "";
+	Invoke-psake $taskFile -taskList $Tasks -nologo -notr `
+		-properties @{
+			"Nuget"=$nuget;
+			"Secrets"=$Secrets;
+			"BranchName"=$branchName;
+			"Major"=$Major.IsPresent;
+			"Minor"=$Minor.IsPresent;
+			"BuildConfiguration"=$BuildConfiguration;
+			"SkipCompilation"=$SkipCompilation.IsPresent;
+			"InteractiveMode"=$InteractiveMode.IsPresent;
+		}
+
+    if(-not $psake.build_success) { exit 1; }
 }

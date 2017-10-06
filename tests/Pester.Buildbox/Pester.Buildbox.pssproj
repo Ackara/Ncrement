@@ -26,11 +26,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Buildbox.SemVer.tests.ps1" />
-    <Compile Include="Buildbox.Utils.tests.ps1" />
-    <Compile Include="helper.psm1" />
+    <Compile Include="Tests\helper.psm1" />
+    <Compile Include="Tests\Edit-FlywayConf.tests.ps1" />
+    <Compile Include="Tests\Install-Flyway.tests.ps1" />
+    <Compile Include="Tests\Install-WAWSDeploy.tests.ps1" />
+    <Compile Include="Start-Pester.ps1" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Tests\" />
     <Folder Include="Samples\" />
   </ItemGroup>
   <ItemGroup>

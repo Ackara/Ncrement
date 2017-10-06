@@ -1,4 +1,4 @@
-function Edit-FlywayConfig()
+function Edit-FlywayConf()
 {
 	<#
 	.SYNOPSIS
@@ -20,7 +20,7 @@ function Edit-FlywayConfig()
 	A list of locations to scan recursively for migrations.
 
 	.EXAMPLE
-	Edit-FlywayConfig "c:\tools\flyway\flyway.conf" -url "localhost" -usr "john" -pwd "pa551";
+	Edit-FlywayConf "c:\tools\flyway\flyway.conf" -url "localhost" -usr "john" -pwd "pa551";
 	In this example, the 'flyway.conf' file is modified using the specified values.
 
 	.LINK
@@ -28,7 +28,9 @@ function Edit-FlywayConfig()
 	#>
 	[CmdletBinding(SupportsShouldProcess, ConfirmImpact = "Medium")]
 	Param(
-		[string]$Path,
+		[Alias('c', 'conf', 'path')]
+		[Parameter(ValueFromPipeline)]
+		$InputObject = "$(Split-Path $PSScriptRoot -Parent)\bin",
 
 		[string]$Url,
 
@@ -42,15 +44,25 @@ function Edit-FlywayConfig()
 		[string[]]$Locations
 	)
 
-	if ([String]::IsNullOrEmpty($Path))
-	{
-		$Path = Get-ChildItem $PSScriptRoot -Recurse -Filter "flyway.conf" | Select-Object -ExpandProperty FullName -First 1;
+	$configFile = "";
+	if ($InputObject.configFile -ne $null) { $configFile = $InputObject.configFile; }
+	elseif (Test-Path $InputObject -PathType Leaf) { $configFile = $InputObject.ToString(); }
+	else 
+	{ 
+		try
+		{
+			$configFile = Get-ChildItem $InputObject -Recurse -Filter "flyway.conf" | Select-Object -ExpandProperty FullName -First 1;
+		}
+		catch
+		{
+			throw "the input object does not represent a 'flyway.conf' file.";
+		}
 	}
 
-	if ([String]::IsNullOrEmpty($Path) -or (-not (Test-Path $Path -PathType Leaf))) { throw "cannot find '$Path'."; }
+	if ([String]::IsNullOrEmpty($configFile) -or (-not (Test-Path $configFile -PathType Leaf))) { throw "cannot find '$configFile'."; }
 	else
 	{
-		Write-Verbose "modifying '$Path' ...";
+		Write-Verbose "modifying '$configFile' ...";
 		for ($i = 0; $i -lt $Locations.Length; $i++)
 		{
 			if (-not $Locations[$i].StartsWith("filesystem")) { $Locations[$i] = "filesystem:$($Locations[$i])"; }
@@ -59,7 +71,7 @@ function Edit-FlywayConfig()
 		$loc = [String]::Join(",", $Locations);
 		$pwd = (New-Object pscredential "usr", $Password).GetNetworkCredential().Password;
 
-		$content = (Get-Content $Path | Out-String).Trim();
+		$content = (Get-Content $configFile | Out-String).Trim();
 		$map = @{"url"=$Url;"user"=$User;"password"=$pwd;"locations"="$loc"};
 		foreach ($key in $map.Keys)
 		{
@@ -71,10 +83,13 @@ function Edit-FlywayConfig()
 			}
 		}
 
-		if ($PSCmdlet.ShouldProcess($Path))
+		if ($PSCmdlet.ShouldProcess($configFile))
 		{
-			$content | Out-File $Path -Encoding utf8;
-			Write-Verbose "modified '$Path'.";
+			$content | Out-File $configFile -Encoding utf8;
+			Write-Verbose "modified '$configFile'.";
 		}
 	}
+
+	return $configFile;
 }
+	

@@ -291,9 +291,11 @@ __pycache__/
 run-pester.cmd
 downloads/
 tools/
+lib/
 
 # Sensitive Files
 credentials.json
 config.json
 !build/config.json
 !**/semver/config.json
+secrets.json
