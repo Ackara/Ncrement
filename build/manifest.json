@@ -1,14 +1,13 @@
 ﻿{
-  "version":
-  {
-    "major": 2,
-    "minor": 0,
-    "patch": 20
-  },
-  "author": "Ackara",
-  "url": "https://github.com/Ackara/Buildbox",
-  "license": "https://github.com/Ackara/Buildbox/blob/master/LICENSE",
-  "icon": "http://static.acklann.com/images/buildbox.svg",
-  "copyright": "Released under the MIT license.",
-  "tags": "build automation continous deployment vsts"
+    "version":  {
+                    "major":  2,
+                    "minor":  0,
+                    "patch":  21
+                },
+    "author":  "Ackara",
+    "url":  "https://github.com/Ackara/Buildbox",
+    "license":  "https://github.com/Ackara/Buildbox/blob/master/LICENSE",
+    "icon":  "http://static.acklann.com/images/buildbox.svg",
+    "copyright":  "Released under the MIT license.",
+    "tags":  "build automation continous deployment vsts"
 }

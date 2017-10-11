@@ -17,3 +17,5 @@ Describe "Install-Flyway" {
 		$result2.fileName | Should Be $result1.fileName;
 	}
 }
+
+if (Get-Module Buildbox) { Remove-Module BuildBox; }

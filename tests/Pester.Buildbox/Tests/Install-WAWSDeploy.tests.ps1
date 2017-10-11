@@ -15,3 +15,5 @@ Describe "Install-WAWSDeploy" {
 		$result2 | Should Be $result1;
 	}
 }
+
+if (Get-Module Buildbox) { Remove-Module BuildBox; }

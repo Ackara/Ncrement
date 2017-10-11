@@ -67,13 +67,6 @@ Task "Run-Tests" -alias "test" -description "This task runs all unit tests." `
 -depends @("compile") -action {
 	$totalFailedTests = 0;
 
-	Write-BreakLine "PESTER";
-	foreach($testScript in (Get-ChildItem "$RootDir\tests" -Recurse -Filter "*.tests.ps1" | Select-Object -ExpandProperty FullName))
-	{
-		$results = Invoke-Pester -Script $testScript -PassThru;
-		if ($results.FailedCount -gt 0) { throw "Passed: $($results.PassedCount), Failed: $($results.FailedCount)"; }
-	}
-
 	Write-BreakLine "VSTEST";
 	foreach ($proj in (Get-ChildItem "$RootDir\tests\*\*" -Filter "*.csproj" | Select-Object -ExpandProperty FullName))
 	{
@@ -84,6 +77,9 @@ Task "Run-Tests" -alias "test" -description "This task runs all unit tests." `
 		}
 		finally { Pop-Location; }
 	}
+
+    Write-BreakLine "PESTER";
+    & "$RootDir\tests\Pester.Buildbox\Start-Pester.ps1";
 	Write-BreakLine;
 }
 
@@ -114,8 +110,7 @@ Task "Update-ProjectManifest" -alias "version" -description "This task increment
 		$content.Trim() | Out-File $assemblyInfo -Encoding utf8;
 	}
 	Write-Host "`t* updated $($proj.Name) version number to $versionNumber";
-	
-	
+		
 	Update-ModuleManifest -Path "$RootDir\src\Buildbox\Buildbox.psd1" `
 		-RootModule "Buildbox" `
 		-ModuleVersion $versionNumber `
@@ -148,7 +143,7 @@ Task "Create-Package" -alias "pack" -description "This task generates a nuget pa
 }
 
 Task "Publish-Package" -alias "publish" -description "Publish all nuget packages to 'powershell gallery'." `
--depends @() -action {
+-depends @("pack") -action {
 	$secrets = Get-Content "$PSScriptRoot\secrets.json" | Out-String | ConvertFrom-Json;
 	$psGalleryKey = $secrets.psGalleryKey;
 	Write-Host $psGalleryKey;

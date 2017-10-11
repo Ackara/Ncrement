@@ -26,3 +26,5 @@ Describe "Edit-FlywayConf" {
 		(Compare-Object $(Get-Content $result1) $(Get-Content $result2)) | Should Not Be $null;
 	}
 }
+
+if (Get-Module Buildbox) { Remove-Module BuildBox; }

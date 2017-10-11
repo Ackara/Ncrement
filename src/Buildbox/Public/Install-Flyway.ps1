@@ -46,6 +46,10 @@ function Install-Flyway()
 			if (-not (Test-Path $InstallationDirectory -PathType Container)) { New-Item $InstallationDirectory -ItemType Directory | Out-Null; }
 			if (-not (Test-Path $archive -PathType Leaf)) { Invoke-WebRequest "https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/$Version/flyway-commandline-$Version-windows-x64.zip" -OutFile $archive; }
 			Expand-Archive $archive -DestinationPath $InstallationDirectory;
+			$newDir = "$InstallationDirectory\flyway";
+			if (-not (Test-Path $newDir -PathType Container)) { New-Item $newDir -ItemType Directory | Out-Null; }
+			Move-Item "$InstallationDirectory\flyway-$Version" -Destination $newDir;
+			Rename-Item "$newDir\flyway-$Version" -NewName $Version;
 			$flyway = Get-ChildItem $InstallationDirectory -Recurse -Filter "flyway.cmd" | Select-Object -ExpandProperty FullName -First 1;
 		}
 		finally
