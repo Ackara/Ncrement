@@ -67,17 +67,16 @@
     <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SetupTeardown.cs" />
-    <Compile Include="DotNetCoreProjectFileHandlerTest.cs" />
-    <Compile Include="DotNetProjectFileHandlerTest.cs" />
-    <Compile Include="GitTest.cs" />
-    <Compile Include="PowershellManifestFileHandlerTest.cs" />
+    <Compile Include="ApprovalTestsCleaner.cs" />
+    <Compile Include="Tests\DotNetCoreProjectFileHandlerTest.cs" />
+    <Compile Include="Tests\DotNetProjectFileHandlerTest.cs" />
+    <Compile Include="Tests\GitTest.cs" />
+    <Compile Include="Tests\PowershellManifestFileHandlerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SettingsTest.cs" />
-    <Compile Include="GetBranchSuffixCmdletTest.cs" />
+    <Compile Include="Tests\SettingsTest.cs" />
+    <Compile Include="Tests\GetBranchSuffixCmdletTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="credentials.json" />
     <None Include="packages.config" />
     <None Include="Samples\semver\config-partial.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -92,6 +91,7 @@
       <Name>Buildbox.SemVer</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

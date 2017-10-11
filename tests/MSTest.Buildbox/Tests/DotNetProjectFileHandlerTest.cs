@@ -1,40 +1,41 @@
 ﻿using Acklann.Buildbox.SemVer;
 using Acklann.Buildbox.SemVer.Handlers;
 using ApprovalTests;
+using ApprovalTests.Namers;
+using ApprovalTests.Reporters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace MSTest.Buildbox
+namespace MSTest.Buildbox.Tests
 {
     [TestClass]
-    public class PowershellManifestFileHandlerTest
+    public class DotNetProjectFileHandlerTest
     {
         public TestContext TestContext { get; set; }
 
         [TestMethod]
-        public void FindTargets_should_return_all_powershell_manifest_files()
+        public void FindTargets_should_return_all_dotnet_project_assemblyInfo_files()
         {
             // Arrange
             var sampleSolution = GetSampleSolutionDir();
-            var sut = new PowershellManifestFileHandler();
+            var sut = new DotNetProjectFileHandler();
 
             // Act
             var results = sut.FindTargets(sampleSolution).ToList();
-            var invalidTargets = (
-                from x in results
-                where x.Extension != ".psd1"
-                select x.Name);
+            var invalidFiles = from n in results
+                               where n.Name.Equals("assemblyInfo.cs", System.StringComparison.CurrentCultureIgnoreCase) == false
+                               select n;
 
             // Assert
             results.ShouldHaveSingleItem();
-            invalidTargets.ShouldBeEmpty();
+            invalidFiles.ShouldBeEmpty();
         }
 
         [TestMethod]
-        public void Update_should_set_the_version_field_within_the_manifest_file()
+        public void Update_should_set_the_assembly_version_attributes_within_the_specified_file()
         {
             // Arrange
             var version = new VersionInfo()
@@ -42,14 +43,14 @@ namespace MSTest.Buildbox
                 Major = 1,
                 Minor = 2,
                 Patch = 3,
-                Suffix = "beta"
+                Suffix = "-beta"
             };
             var solutionDir = GetSampleSolutionDir();
-            var sut = new PowershellManifestFileHandler();
+            var sut = new DotNetProjectFileHandler();
 
             // Act
             var sourceFile = sut.FindTargets(solutionDir).First();
-            var sampleFile = Path.Combine(TestContext.DeploymentDirectory, $"{nameof(PowershellManifestFileHandler)}_{nameof(sut.Update)}_result.txt");
+            var sampleFile = Path.Combine(TestContext.DeploymentDirectory, sourceFile.Name);
             sourceFile.CopyTo(sampleFile, overwrite: true);
 
             sut.Update(sampleFile, version);

@@ -2,11 +2,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{a31d9359-b30b-46cb-b1c3-c41d6799dec7}</ProjectGuid>
+    <ProjectGuid>{bb8293a7-f439-44cd-b5f2-e584a2635408}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>MyApplication</RootNamespace>
     <AssemblyName>MyApplication</AssemblyName>
-    <Name>Buildbox.Utils</Name>
+    <Name>Buildbox</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,10 +25,19 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Compile Include="Buildbox.Utils.psd1" />
-    <Compile Include="Buildbox.Utils.psm1" />
+    <Compile Include="Buildbox.psd1" />
+    <Compile Include="Buildbox.psm1" />
+    <Compile Include="Public\Edit-FlywayConf.ps1" />
+    <Compile Include="Public\Install-Flyway.ps1" />
+    <Compile Include="Public\Install-WAWSDeploy.ps1" />
+    <Compile Include="Public\Show-InputDialog.ps1" />
+    <Compile Include="Public\Write-LineBreak.ps1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="lib\" />
+    <Folder Include="Public\" />
+    <Folder Include="Private\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

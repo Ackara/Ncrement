@@ -3,7 +3,7 @@
 namespace MSTest.Buildbox
 {
     [TestClass]
-    public class SetupTeardown
+    public class ApprovalTestsCleaner
     {
         [AssemblyCleanup]
         public static void Cleanup()

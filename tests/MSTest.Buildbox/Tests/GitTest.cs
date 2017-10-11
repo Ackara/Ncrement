@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
 using System.IO;
 
-namespace MSTest.Buildbox
+namespace MSTest.Buildbox.Tests
 {
     [TestClass]
     public class GitTest

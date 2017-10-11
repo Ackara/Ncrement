@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
 using System.Linq;
 
-namespace MSTest.Buildbox
+namespace MSTest.Buildbox.Tests
 {
     [TestClass]
     public class GetBranchSuffixCmdletTest

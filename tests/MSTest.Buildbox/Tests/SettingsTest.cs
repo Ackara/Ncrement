@@ -5,7 +5,7 @@ using Shouldly;
 using System;
 using System.IO;
 
-namespace MSTest.Buildbox
+namespace MSTest.Buildbox.Tests
 {
     [TestClass]
     public class SettingsTest

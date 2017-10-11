@@ -69,14 +69,13 @@
     <Compile Include="VersionInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Buildbox.SemVer.psd1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
-
-  <Target Name="UpdateManifests" BeforeTargets="Build">
-    <Exec Command="powershell -noprofile -File ..\..\build.ps1 manifests" />
-  </Target>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="AfterBuild">
+    <ItemGroup>
+      <Lib Include="$(OutputPath)*"/>
+    </ItemGroup>
+    <Copy SourceFiles="@(Lib)" DestinationFolder="..\Buildbox\lib" SkipUnchangedFiles="true"  />
+  </Target>
 </Project>
