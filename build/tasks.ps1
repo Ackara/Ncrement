@@ -8,7 +8,7 @@ Properties {
 
 	# Paths
 	$RootDir = (Split-Path $PSScriptRoot -Parent);
-	$ArtifactsDir = "$RootDir\artifacts";
+	$ArtifactsDir = "$RootDir\artifacts\Buildbox";
 
 	# Deployment Args
 	$Secrets = @{};
@@ -37,13 +37,13 @@ Task "Load-Dependencies" -alias "init" -description "This task load all dependen
 		Import-Module $psm1 -Force;
 		Write-Host "`t* imported $(Split-Path $psm1 -Leaf) module.";
 	}
-
+	Write-Host $Secrets;
 	if ($Secrets.Count -gt 0)
 	{
 		$keyValuePairs = "";
 		foreach ($pair in $Secrets.GetEnumerator())
 		{
-			$keyValuePairs += "'$($pair.Key)': '$($pair.Value)',";
+			$keyValuePairs += "'$($pair.Key.Trim())': '$($pair.Value.Trim())',";
 		}
 
 		"{$($keyValuePairs.Trim(','))}" | Out-File "$PSScriptRoot\secrets.json" -Encoding utf8;
@@ -114,6 +114,7 @@ Task "Update-ProjectManifest" -alias "version" -description "This task increment
 	Write-Host "`t* updated $($proj.Name) version number to $versionNumber";
 		
 	Update-ModuleManifest -Path "$RootDir\src\Buildbox\Buildbox.psd1" `
+		-Description "A collection of powershell scripts and modules designed for continuous builds and deployments." `
 		-RootModule "Buildbox" `
 		-ModuleVersion $versionNumber `
 		-DotNetFrameworkVersion "4.5.2" `
@@ -150,18 +151,18 @@ Task "Create-Package" -alias "pack" -description "This task generates a nuget pa
 
 Task "Publish-Package" -alias "publish" -description "Publish all nuget packages to 'powershell gallery'." `
 -depends @("pack") -action {
-	$secrets = Get-Content "$PSScriptRoot\secrets.json" | Out-String | ConvertFrom-Json;
-	$psGalleryKey = $secrets.psGalleryKey;
+	$psGalleryKey = (Get-Content "$PSScriptRoot\secrets.json" | Out-String | ConvertFrom-Json).psGalleryKey;
 	
 	if ((-not [String]::IsNullOrEmpty($psGalleryKey)) -and ($BranchName -eq "master"))
 	{
 		try
 		{
 			$moduleManifest = Get-Item "$ArtifactsDir\Buildbox.psd1";
-			Push-Location $moduleManifest.DirectoryName;
+			Push-Location $ArtifactsDir;
 			if (Test-ModuleManifest $moduleManifest)
 			{
-				Publish-Module -Path $moduleManifest.DirectoryName -NuGetApiKey $psGalleryKey -WhatIf;
+				Write-Host "`t* $($moduleManifest.Name) module was validated.";
+				Publish-Module -Path $ArtifactsDir -NuGetApiKey $psGalleryKey;
 			}
 		}
 		finally { Pop-Location; }
