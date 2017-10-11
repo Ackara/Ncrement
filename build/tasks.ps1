@@ -46,7 +46,7 @@ Task "Load-Dependencies" -alias "init" -description "This task load all dependen
 			$keyValuePairs += "'$($pair.Key)': '$($pair.Value)',";
 		}
 
-		"{$($keyValuePairs.Trim(','))}" | Out-File "$RootDir\build\secrets.json" -Encoding utf8;
+		"{$($keyValuePairs.Trim(','))}" | Out-File "$PSScriptRoot\secrets.json" -Encoding utf8;
 	}
 }
 
@@ -100,6 +100,7 @@ Task "Update-ProjectManifest" -alias "version" -description "This task increment
 	}
 	$versionNumber = "$($version.major).$($version.minor).$($version.patch)";
     $Manifest | ConvertTo-Json | Out-File "$PSScriptRoot\manifest.json" -Encoding utf8;
+	Exec { & git add "$PSScriptRoot\manifest.json"; }
 	Write-Host "`t* increment project version number to $versionNumber.";
 
 	foreach ($proj in (Get-ChildItem "$RootDir\src" -Recurse -Filter "*.csproj"))
@@ -108,6 +109,7 @@ Task "Update-ProjectManifest" -alias "version" -description "This task increment
 		$content = Get-Content $assemblyInfo | Out-String;
 		$content = $content -replace '"(\d\.?)+"', "`"$versionNumber`"";
 		$content.Trim() | Out-File $assemblyInfo -Encoding utf8;
+		Exec { & git add "$assemblyInfo"; }
 	}
 	Write-Host "`t* updated $($proj.Name) version number to $versionNumber";
 		
@@ -127,6 +129,10 @@ Task "Update-ProjectManifest" -alias "version" -description "This task increment
 		-FunctionsToExport @("*");
 	Write-Host "`t* updated powershell module manifest.";
 	Test-ModuleManifest "$RootDir\src\Buildbox\Buildbox.psd1";
+
+	Exec { & git add "$RootDir\src\Buildbox\Buildbox.psd1"; }
+	Exec { & git commit -m"update the version numbers to $versionNumber"; }
+	Exec { & git tag "v$versionNumber"; }
 }
 
 Task "Create-Package" -alias "pack" -description "This task generates a nuget package for each project." `
@@ -146,14 +152,17 @@ Task "Publish-Package" -alias "publish" -description "Publish all nuget packages
 -depends @("pack") -action {
 	$secrets = Get-Content "$PSScriptRoot\secrets.json" | Out-String | ConvertFrom-Json;
 	$psGalleryKey = $secrets.psGalleryKey;
-	Write-Host $psGalleryKey;
+	
 	if ((-not [String]::IsNullOrEmpty($psGalleryKey)) -and ($BranchName -eq "master"))
 	{
 		try
 		{
 			$moduleManifest = Get-Item "$ArtifactsDir\Buildbox.psd1";
 			Push-Location $moduleManifest.DirectoryName;
-			Publish-Module -Path $moduleManifest.DirectoryName -NuGetApiKey $psGalleryKey -WhatIf;
+			if (Test-ModuleManifest $moduleManifest)
+			{
+				Publish-Module -Path $moduleManifest.DirectoryName -NuGetApiKey $psGalleryKey -WhatIf;
+			}
 		}
 		finally { Pop-Location; }
 	}
