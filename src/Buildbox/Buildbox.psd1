@@ -12,7 +12,7 @@
 RootModule = 'Buildbox'
 
 # Version number of this module.
-ModuleVersion = '3.0.17'
+ModuleVersion = '3.0.18'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -107,7 +107,11 @@ PrivateData = @{
         IconUri = 'http://static.acklann.com/images/buildbox.svg'
 
         # ReleaseNotes of this module
-        ReleaseNotes = ' version 2.0.2
+        ReleaseNotes = 'version 3.0.18
+--------------
+* Consolidate all buildox modules into one.
+
+ version 2.0.2
 -------------
 * Remove winscp module.
 * Remove flyway module.
