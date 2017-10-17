@@ -1,21 +1,41 @@
 ﻿{
-    "title": "Buildbox",
-    "version": {
-        "major": 1,
-        "minor": 2,
-        "patch": 3
+    
+  "title":  "Buildbox",
+    
+  "version":  {
+        
+    "major":  1,
+        
+    "minor":  2,
+        
+    "patch":  3
+  
     },
-    "description": "This is for a automated test",
-    "authors": "Ackara",
-    "owner": "Ackara",
-    "projectUrl": "https://gihub.com/Ackara/Buildbox",
-    "iconUri": "https://example.com/icon/buildbox.png",
-    "licenseUri": "https://example.com/buildbox/license.txt",
-    "copyright": "All rights reserved by Me",
-    "tags": "powershell, deploy, ci",
-    "releaseNotes": null,
-    "branchSuffixMap": {
-        "master": "",
-        "*": "beta"
+    
+  "description":  "This is for a automated test",
+    
+  "authors":  "Ackara",
+    
+  "owner":  "Ackara",
+    
+  "projectUrl":  "https://gihub.com/Ackara/Buildbox",
+    
+  "iconUri":  "https://example.com/icon/buildbox.png",
+    
+  "licenseUri":  "https://example.com/buildbox/license.txt",
+    
+  "copyright":  "All rights reserved by Me",
+    
+  "tags":  "powershell, deploy, ci",
+    
+  "releaseNotes":  null,
+    
+  "branchSuffixMap":  {
+        
+    "master":  "",
+        
+    "*":  "beta"
+  
     }
+
 }
