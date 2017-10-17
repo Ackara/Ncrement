@@ -5,15 +5,15 @@ function Update-ProjectManifests()
 	This cmdlet updates all project files within a given directory.
 
 	.DESCRIPTION
-	This cmdlet will update all project files within a given directory using the provided [Acklann.Buildbox.SemVer.Manifest] instance. When the -CommitChanged flag is present, all files modified by the cmdlet will be committed to git. Aslo when both the -TagCommit flag and -CommitChanges flag is present the cmdlet will tag the commit with the current version number. Use the -Major and -Minor flags to increment the manifest version number.
+	This cmdlet will update all project files within a given directory using the provided [Acklann.Buildbox.Versioning.Manifest] instance. When the -CommitChanged flag is present, all files modified by the cmdlet will be committed to git. Aslo when both the -TagCommit flag and -CommitChanges flag is present the cmdlet will tag the commit with the current version number. Use the -Major and -Minor flags to increment the manifest version number.
 
-	The cmdlet returns a [PSCustomObject] containing a list of the files it modified, the [Acklann.Buildbox.SemVer.Manifest] object and a boolean that determines whether the git operations were sucessful.
+	The cmdlet returns a [PSCustomObject] containing a list of the files it modified, the [Acklann.Buildbox.Versioning.Manifest] object and a boolean that determines whether the git operations were sucessful.
 
 	.PARAMETER RootDirectory
 	The root directory of your project(s).
 
 	.PARAMETER Manifest
-	A [Acklann.Buildbox.SemVer.Manifest] object.
+	A [Acklann.Buildbox.Versioning.Manifest] object.
 
 	.PARAMETER CommitMessage
 	The Git commit message to use when the -CommitChanges flag is present.
@@ -45,7 +45,7 @@ function Update-ProjectManifests()
 	Param(
 		[Alias('i')]
 		[Parameter(Mandatory, ValueFromPipeline, Position = 3)]
-		[Acklann.Buildbox.SemVer.Manifest]$Manifest,
+		[Acklann.Buildbox.Versioning.Manifest]$Manifest,
 
 		[Alias('r', "dir")]
 		[Parameter(Mandatory, Position = 1)]
@@ -73,20 +73,23 @@ function Update-ProjectManifests()
 	$Manifest.Version.Increment($Major.IsPresent, $Minor.IsPresent);
 	
 	# Update all .NET Framework project files.
-	$editor = New-Object Acklann.Buildbox.SemVer.Editors.DotNetProjectEditor;
+	$editor = New-Object Acklann.Buildbox.Versioning.Editors.DotNetProjectEditor;
 	$dotnetProjects = $editor.FindProjectFile($RootDirectory);
 	$editor.Update($Manifest, $dotnetProjects);
 	foreach ($proj in $dotnetProjects) { $modifiedFiles.Add($proj); }
 	
 	# Update all .NET Standard project files.
-	$editor = New-Object Acklann.Buildbox.SemVer.Editors.NetStandardProjectEditor;
+	$editor = New-Object Acklann.Buildbox.Versioning.Editors.NetStandardProjectEditor;
 	$netstandardProjects = $editor.FindProjectFile($RootDirectory);
 	$editor.Update($Manifest, $netstandardProjects);
 	foreach ($proj in $netstandardProjects) { $modifiedFiles.Add($proj); }
 
 	# Update all Powershell Manifests (.psd1) files.
 	$powershellManifests = Get-ChildItem $RootDirectory -Recurse -Filter "*.psd1";
-	$powershellManifests | Update-PowershellManifest $Manifest;
+	if ($powershellManifests.Length -gt 0)
+	{
+		$powershellManifests | Update-PowershellManifest $Manifest;
+	}
 	foreach ($proj in $powershellManifests) { $modifiedFiles.Add($proj); }
 
 	$Manifest.Save();

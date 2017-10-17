@@ -1,4 +1,4 @@
-﻿using Acklann.Buildbox.SemVer;
+﻿using Acklann.Buildbox.Versioning;
 using ApprovalTests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;

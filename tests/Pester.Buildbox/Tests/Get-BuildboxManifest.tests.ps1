@@ -12,7 +12,7 @@ Describe "Buildbox" {
 				$result = Get-BuildboxManifest;
 				
 				$result.FullPath | Should Exist;
-				$result | Should BeOfType [Acklann.Buildbox.SemVer.Manifest];
+				$result | Should BeOfType [Acklann.Buildbox.Versioning.Manifest];
 			}
 			finally { Pop-Location; }
 		}

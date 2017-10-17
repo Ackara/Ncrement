@@ -2,16 +2,16 @@ function Update-PowershellManifest()
 {
 	<#
 	.SYNOPSIS
-	This function updated a powershell manifest using a specified Acklann.Buildbox.SemVer.Manifest instance.
+	This function updated a powershell manifest using a specified Acklann.Buildbox.Versioning.Manifest instance.
 
 	.DESCRIPTION
-	This function will updated a powershell manifest using a specified Acklann.Buildbox.SemVer.Manifest instance. Returns true if the operation succeeded false if otherwise.
+	This function will updated a powershell manifest using a specified Acklann.Buildbox.Versioning.Manifest instance. Returns true if the operation succeeded false if otherwise.
 
 	.PARAMETER Path
 	The of the powershell module manifest (.psd1).
 
 	.PARAMETER Manifest
-	An Acklann.Buildbox.SemVer.Manifest instance.
+	An Acklann.Buildbox.Versioning.Manifest instance.
 
 	.OUTPUTS
 	System.Boolean

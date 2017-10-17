@@ -1,5 +1,5 @@
-﻿using Acklann.Buildbox.SemVer;
-using Acklann.Buildbox.SemVer.Editors;
+﻿using Acklann.Buildbox.Versioning;
+using Acklann.Buildbox.Versioning.Editors;
 using ApprovalTests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;

@@ -119,10 +119,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Buildbox.SemVer\Buildbox.SemVer.csproj">
-      <Project>{1b6e2559-b392-4278-84d0-8e04cd8e09f3}</Project>
-      <Name>Buildbox.SemVer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\Buildbox.Versioning\Buildbox.Versioning.csproj">
       <Project>{9d1c5208-40a0-4115-9fd2-d3819ff4aa5c}</Project>
       <Name>Buildbox.Versioning</Name>

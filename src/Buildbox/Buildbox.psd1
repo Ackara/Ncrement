@@ -55,7 +55,7 @@ DotNetFrameworkVersion = '4.5.2'
 
 # Assemblies that must be loaded prior to importing this module
 RequiredAssemblies = '.\Lib\System.Xml.XPath.XDocument.dll', '.\Lib\Newtonsoft.Json.dll', 
-               '.\Lib\Acklann.Buildbox.SemVer.dll'
+               '.\Lib\Acklann.Buildbox.Versioning.dll'
 
 # Script files (.ps1) that are run in the caller's environment prior to importing this module.
 # ScriptsToProcess = @()

@@ -5,7 +5,7 @@ function New-BuildboxManifest()
 	This function creates a new manifest file.
 
 	.DESCRIPTION
-	This function will create a new manifest file at the specified location and returns a [Acklann.Buildbox.SemVer.Manifest] object. If a -Path is not provided it will default to the current directory. Use the -Force switch to override an existing file.
+	This function will create a new manifest file at the specified location and returns a [Acklann.Buildbox.Versioning.Manifest] object. If a -Path is not provided it will default to the current directory. Use the -Force switch to override an existing file.
 
 	.PARAMETER Path
 	The path of the manifest file.
@@ -17,7 +17,7 @@ function New-BuildboxManifest()
 	System.String
 
 	.OUTPUTS
-	Acklann.Buildbox.SemVer.Manifest
+	Acklann.Buildbox.Versioning.Manifest
 
 	.EXAMPLE
 	New-BuildboxManifest;
@@ -47,7 +47,7 @@ function New-BuildboxManifest()
 		throw "Cannot create '$Path' because it already exists. Use the -Force switch to overwrite the existing file.";
 	}
 
-	$manifest = New-Object Acklann.Buildbox.SemVer.Manifest($Path);
+	$manifest = New-Object Acklann.Buildbox.Versioning.Manifest($Path);
 	$manifest.Save();
 	return $manifest;
 }

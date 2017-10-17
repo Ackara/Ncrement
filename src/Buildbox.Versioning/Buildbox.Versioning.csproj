@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.4</TargetFramework>
+    <AssemblyName>Acklann.Buildbox.Versioning</AssemblyName>
+    <RootNamespace>Acklann.Buildbox.Versioning</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

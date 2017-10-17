@@ -137,7 +137,7 @@ Task "Update-ProjectManifest" -alias "version" -description "This task increment
 		-Copyright $Manifest.copyright `
 		-IconUri $Manifest.icon `
 		-Tags $Manifest.tags.Split(' ') `
-		-RequiredAssemblies @('.\Lib\Acklann.Buildbox.SemVer.dll') `
+		-RequiredAssemblies @('.\Lib\Acklann.Buildbox.Versioning.dll') `
 		-CmdletsToExport @("*") `
 		-FunctionsToExport @("*");
 	Write-Host "`t* updated powershell module manifest.";

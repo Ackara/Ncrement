@@ -1,8 +1,0 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>netstandard1.4</TargetFramework>
-    <AssemblyName>Acklann.Buildbox</AssemblyName>
-    <RootNamespace>Acklann.Buildbox</RootNamespace>
-    <PackageVersion>1.2.3</PackageVersion>
-  </PropertyGroup>
-</Project>
