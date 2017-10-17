@@ -132,7 +132,6 @@ Task "Update-ProjectManifest" -alias "version" -description "This task increment
     $dlls = Get-ChildItem "$RootDir\src\Buildbox\Lib" -Filter "*.dll" | Select-Object -ExpandProperty FullName;
     
 	Update-ModuleManifest -Path "$RootDir\src\Buildbox\Buildbox.psd1" `
-		-Description "A collection of powershell scripts and modules designed for continuous builds and deployments." `
 		-RootModule "Buildbox" `
 		-ModuleVersion $versionNumber `
 		-DotNetFrameworkVersion "4.5.2" `
