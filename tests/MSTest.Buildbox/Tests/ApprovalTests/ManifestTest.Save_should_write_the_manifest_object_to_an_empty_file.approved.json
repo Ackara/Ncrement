@@ -13,6 +13,7 @@
     "licenseUri": "https://example.com/buildbox/license.txt",
     "copyright": "All rights reserved by Me",
     "tags": "powershell, deploy, ci",
+    "releaseNotes": null,
     "branchSuffixMap": {
         "master": "",
         "*": "beta"
