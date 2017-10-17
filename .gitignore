@@ -291,7 +291,7 @@ __pycache__/
 run-pester.cmd
 downloads/
 tools/
-lib/
+[Ll]ib/
 
 # Sensitive Files
 credentials.json

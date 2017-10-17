@@ -1,11 +1,12 @@
 ﻿<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{bb8293a7-f439-44cd-b5f2-e584a2635408}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>MyApplication</RootNamespace>
-    <AssemblyName>MyApplication</AssemblyName>
+    <RootNamespace>Acklann.Buildbox</RootNamespace>
+    <AssemblyName>Acklann.Buildbox</AssemblyName>
     <Name>Buildbox</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -28,17 +29,26 @@
   <ItemGroup>
     <Compile Include="Buildbox.psd1" />
     <Compile Include="Buildbox.psm1" />
+    <Compile Include="Private\Assert-GitIsInstalled.ps1" />
+    <Compile Include="Private\Update-PowershellManifest.ps1" />
     <Compile Include="Public\Edit-FlywayConf.ps1" />
+    <Compile Include="Public\Get-BuildboxManifest.ps1" />
     <Compile Include="Public\Install-Flyway.ps1" />
     <Compile Include="Public\Install-WAWSDeploy.ps1" />
+    <Compile Include="Public\New-BuildboxManifest.ps1" />
     <Compile Include="Public\Show-InputDialog.ps1" />
+    <Compile Include="Public\Update-ProjectManifests.ps1" />
     <Compile Include="Public\Write-LineBreak.ps1" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="lib\" />
     <Folder Include="Public\" />
     <Folder Include="Private\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Target Name="Build" />
+  <Target Name="Build">
+    <ItemGroup>
+      <DLLs Include="..\..\tests\MSTest.Buildbox\bin\$(Configuration)\*.dll" Exclude="..\..\tests\MSTest.Buildbox\bin\$(Configuration)\*test*.dll;..\..\tests\MSTest.Buildbox\bin\$(Configuration)\*approval*.dll;..\..\tests\MSTest.Buildbox\bin\$(Configuration)\*should*.dll;..\..\tests\MSTest.Buildbox\bin\$(Configuration)\*mock*.dll;" />
+    </ItemGroup>
+    <Copy SourceFiles="@(DLLs)" DestinationFolder="Lib" SkipUnchangedFiles="true" />
+  </Target>
 </Project>

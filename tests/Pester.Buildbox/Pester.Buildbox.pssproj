@@ -1,5 +1,6 @@
 ﻿<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
+    <Platform>AnyCPU</Platform>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{b8bc60fa-9d6c-4186-a449-ae129a3c225e}</ProjectGuid>
@@ -26,18 +27,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Tests\Get-BuildboxManifest.tests.ps1" />
     <Compile Include="Tests\helper.psm1" />
     <Compile Include="Tests\Edit-FlywayConf.tests.ps1" />
     <Compile Include="Tests\Install-Flyway.tests.ps1" />
     <Compile Include="Tests\Install-WAWSDeploy.tests.ps1" />
-    <Compile Include="Start-Pester.ps1" />
+    <Compile Include="Tests\New-BuildboxManifest.tests.ps1" />
+    <Compile Include="Tests\Update-ProjectManifests.tests.ps1" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Tests\" />
-    <Folder Include="Samples\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Samples\flyway.conf" />
+    <Folder Include="TestData\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

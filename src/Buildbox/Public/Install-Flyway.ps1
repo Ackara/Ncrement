@@ -11,10 +11,10 @@ function Install-Flyway()
 	The version number. (default: 4.2.0).
 
 	.INPUTS
-	[String]
+	String
 
 	.OUTPUTS
-	[String]
+	String
 
 	.EXAMPLE
 	Install-Flyway "c:\temp";

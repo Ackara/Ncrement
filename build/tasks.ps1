@@ -10,12 +10,15 @@ Properties {
 	$RootDir = (Split-Path $PSScriptRoot -Parent);
 	$ArtifactsDir = "$RootDir\artifacts\Buildbox";
 
-	# Deployment Args
+	# Args
 	$Secrets = @{};
+	$TestName = "";
 	$Major = $false;
 	$Minor = $false;
 	$BranchName = "";
+	$Commit = $false;
 	$BuildConfiguration = "";
+	$SkipCompilation = $false;
 }
 
 # -----
@@ -40,18 +43,18 @@ Task "Load-Dependencies" -alias "init" -description "This task load all dependen
 	Write-Host $Secrets;
 	if ($Secrets.Count -gt 0)
 	{
-		$keyValuePairs = "";
-		foreach ($pair in $Secrets.GetEnumerator())
+		$json = "";
+		foreach ($arg in $Secrets.GetEnumerator())
 		{
-			$keyValuePairs += "'$($pair.Key.Trim())': '$($pair.Value.Trim())',";
+			$json += "`"$($arg.Key.Trim())`": `"$($arg.Value.Trim())`",";
 		}
 
-		"{$($keyValuePairs.Trim(','))}" | Out-File "$PSScriptRoot\secrets.json" -Encoding utf8;
+		"{$($json.Trim(','))}" | Out-File "$PSScriptRoot\secrets.json" -Encoding utf8;
 	}
 }
 
 Task "Build-Solution" -alias "compile" -description "This task compile the solution." `
--depends @("init") -action {
+-precondition { return (-not $SkipCompilation); } -depends @("init") -action {
 	Assert ("Debug", "Release" -contains $BuildConfiguration) "`$BuildConfiguration was '$BuildConfiguration' but expected 'Debug' or 'Release'.";
 
 	$sln = Get-Item "$RootDir\*.sln" | Select-Object -ExpandProperty FullName;
@@ -59,12 +62,21 @@ Task "Build-Solution" -alias "compile" -description "This task compile the solut
 	$msbuild = Get-ChildItem "$latestVS\MSBuild\*\Bin" -Recurse -Filter "MSBuild.exe" | Sort-Object $_.Name | Select-Object -Last 1;
 
 	Write-Breakline "MSBUILD";
-	Exec { & $msbuild $sln "/p:Configuration=$BuildConfiguration;Platform=Any CPU"  "/v:minimal"; };
+	Exec { & $msbuild $sln "/p:Configuration=$BuildConfiguration;Platform=Any CPU" "/v:minimal"; };
 	Write-BreakLine;
 }
 
-Task "Run-Tests" -alias "test" -description "This task runs all unit tests." `
--depends @("compile") -action {
+Task "Invoke-Pester" -alias "pester" -description "This task invoke pester test(s)." `
+-depends @("init", "compile") -action {
+	Write-BreakLine "PESTER";
+	foreach ($testScript in (Get-ChildItem "$RootDir\tests\Pester.Buildbox\Tests" -Filter "*$TestName*.tests.ps1"))
+	{
+		Invoke-Pester -Script $testScript.FullName;
+	}
+}
+
+Task "Run-VSTests" -alias "vstest" -description "This task runs all MSTest tests." `
+-depends @("init", "compile", "pester") -action {
 	$totalFailedTests = 0;
 
 	Write-BreakLine "VSTEST";
@@ -77,42 +89,42 @@ Task "Run-Tests" -alias "test" -description "This task runs all unit tests." `
 		}
 		finally { Pop-Location; }
 	}
-
-    Write-BreakLine "PESTER";
-    & "$RootDir\tests\Pester.Buildbox\Start-Pester.ps1";
-	Write-BreakLine;
 }
+
+Task "Run-Tests" -alias "test" -description "This task runs all unit tests." `
+-depends @("pester", "vstest");
 
 Task "Update-ProjectManifest" -alias "version" -description "This task increment the the version number of each project as well as their metatdata." `
 -depends @("compile") -action {
-	$version = $Manifest.version;
-	$version.patch = $version.patch + 1;
-	if ($Major) 
-	{ 
-		$version.major = $version.major + 1;
-		$version.minor = 0;
-		$version.patch = 0;
-	}
-	elseif ($Minor) 
-	{ 
-		$version.minor = $version.minor + 1; 
-		$version.patch = 0;
-	}
-	$versionNumber = "$($version.major).$($version.minor).$($version.patch)";
-    $Manifest | ConvertTo-Json | Out-File "$PSScriptRoot\manifest.json" -Encoding utf8;
-	Exec { & git add "$PSScriptRoot\manifest.json"; }
+	# Update manifest.json version number
+    $version = $Manifest.version;
+	#$version.patch = $version.patch + 1;
+	#if ($Major) 
+	#{ 
+	#	$version.major = $version.major + 1;
+	#	$version.minor = 0;
+	#	$version.patch = 0;
+	#}
+	#elseif ($Minor) 
+	#{ 
+	#	$version.minor = $version.minor + 1; 
+	#	$version.patch = 0;
+	#}
+	#$versionNumber = "$($version.major).$($version.minor).$($version.patch)";
+    #$Manifest | ConvertTo-Json | Out-File "$PSScriptRoot\manifest.json" -Encoding utf8;
+	if ($Commit) { Exec { & git add "$PSScriptRoot\manifest.json"; } }
 	Write-Host "`t* increment project version number to $versionNumber.";
 
+    # Update all .csproj version numbers
 	foreach ($proj in (Get-ChildItem "$RootDir\src" -Recurse -Filter "*.csproj"))
 	{
-		$assemblyInfo = Get-Item "$($proj.DirectoryName)\Properties\AssemblyInfo.cs";
-		$content = Get-Content $assemblyInfo | Out-String;
-		$content = $content -replace '"(\d\.?)+"', "`"$versionNumber`"";
-		$content.Trim() | Out-File $assemblyInfo -Encoding utf8;
-		Exec { & git add "$assemblyInfo"; }
+		[xml]$doc = Get-Content $proj;
 	}
 	Write-Host "`t* updated $($proj.Name) version number to $versionNumber";
 		
+    #Update powershell manifest
+    $dlls = Get-ChildItem "$RootDir\src\Buildbox\Lib" -Filter "*.dll" | Select-Object -ExpandProperty FullName;
+    
 	Update-ModuleManifest -Path "$RootDir\src\Buildbox\Buildbox.psd1" `
 		-Description "A collection of powershell scripts and modules designed for continuous builds and deployments." `
 		-RootModule "Buildbox" `
@@ -125,27 +137,31 @@ Task "Update-ProjectManifest" -alias "version" -description "This task increment
 		-Copyright $Manifest.copyright `
 		-IconUri $Manifest.icon `
 		-Tags $Manifest.tags.Split(' ') `
-		-RequiredAssemblies @("lib\Acklann.Buildbox.SemVer.dll") `
+		-RequiredAssemblies @('.\Lib\Acklann.Buildbox.SemVer.dll') `
 		-CmdletsToExport @("*") `
 		-FunctionsToExport @("*");
 	Write-Host "`t* updated powershell module manifest.";
 	Test-ModuleManifest "$RootDir\src\Buildbox\Buildbox.psd1";
 
-	Exec { & git add "$RootDir\src\Buildbox\Buildbox.psd1"; }
-	Exec { & git commit -m"update the version numbers to $versionNumber"; }
-	Exec { & git tag "v$versionNumber"; }
+	if ($Commit)
+	{
+		Exec { & git add "$RootDir\src\Buildbox\Buildbox.psd1"; }
+		Exec { & git commit -m"update the version numbers to $versionNumber"; }
+		Exec { & git tag "v$versionNumber"; }
+	}
 }
 
 Task "Create-Package" -alias "pack" -description "This task generates a nuget package for each project." `
 -depends @("compile") -action {
 	if (Test-Path $ArtifactsDir -PathType Container) { Remove-Item $ArtifactsDir -Recurse -Force; }
 	
-	foreach ($folder in @("lib", "Private", "Public"))
+	$moduleDir = "$ArtifactsDir\Buildbox";
+	foreach ($folder in @("Lib", "Private", "Public"))
 	{
-		New-Item "$ArtifactsDir\$folder" -ItemType Directory | Out-Null;
-		Get-ChildItem "$RootDir\src\Buildbox\$folder" | Copy-Item -Destination "$ArtifactsDir\$folder";
+		New-Item "$moduleDir\$folder" -ItemType Directory | Out-Null;
+		Get-ChildItem "$RootDir\src\Buildbox\$folder" | Copy-Item -Destination "$moduleDir\$folder";
 	}
-	Copy-Item -Path "$RootDir\src\Buildbox\*.ps*1" -Destination $ArtifactsDir -Force;
+	Copy-Item -Path "$RootDir\src\Buildbox\*.ps*1" -Destination $moduleDir -Force;
 	Write-Host "`t* created package for powershell gallery.";
 }
 
@@ -157,12 +173,12 @@ Task "Publish-Package" -alias "publish" -description "Publish all nuget packages
 	{
 		try
 		{
-			$moduleManifest = Get-Item "$ArtifactsDir\Buildbox.psd1";
-			Push-Location $ArtifactsDir;
+			$moduleManifest = Get-ChildItem $ArtifactsDir -Recurse -Filter "*.psd1" | Select-Object -First 1;
+			Push-Location $moduleManifest.DirectoryName;
 			if (Test-ModuleManifest $moduleManifest)
 			{
 				Write-Host "`t* $($moduleManifest.Name) module was validated.";
-				Publish-Module -Path $ArtifactsDir -NuGetApiKey $psGalleryKey;
+				Publish-Module -Path $PWD -NuGetApiKey $psGalleryKey;
 			}
 		}
 		finally { Pop-Location; }

@@ -4,13 +4,16 @@ This is a [psake]() bootstrap script designed to be run on a windows machine or 
 #>
 
 Param(
-    [Alias("t")]
 	[string[]]$Tasks = @("default"),
 
 	[Alias("s")]
 	[hashtable]$Secrets = @{},
 
+	[Alias('t')]
+	[string]$TestName = "",
+
 	[Alias("c")]
+	[ValidateSet("Debug", "Release")]
 	[string]$BuildConfiguration = "Release",
 
     [Alias("n", "nuget")]
@@ -19,6 +22,7 @@ Param(
 	[switch]$Major,
 	[switch]$Minor,
 	[switch]$Help,
+	[switch]$Commit,
 	[switch]$SkipCompilation,
 	[switch]$InteractiveMode
 )
@@ -60,9 +64,11 @@ else
 		-properties @{
 			"Nuget"=$nuget;
 			"Secrets"=$Secrets;
+			"TestName"=$TestName;
 			"BranchName"=$branchName;
 			"Major"=$Major.IsPresent;
 			"Minor"=$Minor.IsPresent;
+			"Commit"=$Commit.IsPresent;
 			"BuildConfiguration"=$BuildConfiguration;
 			"SkipCompilation"=$SkipCompilation.IsPresent;
 			"InteractiveMode"=$InteractiveMode.IsPresent;
