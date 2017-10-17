@@ -8,7 +8,7 @@ Properties {
 
 	# Paths
 	$RootDir = (Split-Path $PSScriptRoot -Parent);
-	$ArtifactsDir = "$RootDir\artifacts\Buildbox";
+	$ArtifactsDir = "$RootDir\artifacts";
 
 	# Args
 	$Secrets = @{};
@@ -96,29 +96,35 @@ Task "Run-Tests" -alias "test" -description "This task runs all unit tests." `
 
 Task "Update-ProjectManifest" -alias "version" -description "This task increment the the version number of each project as well as their metatdata." `
 -depends @("compile") -action {
+    $modifiedFiles = New-Object System.Collections.ArrayList;
 	# Update manifest.json version number
     $version = $Manifest.version;
-	#$version.patch = $version.patch + 1;
-	#if ($Major) 
-	#{ 
-	#	$version.major = $version.major + 1;
-	#	$version.minor = 0;
-	#	$version.patch = 0;
-	#}
-	#elseif ($Minor) 
-	#{ 
-	#	$version.minor = $version.minor + 1; 
-	#	$version.patch = 0;
-	#}
-	#$versionNumber = "$($version.major).$($version.minor).$($version.patch)";
-    #$Manifest | ConvertTo-Json | Out-File "$PSScriptRoot\manifest.json" -Encoding utf8;
-	if ($Commit) { Exec { & git add "$PSScriptRoot\manifest.json"; } }
+	$version.patch = $version.patch + 1;
+	if ($Major) 
+	{ 
+		$version.major = $version.major + 1;
+		$version.minor = 0;
+		$version.patch = 0;
+	}
+	elseif ($Minor) 
+	{ 
+		$version.minor = $version.minor + 1; 
+		$version.patch = 0;
+	}
+	$versionNumber = "$($version.major).$($version.minor).$($version.patch)";
+    $Manifest | ConvertTo-Json | Out-File "$PSScriptRoot\manifest.json" -Encoding utf8;
+	$modifiedFiles.Add("$PSScriptRoot\manifest.json") | Out-Null;
 	Write-Host "`t* increment project version number to $versionNumber.";
 
     # Update all .csproj version numbers
 	foreach ($proj in (Get-ChildItem "$RootDir\src" -Recurse -Filter "*.csproj"))
 	{
-		[xml]$doc = Get-Content $proj;
+		[xml]$doc = Get-Content $proj.FullName;
+        $assemblyVersion = $doc.SelectSingleNode('/Project/PropertyGroup/AssemblyVersion');
+        $assemblyVersion.InnerText = $versionNumber;
+        $doc.Save($proj.FullName);
+
+        $modifiedFiles.Add($proj.FullName) | Out-Null;
 	}
 	Write-Host "`t* updated $($proj.Name) version number to $versionNumber";
 		
@@ -131,21 +137,27 @@ Task "Update-ProjectManifest" -alias "version" -description "This task increment
 		-ModuleVersion $versionNumber `
 		-DotNetFrameworkVersion "4.5.2" `
 		-PowerShellVersion '5.0' `
+		-Description $Manifest.description `
 		-Author $Manifest.author `
 		-ProjectUri $Manifest.url `
 		-LicenseUri $Manifest.license `
 		-Copyright $Manifest.copyright `
 		-IconUri $Manifest.icon `
 		-Tags $Manifest.tags.Split(' ') `
+        -ReleaseNotes (Get-Content "$RootDir\releaseNotes.txt") `
 		-RequiredAssemblies @('.\Lib\Acklann.Buildbox.Versioning.dll') `
 		-CmdletsToExport @("*") `
 		-FunctionsToExport @("*");
 	Write-Host "`t* updated powershell module manifest.";
-	Test-ModuleManifest "$RootDir\src\Buildbox\Buildbox.psd1";
+	Test-ModuleManifest "$RootDir\src\Buildbox\Buildbox.psd1" | Out-Null;
+    $modifiedFiles.Add("$RootDir\src\Buildbox\Buildbox.psd1") | Out-Null;
 
 	if ($Commit)
 	{
-		Exec { & git add "$RootDir\src\Buildbox\Buildbox.psd1"; }
+        foreach ($file in $modifiedFiles)
+        {
+            Exec { & git add "$file"; }
+        }
 		Exec { & git commit -m"update the version numbers to $versionNumber"; }
 		Exec { & git tag "v$versionNumber"; }
 	}

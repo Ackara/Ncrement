@@ -127,6 +127,9 @@ namespace Acklann.Buildbox.Versioning
         [JsonProperty("tags")]
         public string Tags { get; set; }
 
+        [JsonProperty("releaseNotes")]
+        public string ReleaseNotes { get; set; }
+
         [JsonProperty("branchSuffixMap")]
         public IDictionary<string, string> BranchToSuffixMap { get; set; }
 
