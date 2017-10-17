@@ -14,7 +14,7 @@ Describe "Buildbox" {
 			$result1.configFile | Should Exist;
 		}
 
-		It "should return the path to an existing flyway installation."{
+		It "Install-Flyway should return the path to an existing flyway installation."{
 			$result2.fileName | Should Be $result1.fileName;
 		}
 	}
