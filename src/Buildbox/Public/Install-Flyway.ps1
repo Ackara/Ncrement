@@ -2,26 +2,26 @@ function Install-Flyway()
 {
 	<#
 	.SYNOPSIS
-	Installs the flyway command-line tool from 'https://flywaydb.org' to the specified directory.
+	Install the flyway command-line tool from 'https://flywaydb.org' to the specified directory.
+
+	.DESCRIPTION
+	This function will install the flyway command-line tool from 'https://flywaydb.org' to the specified directory. Returns a PSCustomObject the stores the full path of the flyway executable ([string] Filename) and its configuration file ([string] ConfigFile).
 
 	.PARAMETER InstallationDirectory
 	The installation folder.
 
 	.PARAMETER Version
 	The version number. (default: 4.2.0).
-
-	.INPUTS
-	String
-
+	
 	.OUTPUTS
-	String
+	System.Management.Automation.PSCustomObject
 
 	.EXAMPLE
 	Install-Flyway "c:\temp";
 	In this example, the flyway cli is downloaded into a temp directory.
 
 	.EXAMPLE
-	Install-Flyway "c:\temp";
+	$flyway = Install-Flyway "c:\temp";
 	In this example, the flyway cli is downloaded into the current directory.
 
 	.LINK
@@ -29,7 +29,7 @@ function Install-Flyway()
 	#>
 
 	Param(
-		[Alias('path', 'dir', 'p')]
+		[Alias('p', 'dir', 'path')]
 		[Parameter(ValueFromPipeline)]
 		[string]$InstallationDirectory = "$(Split-Path $PSScriptRoot -Parent)\bin",
 
@@ -37,9 +37,10 @@ function Install-Flyway()
 		[string]$Version = "4.2.0"
 	)
 
-	$flyway = Get-ChildItem $InstallationDirectory -Recurse -Filter "flyway.cmd" | Select-Object -ExpandProperty FullName -First 1;
+	$flyway = Get-ChildItem $InstallationDirectory -Recurse -Filter "flyway.cmd" -ErrorAction SilentlyContinue | Select-Object -ExpandProperty FullName -First 1;
 	if ([String]::IsNullOrEmpty($flyway) -or (-not (Test-Path $flyway -PathType Leaf)))
 	{
+		# Download the flyway CLI
 		$archive = "$InstallationDirectory\flyway.zip";
 		try
 		{
@@ -58,8 +59,8 @@ function Install-Flyway()
 		}
 	}
 
-	return New-Object PSObject -Property @{
-		"fileName"=$flyway;
-		"configFile"="$(Split-Path $flyway -Parent)\conf\flyway.conf";
+	return New-Object PSCustomObject -Property @{
+		"FileName"=$flyway;
+		"ConfigFile"="$(Split-Path $flyway -Parent)\conf\flyway.conf";
 	};
 }

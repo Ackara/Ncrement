@@ -9,7 +9,7 @@ Describe "Buildbox" {
 		$result1 = $installDir | Install-Flyway;
 		$result2 = Install-Flyway $installDir;
 
-		It "should download the flyway cli." {
+		It "Install-Flyway should download the flyway cli." {
 			$result1.fileName | Should Exist;
 			$result1.configFile | Should Exist;
 		}

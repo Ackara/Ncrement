@@ -37,7 +37,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Tests\" />
-    <Folder Include="TestData\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

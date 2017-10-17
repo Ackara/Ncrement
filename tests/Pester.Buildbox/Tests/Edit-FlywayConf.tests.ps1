@@ -15,15 +15,15 @@ Describe "Buildbox" {
 		Copy-Item -Path $flyway.configFile -Destination $configFile -Force;
 		$result2 = Edit-FlywayConf $configFile -Url $url -u $usr -p $pwd -l $loc;
 		
-		It "should return the full path to 'flyway.conf'." {
+		It "Edit-FlywayConf should return the full path to 'flyway.conf'." {
 			$result1 | Should Exist;
 		}
 
-		It "should edit a 'flyway.conf' file using the given values." {
+		It "Edit-FlywayConf should edit a 'flyway.conf' file using the given values." {
 			Approve-File $result2 "Edit-FlywayConf" | Should Be $true; 
 		}
 
-		It "should halt editing the 'flyway.conf' file when the '-WhatIf' switch is present."{
+		It "Edit-FlywayConf should halt editing the 'flyway.conf' file when the '-WhatIf' switch is present."{
 			(Compare-Object $(Get-Content $result1) $(Get-Content $result2)) | Should Not Be $null;
 		}
 	}

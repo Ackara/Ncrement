@@ -2,7 +2,10 @@ function Edit-FlywayConf()
 {
 	<#
 	.SYNOPSIS
-	This cmdlet helps with the editing of a 'flyway.conf' file.
+	This cmdlet edits a 'flyway.conf' file.
+
+	.DESCRIPTION
+	This cmdlet will edit a 'flyway.conf' file using the arguments passed. Returns the full path of the file that was edited.
 
 	.PARAMETER Path
 	The full path of the configuration file.
@@ -18,6 +21,15 @@ function Edit-FlywayConf()
 
 	.PARAMETER Locations
 	A list of locations to scan recursively for migrations.
+
+	.INPUTS
+	System.String
+	System.IO.FileInfo
+	System.IO.DirectoryInfo
+	System.Management.Automation.PSCustomObject
+
+	.OUTPUTS
+	System.String
 
 	.EXAMPLE
 	Edit-FlywayConf "c:\tools\flyway\flyway.conf" -url "localhost" -usr "john" -pwd "pa551";
@@ -41,11 +53,12 @@ function Edit-FlywayConf()
 		[SecureString]$Password,
 
 		[Alias('l', 'loc')]
-		[string[]]$Locations
+		[string[]]$Locations = @()
 	)
 
+	# Extract a path from the InputObject if possible.
 	$configFile = "";
-	if ($InputObject.configFile -ne $null) { $configFile = $InputObject.configFile; }
+	if ($InputObject.ConfigFile -ne $null) { $configFile = $InputObject.ConfigFile; }
 	elseif (Test-Path $InputObject -PathType Leaf) { $configFile = $InputObject.ToString(); }
 	else 
 	{ 
@@ -62,7 +75,7 @@ function Edit-FlywayConf()
 	if ([String]::IsNullOrEmpty($configFile) -or (-not (Test-Path $configFile -PathType Leaf))) { throw "cannot find '$configFile'."; }
 	else
 	{
-		Write-Verbose "modifying '$configFile' ...";
+		# Tranform the given values into compatible flyway args.
 		for ($i = 0; $i -lt $Locations.Length; $i++)
 		{
 			if (-not $Locations[$i].StartsWith("filesystem")) { $Locations[$i] = "filesystem:$($Locations[$i])"; }
@@ -71,6 +84,7 @@ function Edit-FlywayConf()
 		$loc = [String]::Join(",", $Locations);
 		$pwd = (New-Object pscredential "usr", $Password).GetNetworkCredential().Password;
 
+		# Edit the 'flyway.conf' file.
 		$content = (Get-Content $configFile | Out-String).Trim();
 		$map = @{"url"=$Url;"user"=$User;"password"=$pwd;"locations"="$loc"};
 		foreach ($key in $map.Keys)

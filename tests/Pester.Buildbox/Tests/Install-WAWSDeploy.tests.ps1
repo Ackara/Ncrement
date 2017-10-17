@@ -8,11 +8,11 @@ Describe "Buildbox" {
 		$result1 = Install-WAWSDeploy $installDir;
 		$result2 = $installDir | Install-WAWSDeploy;
 
-		It "should download WAWSDeploy at the specified directory." {
+		It "Install-WAWSDeploy should download WAWSDeploy at the specified directory." {
 		    $result1 | Should Exist;
 		}
 
-		It "should return existing path to WAWSDeploy when its on disk"{
+		It "Install-WAWSDeploy should return existing path to WAWSDeploy when its on disk" {
 			$result2 | Should Be $result1;
 		}
 	}

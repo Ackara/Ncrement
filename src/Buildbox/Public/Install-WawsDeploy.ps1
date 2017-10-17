@@ -2,7 +2,10 @@ function Install-WAWSDeploy()
 {
 	<#
 	.SYNOPSIS
-	Installs the wawsdeploy command-line tool from 'https://chocolatey.org/' to the specified directory.
+	Install the wawsdeploy command-line tool from 'https://chocolatey.org/' to the specified directory.
+
+	.DESCRIPTION
+	This function will install the wawsdeploy command-line tool from 'https://chocolatey.org/' to the specified directory. Returns the full path of the WAWSDeploy executable.
 
 	.PARAMETER InstallationDirectory
 	The installation folder.
@@ -20,6 +23,7 @@ function Install-WAWSDeploy()
 
 	.LINK
 	https://chocolatey.org/packages/WAWSDeploy
+	
 	.LINK
 	https://github.com/davidebbo/WAWSDeploy
 	#>
