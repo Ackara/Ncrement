@@ -1,7 +1,19 @@
 {
   "commands":
   {
-    "increment version number":
+    "version: major":
+    {
+      "fileName": "powershell.exe",
+      "workingDirectory": ".",
+      "arguments": "-ExecutionPolicy Bypass -NonInteractive -File build.ps1 version -Commit -Major"
+    },
+    "version: minor":
+    {
+      "fileName": "powershell.exe",
+      "workingDirectory": ".",
+      "arguments": "-ExecutionPolicy Bypass -NonInteractive -File build.ps1 version -Commit -Minor"
+    },
+    "version: patch":
     {
       "fileName": "powershell.exe",
       "workingDirectory": ".",
