@@ -12,7 +12,7 @@
 RootModule = 'Buildbox'
 
 # Version number of this module.
-ModuleVersion = '3.0.21'
+ModuleVersion = '3.1.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
