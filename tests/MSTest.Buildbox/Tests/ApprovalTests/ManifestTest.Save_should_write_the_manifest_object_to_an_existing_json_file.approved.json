@@ -12,6 +12,8 @@
         
     "manifest":  {
             
+      "packageId":  null,
+            
       "title":  "Buildbox",
             
       "version":  {

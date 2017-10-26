@@ -31,6 +31,7 @@
     <Compile Include="Buildbox.psm1" />
     <Compile Include="Private\Assert-GitIsInstalled.ps1" />
     <Compile Include="Private\Update-PowershellManifest.ps1" />
+    <Compile Include="Public\Out-NuGetTokens.ps1" />
     <Compile Include="Public\Edit-FlywayConf.ps1" />
     <Compile Include="Public\Get-BuildboxManifest.ps1" />
     <Compile Include="Public\Install-Flyway.ps1" />

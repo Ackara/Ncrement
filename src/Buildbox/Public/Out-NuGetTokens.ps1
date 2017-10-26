@@ -16,6 +16,9 @@ function Out-NuGetTokens()
 	.INPUTS
 	Acklann.Buildbox.Versioning.Manifest
 
+	.OUTPUTS
+	System.String
+
 	.EXAMPLE
 	&nuget pack .\package.nuspec -Properties $(Out-NuGetTokens $manifest);
 	This example passes the [Acklann.Buildbox.Versioning.Manifest] Properties to be used as replacement tokens for 'nuget pack' command. 
@@ -29,9 +32,8 @@ function Out-NuGetTokens()
 
 	.LINK
 	Get-BuildboxManifest
-
 	#>
-	[OutputType([String])]
+	
 	Param(
 		[Parameter(Mandatory, ValueFromPipeline)]
 		$Manifest,

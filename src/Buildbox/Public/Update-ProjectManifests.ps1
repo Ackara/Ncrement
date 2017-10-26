@@ -40,10 +40,16 @@ function Update-ProjectManifests()
 	.EXAMPLE
 	"C:\manifest.json" | Get-BuildboxManifest | Update-ProjectManifests "C:\projects\new_idea" -Major -Commit -Tag;
 	This example increments the project's version number and commits the changes to source control.
+
+	.LINK
+	Get-BuildboxManifest
+
+	.LINK
+	New-BuildboxManifest
 	#>
 
 	Param(
-		[Alias('i')]
+		[Alias('i', "in")]
 		[Parameter(Mandatory, ValueFromPipeline, Position = 3)]
 		[Acklann.Buildbox.Versioning.Manifest]$Manifest,
 
