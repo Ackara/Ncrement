@@ -97,6 +97,9 @@ namespace Acklann.Buildbox.Versioning
             get { return _filePath; }
         }
 
+        [JsonProperty("packageId")]
+        public string PackageId { get; set; }
+
         [JsonProperty("title")]
         public string Title { get; set; }
 
@@ -161,7 +164,7 @@ namespace Acklann.Buildbox.Versioning
             // Create directory is it donot exist
             string dir = Path.GetDirectoryName(filePath);
             if (!System.IO.Directory.Exists(dir)) System.IO.Directory.CreateDirectory(dir);
-            
+
             string json = "";
             if (File.Exists(filePath))
             {
