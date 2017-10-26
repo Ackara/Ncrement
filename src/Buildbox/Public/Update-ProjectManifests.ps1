@@ -51,7 +51,7 @@ function Update-ProjectManifests()
 		[Parameter(Mandatory, Position = 1)]
 		[string]$RootDirectory,
 
-		[Alias('m')]
+		[Alias('m', "msg")]
 		[Parameter(Position = 2)]
 		[string]$CommitMessage,
 
@@ -114,9 +114,8 @@ function Update-ProjectManifests()
 		# Stage modified files to git
 		foreach ($file in $modifiedFiles)
 		{
-			$relativePath = $($file.FullName.Replace($RootDirectory, "").Trim(' ', '/', '\'));
-			& git add $relativePath;
-			Write-Verbose "git add: '$relativePath' to repository.";
+			& git add $file.FullName;
+			Write-Verbose "git add: '$($file.FullName.Replace($RootDirectory, '').Trim(' ', '/', '\'))' to repository.";
 		}
 
 		# Commit modified files
