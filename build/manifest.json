@@ -2,7 +2,7 @@
     "version":  {
                     "major":  3,
                     "minor":  1,
-                    "patch":  0
+                    "patch":  1
                 },
     "description":  "A collection of powershell scripts and modules designed for continuous builds and deployments.",
     "author":  "Ackara",
