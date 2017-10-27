@@ -39,6 +39,7 @@ function Out-NuGetTokens()
 		$Manifest,
 
 		[Alias('b', "branch")]
+        [Parameter(Position = 1)]
 		[string]$BranchName
 	)
 
