@@ -53,6 +53,7 @@ function Out-NuGetTokens()
 	$metadata += "copyright=$($Manifest.Copyright);";
 	$metadata += "projectUrl=$($Manifest.ProjectUrl);";
 	$metadata += "licenseUrl=$($Manifest.LicenseUri);";
+	$metadata += "description=$($Manifest.Description);";
 	$metadata += "releaseNotes=$($Manifest.ReleaseNotes);";
 	$metadata += "version=$($Manifest.Version.ToString());";
 

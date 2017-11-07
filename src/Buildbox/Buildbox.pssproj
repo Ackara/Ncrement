@@ -51,5 +51,6 @@
       <DLLs Include="..\..\tests\MSTest.Buildbox\bin\$(Configuration)\*.dll" Exclude="..\..\tests\MSTest.Buildbox\bin\$(Configuration)\*test*.dll;..\..\tests\MSTest.Buildbox\bin\$(Configuration)\*approval*.dll;..\..\tests\MSTest.Buildbox\bin\$(Configuration)\*should*.dll;..\..\tests\MSTest.Buildbox\bin\$(Configuration)\*mock*.dll;" />
     </ItemGroup>
     <Copy SourceFiles="@(DLLs)" DestinationFolder="Lib" SkipUnchangedFiles="true" />
+  
   </Target>
 </Project>

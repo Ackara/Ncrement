@@ -44,6 +44,23 @@ namespace MSTest.Buildbox.Tests
             Approvals.VerifyFile(tempPath);
         }
 
+        [TestMethod]
+        public void Update_should_edit_a_vsix_manifest_file()
+        {
+            // Arrange
+            var manifest = CreateManifest();
+            var sut = new VsixManifestEditor();
+
+            // Act
+            string tempPath = Path.Combine(Path.GetTempPath(), $"{nameof(Update_should_edit_a_vsix_manifest_file)}.xml");
+            var projectFile = sut.FindProjectFile(TestDataDirectory.FullPath).First();
+            projectFile.CopyTo(tempPath, overwrite: true);
+            sut.Update(manifest, new FileInfo(tempPath));
+
+            // Assert
+            Approvals.VerifyFile(tempPath);
+        }
+
         private static Manifest CreateManifest()
         {
             var manifest = new Manifest()

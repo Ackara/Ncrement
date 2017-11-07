@@ -14,6 +14,7 @@ namespace MSTest.Buildbox
 		public const string MANIFEST = @"semver\manifest.json";
 		public const string MIXED_MANIFEST = @"semver\mixed_manifest.json";
 		public const string NETSTANDARD = @"semver\netstandard.csproj";
+		public const string SOURCE_EXTENSION = @"semver\source_extension.vsixmanifest";
 		public const string DOTNET_PROJECT = @"semver\dotnet_project\dotnet_project.csproj";
 		public const string ASSEMBLYINFO = @"semver\dotnet_project\Properties\AssemblyInfo.cs";
 	}

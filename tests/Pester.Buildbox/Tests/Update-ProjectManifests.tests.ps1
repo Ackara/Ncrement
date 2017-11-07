@@ -43,7 +43,7 @@ Describe "Buildbox" {
 			}
 
 			It "Update-ProjectManifests should return a results object" {
-				$result.ModifiedFiles.Length | Should Be 3;
+				$result.ModifiedFiles.Length | Should Be 4;
 				$result.CommittedChanges| Should Be $true;
 				$result.Manifest | Should Not Be $null;
 			}

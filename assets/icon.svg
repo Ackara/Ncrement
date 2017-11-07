@@ -49,7 +49,7 @@
      inkscape:zoom="0.921875"
      inkscape:cx="-124.74576"
      inkscape:cy="128"
-     inkscape:window-x="1911"
+     inkscape:window-x="-9"
      inkscape:window-y="-9"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer3" />
@@ -122,13 +122,13 @@
          id="flowPara4541" /></flowRoot>    <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#f6f4f4;fill-opacity:1;stroke:none"
-       x="36.474571"
-       y="206.80421"
+       x="46.474571"
+       y="214.80421"
        id="text4545"><tspan
          sodipodi:role="line"
          id="tspan4543"
-         x="36.474571"
-         y="206.80421"
+         x="46.474571"
+         y="214.80421"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Orator Std';-inkscape-font-specification:'Orator Std'">Buildbox</tspan></text>
   </g>
 </svg>

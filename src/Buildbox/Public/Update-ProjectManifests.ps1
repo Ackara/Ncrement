@@ -78,18 +78,6 @@ function Update-ProjectManifests()
 	$oldVersion = $Manifest.Version.ToString();
 	$Manifest.Version.Increment($Major.IsPresent, $Minor.IsPresent);
 	
-	# Update all .NET Framework project files.
-	$editor = New-Object Acklann.Buildbox.Versioning.Editors.DotNetProjectEditor;
-	$dotnetProjects = $editor.FindProjectFile($RootDirectory);
-	$editor.Update($Manifest, $dotnetProjects);
-	foreach ($proj in $dotnetProjects) { $modifiedFiles.Add($proj); }
-	
-	# Update all .NET Standard project files.
-	$editor = New-Object Acklann.Buildbox.Versioning.Editors.NetStandardProjectEditor;
-	$netstandardProjects = $editor.FindProjectFile($RootDirectory);
-	$editor.Update($Manifest, $netstandardProjects);
-	foreach ($proj in $netstandardProjects) { $modifiedFiles.Add($proj); }
-
 	# Update all Powershell Manifests (.psd1) files.
 	$powershellManifests = Get-ChildItem $RootDirectory -Recurse -Filter "*.psd1";
 	if ($powershellManifests.Length -gt 0)
@@ -97,6 +85,16 @@ function Update-ProjectManifests()
 		$powershellManifests | Update-PowershellManifest $Manifest;
 	}
 	foreach ($proj in $powershellManifests) { $modifiedFiles.Add($proj); }
+
+	# Update all other projects.
+	$factory = New-Object Acklann.Buildbox.Versioning.Editors.ProjectEditorFactory;
+	$projectEditors = $factory.GetProjectEditors();
+	foreach ($editor in $projectEditors)
+	{
+		$projectFiles = $editor.FindProjectFile($RootDirectory);
+		$editor.Update($Manifest, $projectFiles);
+		foreach ($proj in $projectFiles) { $modifiedFiles.Add($proj); }
+	}
 
 	$Manifest.Save();
 	$modifiedFiles.Add((Get-Item $Manifest.FullPath));
