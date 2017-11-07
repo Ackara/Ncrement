@@ -3,7 +3,7 @@
     <TargetFramework>netstandard1.4</TargetFramework>
     <AssemblyName>Acklann.Buildbox.Versioning</AssemblyName>
     <RootNamespace>Acklann.Buildbox.Versioning</RootNamespace>
-    <AssemblyVersion>3.1.1</AssemblyVersion>
+    <AssemblyVersion>3.2.0</AssemblyVersion>
     <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
     <TargetFrameworks>netstandard1.4;net461;net46;netcoreapp1.1</TargetFrameworks>
   </PropertyGroup>
