@@ -23,8 +23,22 @@ namespace Acklann.Buildbox.Versioning.Editors
             foreach (var file in projectFiles.Where(x => x?.Exists ?? false))
             {
                 var document = XDocument.Load(file.FullName);
-                foreach (var arg in new(string ElementName, string Value)[] {
-                    ("PackageVersion", manifest.Version.ToString())})
+                foreach (var arg in new(string ElementName, string Value)[]
+                {
+                    ("Product", manifest.Title),
+                    ("PackageId", manifest.PackageId),
+                    ("AssemblyVersion", manifest.Version.ToString()),
+                    ("PackageVersion", manifest.Version.ToString()),
+                    ("Description", manifest.Description),
+                    ("Authors", manifest.Authors),
+                    ("Company", manifest.Owner),
+                    ("PackageTags", manifest.Tags),
+                    ("Copyright", manifest.Copyright),
+                    ("PackageIconUrl", manifest.IconUri),
+                    ("PackageProjectUrl", manifest.ProjectUrl),
+                    ("PackageLicenseUrl", manifest.LicenseUri),
+                    ("PackageReleaseNotes", manifest.ReleaseNotes),
+                })
                 {
                     XElement[] targetNodes = document.Root.XPathSelectElements($"//PropertyGroup/{arg.ElementName}").ToArray();
                     if (targetNodes.Length == 0)

@@ -3,6 +3,18 @@
     <TargetFramework>netstandard1.4</TargetFramework>
     <AssemblyName>Acklann.Buildbox</AssemblyName>
     <RootNamespace>Acklann.Buildbox</RootNamespace>
+    <Product>Buildbox</Product>
+    <PackageId />
+    <AssemblyVersion>1.2.3</AssemblyVersion>
     <PackageVersion>1.2.3</PackageVersion>
+    <Description>This is for a automated test</Description>
+    <Authors>Seto Kiaba</Authors>
+    <Company>Kiaba Corp</Company>
+    <PackageTags>powershell, deploy, ci</PackageTags>
+    <Copyright>All rights reserved by Me</Copyright>
+    <PackageIconUrl>https://example.com/icon/buildbox.png</PackageIconUrl>
+    <PackageProjectUrl>https://gihub.com/Ackara/Buildbox</PackageProjectUrl>
+    <PackageLicenseUrl>https://example.com/buildbox/license.txt</PackageLicenseUrl>
+    <PackageReleaseNotes />
   </PropertyGroup>
 </Project>
