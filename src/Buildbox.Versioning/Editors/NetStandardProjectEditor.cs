@@ -26,7 +26,6 @@ namespace Acklann.Buildbox.Versioning.Editors
                 foreach (var arg in new(string ElementName, string Value)[]
                 {
                     ("Product", manifest.Title),
-                    ("PackageId", manifest.PackageId),
                     ("AssemblyVersion", manifest.Version.ToString()),
                     ("PackageVersion", manifest.Version.ToString()),
                     ("Description", manifest.Description),

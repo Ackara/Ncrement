@@ -97,9 +97,6 @@ namespace Acklann.Buildbox.Versioning
             get { return _filePath; }
         }
 
-        [JsonProperty("packageId")]
-        public string PackageId { get; set; }
-
         [JsonProperty("title")]
         public string Title { get; set; }
 

@@ -18,12 +18,14 @@ Param(
 
     [Alias("n", "nuget")]
     [string]$NugetVersion = "latest",
+	
+	[Alias("sc")]
+	[switch]$SkipCompilation,
 
 	[switch]$Major,
 	[switch]$Minor,
 	[switch]$Help,
 	[switch]$Commit,
-	[switch]$SkipCompilation,
 	[switch]$InteractiveMode
 )
 

@@ -4,7 +4,6 @@
     <AssemblyName>Acklann.Buildbox</AssemblyName>
     <RootNamespace>Acklann.Buildbox</RootNamespace>
     <Product>Buildbox</Product>
-    <PackageId />
     <AssemblyVersion>1.2.3</AssemblyVersion>
     <PackageVersion>1.2.3</PackageVersion>
     <Description>This is for a automated test</Description>
