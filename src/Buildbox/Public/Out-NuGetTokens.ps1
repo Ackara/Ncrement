@@ -44,7 +44,6 @@ function Out-NuGetTokens()
 	)
 
 	$metadata = "";
-	$metadata += "id=$($Manifest.PackageId);";
 	$metadata += "title=$($Manifest.Title);";
 	$metadata += "authors=$($Manifest.Authors);";
 	$metadata += "tags=$($Manifest.Tags);";
