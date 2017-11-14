@@ -47,11 +47,8 @@ namespace Acklann.Buildbox.Versioning.Editors
 
                         foreach (var arg in new(string ElementName, string Value)[]
                         {
-                            ("ReleaseNotes", manifest.ReleaseNotes),
                             ("Description", manifest.Description),
-                            ("License", manifest.LicenseUri),
                             ("DisplayName", manifest.Title),
-                            ("Icon", manifest.IconUri),
                             ("Tags", manifest.Tags)
                         })
                         {

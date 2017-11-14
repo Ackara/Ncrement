@@ -4,7 +4,7 @@
     <Identity Id="Optimus.VSIX.411f03e3-dac2-4bcb-91ea-7e2cc488bfa6" Version="1.2.3" Language="en-US" Publisher="Kiaba Corp" />
     <DisplayName>Buildbox</DisplayName>
     <Description>This is for a automated test</Description>
-  <License>https://example.com/buildbox/license.txt</License><Icon>https://example.com/icon/buildbox.png</Icon><Tags>powershell, deploy, ci</Tags></Metadata>
+  <Tags>powershell, deploy, ci</Tags></Metadata>
   <Installation>
     <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[15.0]" />
   </Installation>
