@@ -38,18 +38,19 @@ namespace Acklann.Buildbox.Versioning.Editors
                     ("PackageLicenseUrl", manifest.LicenseUri),
                     ("PackageReleaseNotes", manifest.ReleaseNotes),
                 })
-                {
-                    XElement[] targetNodes = document.Root.XPathSelectElements($"//PropertyGroup/{arg.ElementName}").ToArray();
-                    if (targetNodes.Length == 0)
+                    if (!string.IsNullOrEmpty(arg.Value))
                     {
-                        XElement propertyGroup = document.XPathSelectElement("/Project/PropertyGroup[1]");
-                        propertyGroup.Add(new XElement(arg.ElementName, arg.Value));
-                    }
-                    else foreach (var element in targetNodes)
+                        XElement[] targetNodes = document.Root.XPathSelectElements($"//PropertyGroup/{arg.ElementName}").ToArray();
+                        if (targetNodes.Length == 0)
                         {
-                            element.SetValue(arg.Value);
+                            XElement propertyGroup = document.XPathSelectElement("/Project/PropertyGroup[1]");
+                            propertyGroup.Add(new XElement(arg.ElementName, arg.Value));
                         }
-                }
+                        else foreach (var element in targetNodes)
+                            {
+                                element.SetValue(arg.Value);
+                            }
+                    }
 
                 using (var outStream = file.OpenWrite())
                 {
