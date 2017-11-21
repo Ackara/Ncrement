@@ -14,6 +14,5 @@
     <PackageIconUrl>https://example.com/icon/buildbox.png</PackageIconUrl>
     <PackageProjectUrl>https://gihub.com/Ackara/Buildbox</PackageProjectUrl>
     <PackageLicenseUrl>https://example.com/buildbox/license.txt</PackageLicenseUrl>
-    <PackageReleaseNotes />
   </PropertyGroup>
 </Project>

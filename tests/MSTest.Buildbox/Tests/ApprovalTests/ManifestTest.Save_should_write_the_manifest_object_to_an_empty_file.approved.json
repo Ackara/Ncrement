@@ -28,8 +28,6 @@
     
   "tags":  "powershell, deploy, ci",
     
-  "releaseNotes":  null,
-    
   "branchSuffixMap":  {
         
     "master":  "",

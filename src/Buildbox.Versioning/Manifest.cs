@@ -185,7 +185,11 @@ namespace Acklann.Buildbox.Versioning
                 }
             }
 
-            json = JsonConvert.SerializeObject(this, Formatting.Indented);
+            json = JsonConvert.SerializeObject(this, new JsonSerializerSettings()
+            {
+                Formatting = Formatting.Indented,
+                NullValueHandling = NullValueHandling.Ignore
+            });
             File.WriteAllText(filePath, json, System.Text.Encoding.UTF8);
         }
 
