@@ -1,9 +1,10 @@
-<#
+﻿<#
 .SYNOPSIS
 This script bootstraps the psake tasks.
 #>
 
 Param(
+	[Alias('t')]
 	[string[]]$Tasks = @("default"),
 
 	[Alias('c')]
@@ -12,9 +13,6 @@ Param(
 
 	[Alias('s', "keys")]
 	[hashtable]$Secrets = @{},
-
-	[Alias('t', "tests")]
-	[string]$TestName = "",
 
 	[Alias("sc", "nobuild")]
 	[switch]$SkipCompilation,
@@ -60,7 +58,6 @@ else
 		"Secrets"=$Secrets;
 		"Branch"=$branchName;
 		"nuget" = $NugetPath;
-		"TestName" = $TestName;
 		"Major"=$Major.IsPresent;
 		"Minor"=$Minor.IsPresent;
 		"Configuration"=$Configuration;

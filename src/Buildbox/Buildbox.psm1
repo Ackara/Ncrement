@@ -1,12 +1,12 @@
 if (-not (Test-Path "$PSScriptRoot\bin" -PathType Container)) { New-Item "$PSScriptRoot\bin" -ItemType Directory | Out-Null; }
-$public  = @( Get-ChildItem -Path $PSScriptRoot\Public\*.ps1 -ErrorAction SilentlyContinue);
-$private = @( Get-ChildItem -Path $PSScriptRoot\Private\*.ps1 -ErrorAction SilentlyContinue);
+$public  = @(Get-ChildItem -Path "$PSScriptRoot\Public\*.ps1" -ErrorAction SilentlyContinue);
+$private = @(Get-ChildItem -Path "$PSScriptRoot\Private\*.ps1" -ErrorAction SilentlyContinue);
 
 foreach($import in @($public + $private))
 {
 	try
 	{
-	    . $import.fullname
+	    . $import.FullName
 	}
 	catch	
 	{
@@ -14,4 +14,4 @@ foreach($import in @($public + $private))
 	}
 }
 
-Export-ModuleMember -Function $public.Basename
+Export-ModuleMember -Function $public.Basename;

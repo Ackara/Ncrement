@@ -2,11 +2,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>6CAFC0C6-A428-4d30-A9F9-700E829FEA51</ProjectGuid>
+    <ProjectGuid>{5e14149b-55a6-4857-a267-3106d836189b}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>MyApplication</RootNamespace>
     <AssemblyName>MyApplication</AssemblyName>
-    <Name>build</Name>
+    <Name>Buildbox.Pester</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -26,19 +26,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="manifest.json" />
+    <Folder Include="Tests\" />
+    <Folder Include="TestData\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\build.ps1">
-      <Link>build.ps1</Link>
-    </Compile>
-    <Compile Include="secrets.json" />
-    <Compile Include="helper.psm1" />
-    <Compile Include="tasks.psake.ps1">
-      <SubType>
-      </SubType>
-    </Compile>
+    <Compile Include="config.psm1" />
+    <Compile Include="Invoke-Tests.ps1" />
+    <Compile Include="Tests\ConvertTo-NuGetProperties.tests.ps1" />
+    <Compile Include="Tests\Get-BuildboxManifest.tests.ps1" />
+    <Compile Include="Tests\New-BuildboxManifest.tests.ps1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TestData\manifest-full.json" />
+    <Content Include="TestData\manifest.json" />
+    <Content Include="TestData\mixed_manifest.json" />
+    <Content Include="TestData\source_extension.vsixmanifest" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />
+  <Import Project="$(MSBuildExtensionsPath)\PowerShell Tools for Visual Studio\PowerShellTools.targets" Condition="Exists('$(MSBuildExtensionsPath)\PowerShell Tools for Visual Studio\PowerShellTools.targets')" />
 </Project>

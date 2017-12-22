@@ -1,0 +1,33 @@
+﻿{
+  "randomObject":
+  {
+    "propA": "Ackara",
+    "propB": ""
+  },
+  "nested":
+  {
+    "manifest":
+    {
+      "title": "Buildbox",
+      "description": "This is a informative description.",
+      "authors": "Anon",
+      "owner": "Anon",
+      "copyright": "All rights reserved.",
+      "projectUrl": "https://example.com/project/buildbox",
+      "iconUri": "https://example.com/icon/buildbox.png",
+      "licenseUri": "https://example.com/buildbox/license.txt",
+      "tags": "ci, powershell",
+      "version":
+      {
+        "major": 2,
+        "minor": 4,
+        "patch": 8
+      },
+      "branchSuffixMap":
+      {
+        "master": "",
+        "*": "alpha"
+      }
+    }
+  }
+}

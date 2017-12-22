@@ -1,11 +1,12 @@
+<#
+.SYSNOPSIS
+This cmdlet outputs a line seperator to the console.
+
+.PARAMETER Title
+An optional string of text to embed into the 
+#>
 function Write-LineBreak([string]$Title = "") {
-	<#
-	.SYSNOPSIS
-	This cmdlet outputs a line seperator to the console.
 	
-	.PARAMETER Title
-	An optional string of text to embed into the 
-	#>
 
 	$line = "`n----------------------------------------------------------------------";
 	$limit = $line.Length;

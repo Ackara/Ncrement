@@ -51,10 +51,7 @@ DotNetFrameworkVersion = '4.5.2'
 # ProcessorArchitecture = ''
 
 # Modules that must be imported into the global environment prior to importing this module
-# RequiredModules = @()
-
-# Assemblies that must be loaded prior to importing this module
-RequiredAssemblies = '.\Lib\Acklann.Buildbox.Versioning.dll'
+#RequiredModules = @('Code\Manifest.psm1')
 
 # Script files (.ps1) that are run in the caller's environment prior to importing this module.
 # ScriptsToProcess = @()
