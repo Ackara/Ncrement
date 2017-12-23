@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <!-- Required Fields -->
+    <id>Acklann.Buildbox</id>
+    <version>$version$</version>
+    <description>$description$</description>
+    <authors>$author$</authors>
+
+    <!-- Optional Fields -->
+    <title>Buildbox</title>
+    <owners>$author$</owners>
+    <iconUrl>$iconUri$</iconUrl>
+    <copyright>$copyright$</copyright>
+    <projectUrl>$projectUrl$</projectUrl>
+    <licenseUrl>$licenseUri$</licenseUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+
+    <tags>$tags$</tags>
+    <language>en-US</language>
+  </metadata>
+
+  <files>
+    <file src="..\src\Buildbox\*.ps*1"
+          target="tools"/>
+
+    <file src="..\src\Buildbox\Public\*"
+          target="tools\Public"/>
+
+    <file src="..\src\Buildbox\Private\*"
+          target="tools\Private"/>
+
+    <file src="..\readme*"
+          target=""/>
+  </files>
+</package>

@@ -1,61 +1,63 @@
+<#
+.SYNOPSIS
+This cmdlet updates all project files within a given directory.
+
+.DESCRIPTION
+This cmdlet will update all project files within a given directory using the provided [Manifest] instance. When the -CommitChanged flag is present, all files modified by the cmdlet will be committed to git. Aslo when both the -TagCommit flag and -CommitChanges flag is present the cmdlet will tag the commit with the current version number. Use the -Major and -Minor flags to increment the manifest version number.
+
+The cmdlet returns a [PSCustomObject] containing a list of the files it modified, the [Manifest] object and a boolean that determines whether the git operations were sucessful.
+
+.PARAMETER RootDirectory
+The root directory of your project(s).
+
+.PARAMETER Manifest
+A [Manifest] object.
+
+.PARAMETER CommitMessage
+The message to use when the -CommitChanges flag is present.
+
+.PARAMETER CommitChanges
+Determines whether to commit the modified file to source control (using Git).
+
+.PARAMETER Tag
+Determines whether the Git commit should be tagged with the current version number.
+
+.PARAMETER Major
+Determines whether the Major version number should be incremented.
+
+.PARAMETER Minor
+Determines whether the Minor version number should be incremented.
+
+.PARAMETER Patch
+Determines whether the Patch version number should be incremented.
+
+.OUTPUTS
+System.Management.Automation.PSCustomObject
+
+.EXAMPLE
+"C:\manifest.json" | Get-BuildboxManifest | Update-ProjectManifests "C:\projects\new_idea" -Minor;
+This example increments the project's version number.
+
+.EXAMPLE
+"C:\manifest.json" | Get-BuildboxManifest | Update-ProjectManifests "C:\projects\new_idea" -Major -Commit -Tag;
+This example increments the project's version number and commits the changes to source control.
+
+.LINK
+Get-BuildboxManifest
+
+.LINK
+New-BuildboxManifest
+#>
 function Update-ProjectManifests()
 {
-	<#
-	.SYNOPSIS
-	This cmdlet updates all project files within a given directory.
-
-	.DESCRIPTION
-	This cmdlet will update all project files within a given directory using the provided [Acklann.Buildbox.Versioning.Manifest] instance. When the -CommitChanged flag is present, all files modified by the cmdlet will be committed to git. Aslo when both the -TagCommit flag and -CommitChanges flag is present the cmdlet will tag the commit with the current version number. Use the -Major and -Minor flags to increment the manifest version number.
-
-	The cmdlet returns a [PSCustomObject] containing a list of the files it modified, the [Acklann.Buildbox.Versioning.Manifest] object and a boolean that determines whether the git operations were sucessful.
-
-	.PARAMETER RootDirectory
-	The root directory of your project(s).
-
-	.PARAMETER Manifest
-	A [Acklann.Buildbox.Versioning.Manifest] object.
-
-	.PARAMETER CommitMessage
-	The Git commit message to use when the -CommitChanges flag is present.
-
-	.PARAMETER CommitChanges
-	Determines whether to commit the modified file to source control.
-
-	.PARAMETER TagCommit
-	Determines whether the Git commit should be tagged with the current version number.
-	
-	.PARAMETER Major
-	Determines whether the Major version number should be incremented.
-
-	.PARAMETER Minor
-	Determines whether the Minor version number should be incremented.
-
-	.OUTPUTS
-	System.Management.Automation.PSCustomObject
-
-	.EXAMPLE
-	"C:\manifest.json" | Get-BuildboxManifest | Update-ProjectManifests "C:\projects\new_idea" -Minor;
-	This example increments the project's version number.
-
-	.EXAMPLE
-	"C:\manifest.json" | Get-BuildboxManifest | Update-ProjectManifests "C:\projects\new_idea" -Major -Commit -Tag;
-	This example increments the project's version number and commits the changes to source control.
-
-	.LINK
-	Get-BuildboxManifest
-
-	.LINK
-	New-BuildboxManifest
-	#>
-
+	[CmdletBinding()]
 	Param(
-		[Alias('i', "in")]
-		[Parameter(Mandatory, ValueFromPipeline, Position = 3)]
-		[Acklann.Buildbox.Versioning.Manifest]$Manifest,
-
-		[Alias('r', "dir")]
+		[Alias('r', "dir", "root")]
 		[Parameter(Mandatory, Position = 1)]
-		[string]$RootDirectory,
+		[string]$Path,
+
+		[Parameter(Mandatory, ValueFromPipeline, Position = 3)]
+		[Manifest]$Manifest,
 
 		[Alias('m', "msg")]
 		[Parameter(Position = 2)]
@@ -63,80 +65,219 @@ function Update-ProjectManifests()
 
 		[Alias('c', "commit")]
 		[switch]$CommitChanges,
-		
-		[Alias('t', "tag")]
-		[switch]$TagCommit,
 
+		[Alias('t')]
+		[switch]$Tag,
+
+		[Alias("break")]
 		[switch]$Major,
-		[switch]$Minor
+
+		[Alias("feature")]
+		[switch]$Minor,
+
+		[Alias("build")]
+		[switch]$Patch
 	)
 
 	$modifiedFiles = New-Object System.Collections.ArrayList;
-	$changesWereCommitted = $false;
 
-	# Increment version number
-	$oldVersion = $Manifest.Version.ToString();
-	$Manifest.Version.Increment($Major.IsPresent, $Minor.IsPresent);
-	
-	# Update all Powershell Manifests (.psd1) files.
-	$powershellManifests = Get-ChildItem $RootDirectory -Recurse -Filter "*.psd1";
-	if ($powershellManifests.Length -gt 0)
-	{
-		$powershellManifests | Update-PowershellManifest $Manifest;
-	}
-	foreach ($proj in $powershellManifests) { $modifiedFiles.Add($proj); }
-
-	# Update all other projects.
-	$factory = New-Object Acklann.Buildbox.Versioning.Editors.ProjectEditorFactory;
-	$projectEditors = $factory.GetProjectEditors();
-	foreach ($editor in $projectEditors)
-	{
-		$projectFiles = $editor.FindProjectFile($RootDirectory);
-		$editor.Update($Manifest, $projectFiles);
-		foreach ($proj in $projectFiles) { $modifiedFiles.Add($proj); }
-	}
-
+	# Incrementing the manifest version number.
+	$Manifest.Version.Increment($Major.IsPresent, $Minor.IsPresent, $Patch.IsPresent);
 	$Manifest.Save();
-	$modifiedFiles.Add((Get-Item $Manifest.FullPath));
-	Write-Verbose "updated version number from $oldVersion to $($Manifest.Version)";
+	$modifiedFiles.Add($Manifest.Path);
 
-	# Commit changes to git repository
-	$gitIsInstalled = Assert-GitIsInstalled;
-	if (-not $gitIsInstalled)
+	# Update all .NET project files.
+	foreach ($projectFile in (Get-ChildItem $Path -Recurse -Filter "*.csproj"))
 	{
-		Write-Warning "git is not installed on this machine or was not added to the 'PATH' enviroment variable.";
+		$wasUpdated = Update-NetStandardProject $projectFile.FullName $Manifest;
+		if ($wasUpdated) { $modifiedFiles.Add($projectFile.FullName); }
+		
+		$wasUpdated = Update-NetFrameworkProject $projectFile.FullName $Manifest;
+		if ($wasUpdated) { $modifiedFiles.Add($projectFile.FullName); }
 	}
 
-	if ($CommitChanges.IsPresent -and $gitIsInstalled)
+	# Update all powershell module manifest.
+	foreach ($projectFile in (Get-ChildItem $Path -Recurse -Filter "*.psd1"))
 	{
-		$message = "Update the project's version number to $($Manifest.Version).";
-		if (-not [String]::IsNullOrEmpty($CommitMessage))
+		try
 		{
-			$message = $CommitMessage;
-		}
-		
-		# Stage modified files to git
-		foreach ($file in $modifiedFiles)
-		{
-			& git add $file.FullName;
-			Write-Verbose "git add: '$($file.FullName.Replace($RootDirectory, '').Trim(' ', '/', '\'))' to repository.";
-		}
+			Update-ModuleManifest -Path $projectFile.FullName `
+			-Author $Manifest.Authors `
+			-CompanyName $Manifest.Owner `
+			-Description $Manifest.Description `
+			-Copyright $Manifest.Copyright `
+			-Tags $Manifest.Tags.Split(' ', ',', ';') `
+			-ProjectUri $Manifest.ProjectUrl `
+			-ReleaseNotes $Manifest.ReleaseNotes `
+			-LicenseUri $Manifest.LicenseUri `
+			-IconUri $Manifest.IconUri `
+			-ModuleVersion $Manifest.Version.ToString();
 
-		# Commit modified files
-		& git commit -m"$message";
-		Write-Verbose "git commit: $message";
-		if ($TagCommit.IsPresent)
-		{
-			& git tag "v$($Manifest.Version)";
-			Write-Verbose "git tag: v$($Manifest.Version)";
+			$modifiedFiles.Add($projectFile.FullName);
 		}
+		catch {  }
+	}
 
-		$changesWereCommitted = $true;
+	# Update all '.vsixmanifest' files
+	foreach ($projectFile in (Get-ChildItem $Path -Recurse -Filter "*.vsixmanifest"))
+	{
+		Update-VSIXManifest $projectFile.FullName $Manifest;
+		$modifiedFiles.Add($projectFile.FullName);
 	}
 
 	return New-Object PSCustomObject -Property @{
-		"CommittedChanges"=$changesWereCommitted;
-		"ModifiedFiles"=$modifiedFiles;
 		"Manifest"=$Manifest;
+		"ModifiedFiles"=$modifiedFiles;
 	};
+}
+
+function Update-NetStandardProject([string]$projectFile, $manifest)
+{
+	[xml]$doc = Get-Content $projectFile;
+	$netstandardProject = &{ try { return ($doc.FirstChild.Attributes["Sdk"] -ne $null); } catch { return $false; } };
+
+	if ($netstandardProject)
+	{
+		$propertyGroup = $doc.SelectSingleNode("/Project/PropertyGroup[1]");
+		foreach ($arg in @(
+			[Arg]::new("Product", $manifest.ProductName),
+			[Arg]::new("AssemblyVersion", $manifest.Version.ToString()),
+			[Arg]::new("PackageVersion", $manifest.Version.ToString()),
+			[Arg]::new("Description", $manifest.Description),
+			[Arg]::new("Authors", $manifest.Authors),
+			[Arg]::new("Company", $manifest.Owner),
+			[Arg]::new("PackageTags", $manifest.Tags),
+			[Arg]::new("Copyright", $manifest.Copyright),
+			[Arg]::new("PackageIconUrl", $manifest.IconUri),
+			[Arg]::new("PackageProjectUrl", $manifest.ProjectUrl),
+			[Arg]::new("PackageLicenseUrl", $manifest.LicenseUri),
+			[Arg]::new("PackageReleaseNotes", $manifest.ReleaseNotes)
+		))
+		{
+			if (-not [string]::IsNullOrEmpty($arg.Value))
+			{
+				$element = $doc.SelectSingleNode("//PropertyGroup/$($arg.TagName)");
+				if ($element -eq $null)
+				{
+					$node = $doc.CreateElement($arg.TagName);
+					$data = &{ if ($arg.Value -match '(\n|[><])') { return $doc.CreateCDataSection($arg.Value); } else { return $doc.CreateTextNode($arg.Value); }};
+					$node.AppendChild($data);
+					$propertyGroup.AppendChild($node);
+				}
+				else
+				{
+					$element.InnerText = $arg.Value;
+				}
+			}
+		}
+		$doc.Save($projectFile);
+	}
+	return $netstandardProject;
+}
+
+function Update-NetFrameworkProject([string]$projectFile, $manifest)
+{
+	$assemblyInfo = "$(Split-Path $projectFile -Parent)\Properties\AssemblyInfo.cs";
+	if (Test-Path $assemblyInfo)
+	{
+		$contents = Get-Content $assemblyInfo | Out-String;
+		foreach ($arg in @(
+			[Arg]::new("Company", "`"$($manifest.Owner)`""),
+			[Arg]::new("Description", "`"$($manifest.Description)`""),
+			[Arg]::new("Copyright", "`"$($manifest.Copyright)`""),
+			[Arg]::new("InformationalVersion", "`"$($manifest.Version.ToString())`""),
+			[Arg]::new("FileVersion", "`"$($manifest.Version.ToString())`""),
+			[Arg]::new("Version", "`"$($manifest.Version.ToString())`"")
+		))
+		{
+			if (-not [string]::IsNullOrEmpty($arg.Value))
+			{
+				$matches = [Regex]::Matches($contents, [string]::Format('(?i)Assembly{0}\s*\(\s*(?<value>"?.*"?)\)', $arg.TagName));
+				if ($matches.Count -ge 1)
+				{
+					foreach ($match in $matches)
+					{
+						$value = $match.Groups["value"];
+						$contents = $contents.Remove($value.Index, $value.Length);
+						$contents = $contents.Insert($value.Index, $arg.Value);
+					}
+				}
+				else
+				{
+					$contents = [string]::Concat($contents.TrimEnd(), [System.Environment]::NewLine, "[assembly: Assembly$($arg.TagName)($($arg.Value))]");
+				}
+			}
+		}
+		$contents | Out-File $assemblyInfo -Encoding utf8;
+		return $true;
+	}
+	return $false;
+}
+
+function Update-VSIXManifest([string]$projectFile, $manifest)
+{
+	[xml]$doc = Get-Content $projectFile;
+    $ns = New-Object Xml.XmlNamespaceManager $doc.NameTable;
+    $ns.AddNamespace("x", "http://schemas.microsoft.com/developer/vsx-schema/2011");
+	
+	$metadata = $doc.SelectSingleNode("//x:Metadata", $ns);
+	if ($metadata -ne $null)
+	{
+		$identity = $metadata.SelectSingleNode("x:Identity", $ns);
+		foreach ($arg in @(
+			[Arg]::new("Version", $manifest.Version.ToString()),
+			[Arg]::new("Publisher", $manifest.Owner)
+		))
+		{
+			if (-not [string]::IsNullOrEmpty($arg.Value))
+			{
+				$attribute = $identity.Attributes[$arg.TagName];
+				if ($attribute -eq $null)
+				{
+					$attr = $doc.CreateAttribute($arg.TagName);
+					$attr.Value = $arg.Value;
+                    $identity.Attributes.Append($attr);
+				}
+				else
+				{
+					$attribute.Value = $arg.Value;
+				}
+			}
+		}
+		foreach ($arg in @(
+			[Arg]::new("DisplayName", $manifest.ProductName),
+			[Arg]::new("Description", $manifest.Description),
+			[Arg]::new("Tags", $manifest.Tags)
+		))
+		{
+			if (-not [string]::IsNullOrEmpty($arg.Value))
+			{
+				$node = $metadata.SelectSingleNode("x:$($arg.TagName)", $ns);
+				if ($node -eq $null)
+				{
+					$n = $doc.CreateElement($arg.TagName, "http://schemas.microsoft.com/developer/vsx-schema/2011");
+					$data = &{ if ($arg.Value -match '[\n><]') { return $doc.CreateCDataSection($arg.Value); } else { return $doc.CreateTextNode($arg.Value); } };
+					$n.AppendChild($data);
+					$metadata.AppendChild($n);
+				}
+				else
+				{
+					$node.InnerText = $arg.Value;
+				}
+			}
+		}
+		$doc.Save($projectFile) | Out-Null;
+	}
+}
+
+class Arg
+{
+	Arg([string]$tagName, [string]$value)
+	{
+		$this.Value = $value;
+		$this.TagName = $tagName;
+	}
+
+	[string]$Value;
+	[string]$TagName;
 }

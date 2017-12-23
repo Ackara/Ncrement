@@ -1,15 +1,14 @@
 ﻿{
-    "Path":  null,
     "Id":  "Acklann.Buildbox",
     "Version":  {
                     "Major":  1,
-                    "Minor":  2,
-                    "Patch":  3,
+                    "Minor":  3,
+                    "Patch":  0,
                     "Suffix":  ""
                 },
     "ProductName":  "",
     "Description":  "This is a informative description.",
-    "Author":  "Ackara",
+    "Authors":  "",
     "Tags":  "build, deploy",
     "Owner":  "Ackara",
     "Copyright":  "All rights reserved.",

@@ -56,9 +56,34 @@ class Version
 	[int]$Patch = 1;
 	[string]$Suffix = "";
 
+	[void] Increment([bool]$major, [bool]$minor, [bool]$patch)
+	{
+		if ($major)
+		{
+			$this.Major++;
+			$this.Minor = 0;
+			$this.Patch = 0;
+		}
+		elseif ($minor)
+		{
+			$this.Minor++;
+			$this.Patch = 0;
+		}
+		elseif ($patch)
+		{
+			$this.Patch++;
+		}
+	}
+
 	[string] ToString()
 	{
-		return "$($this.Major).$($this.Minor).$($this.Patch)";
+		return $this.ToString($false);
+	}
+
+	[string] ToString($withSuffix = $false)
+	{
+		$suff = &{ if ($withSuffix) { return "-$($this.Suffix)"; } else { return ""; }};
+		return "$($this.Major).$($this.Minor).$($this.Patch)$suff";
 	}
 }
 
@@ -105,6 +130,7 @@ class Manifest
 	{
 		$json = (Get-Content $path | Out-String | ConvertFrom-Json);
 		$manifest = [Manifest]::new();
+		$manifest.Path = $path;
 		$manifest.Id = $json.id;
 		$manifest.Tags = $json.tags;
 		$manifest.Owner = $json.owner;
@@ -154,7 +180,5 @@ class Manifest
 			return $null;
 		}
 	}
-
-	
 }
 #endregion

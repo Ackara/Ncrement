@@ -21,7 +21,7 @@ Describe "New-BuildboxManifest" {
 	}
 
 	Context "Has Required Fields" {
-		$manifest = New-BuildboxManifest "$PWD\new-manifest.json" -Force;
+		$manifest = New-BuildboxManifest "$PWD\new-manifest1.json" -Force;
 		
 		It "should have all expected fields when serialized" {
 			{ Approve-File($manifest.Path) } | Should Not Throw;

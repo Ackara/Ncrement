@@ -1,4 +1,8 @@
 ﻿{
+    "BranchSuffixMap":  {
+                            "*":  "beta",
+                            "master":  ""
+                        },
     "Id":  "CompanyName.ProductName",
     "Version":  {
                     "Major":  0,
@@ -8,12 +12,8 @@
                 },
     "ProductName":  "Your Product Name",
     "Description":  "A useful description.",
-    "Author":  "Ackeem",
+    "Authors":  "Ackeem",
     "Tags":  "tag1 tag2",
     "Owner":  "Ackeem",
-    "Copyright":  "All Rights Reserved.",
-    "BranchSuffixMap":  {
-                            "*":  "beta",
-                            "master":  ""
-                        }
+    "Copyright":  "All Rights Reserved."
 }

@@ -35,6 +35,7 @@
     <Compile Include="Tests\ConvertTo-NuGetProperties.tests.ps1" />
     <Compile Include="Tests\Get-BuildboxManifest.tests.ps1" />
     <Compile Include="Tests\New-BuildboxManifest.tests.ps1" />
+    <Compile Include="Tests\Update-ProjectManifests.tests.ps1" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="TestData\manifest-full.json" />

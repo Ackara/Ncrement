@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="Optimus.VSIX.411f03e3-dac2-4bcb-91ea-7e2cc488bfa6" Version="1.0" Language="en-US" Publisher="Ackara" />
+    <Identity Id="Optimus.VSIX.411f03e3-dac2-4bcb-91ea-7e2cc488bfa6" Version="1.0" Language="en-US" />
     <DisplayName>Optimus.VSIX</DisplayName>
     <Description>Empty VSIX Project.</Description>
   </Metadata>

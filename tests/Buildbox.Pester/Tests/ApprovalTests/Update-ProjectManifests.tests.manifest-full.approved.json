@@ -1,0 +1,24 @@
+﻿{
+    "Id":  "Acklann.Buildbox",
+    "Version":  {
+                    "Major":  1,
+                    "Minor":  3,
+                    "Patch":  0,
+                    "Suffix":  ""
+                },
+    "ProductName":  "Buildbox",
+    "Description":  "This is a informative description.",
+    "Authors":  "Ackara",
+    "Tags":  "build, deploy",
+    "Owner":  "Ackara",
+    "Copyright":  "All rights reserved.",
+    "IconUri":  "https://example.com/icon/buildbox.png",
+    "LicenseUri":  "https://example.com/buildbox/license.txt",
+    "ProjectUrl":  "https://example.com/project/buildbox",
+    "RepositoryUrl":  "",
+    "BranchSuffixMap":  {
+                            "*":  "alpha",
+                            "dev":  "preview",
+                            "master":  ""
+                        }
+}
