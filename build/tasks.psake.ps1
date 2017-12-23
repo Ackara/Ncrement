@@ -52,7 +52,7 @@ Task "Run-Tests" -alias "test" -description "Invoke all tests within the 'tests'
 }
 
 Task "Update-Manifest" -alias "version" -description "Increment the manifest version number." `
--depends @("restore") -action {
+-depends @("test") -action {
 	# Increment version number
 	$manifest = Get-Content "$PSScriptRoot\manifest.json" | Out-String | ConvertFrom-Json;
 	$version = "$($manifest.version.major).$($manifest.version.minor).$($manifest.version.patch)";
@@ -71,6 +71,9 @@ Task "Update-Manifest" -alias "version" -description "Increment the manifest ver
 	-FunctionsToExport * `
 	-Author $manifest.author;
 
+	Exec { &git add $psd1; }
+	Exec { &git add "$PSScriptRoot\manifest.json"; }
+	Exec { &git commit -m "Updated version number to $version";}
 	Exec { &git tag v$version; }
 }
 
