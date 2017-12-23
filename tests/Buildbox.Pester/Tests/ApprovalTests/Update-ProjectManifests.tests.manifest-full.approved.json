@@ -16,6 +16,7 @@
     "LicenseUri":  "https://example.com/buildbox/license.txt",
     "ProjectUrl":  "https://example.com/project/buildbox",
     "RepositoryUrl":  "",
+    "ReleaseNotes":  "some notes",
     "BranchSuffixMap":  {
                             "*":  "alpha",
                             "dev":  "preview",

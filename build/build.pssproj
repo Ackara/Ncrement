@@ -32,6 +32,7 @@
     <Compile Include="..\build.ps1">
       <Link>build.ps1</Link>
     </Compile>
+    <Compile Include="package.nuspec" />
     <Compile Include="secrets.json" />
     <Compile Include="helper.psm1" />
     <Compile Include="tasks.psake.ps1">

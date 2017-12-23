@@ -14,5 +14,6 @@
     <PackageIconUrl>https://example.com/icon/buildbox.png</PackageIconUrl>
     <PackageProjectUrl>https://example.com/project/buildbox</PackageProjectUrl>
     <PackageLicenseUrl>https://example.com/buildbox/license.txt</PackageLicenseUrl>
+    <PackageReleaseNotes>some notes</PackageReleaseNotes>
   </PropertyGroup>
 </Project>

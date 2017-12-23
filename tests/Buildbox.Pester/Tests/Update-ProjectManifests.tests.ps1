@@ -3,9 +3,12 @@ $context = New-TestEnvironment -useTemp;
 Import-Module $context.ModulePath -Force;
 
 Describe "Update-ProjectManifests" {
-	#Push-Location $context.TestDir;
+	Push-Location $context.TestDir;
 
-	#&git status | Write-Host;
+	&git init;
+	&git add *;
+	&git commit -m init;
+	
 	$manifestPath = "$($context.TestDataDir)\manifest-full.json";
 	$result = Get-Item $manifestPath | Get-BuildboxManifest | Update-ProjectManifests $context.TestDir -Commit -Tag -Minor;
 
@@ -32,8 +35,24 @@ Describe "Update-ProjectManifests" {
 
 		It "should update a powershell module manifest" {
 			$psManifest = Get-Item "$($context.TestDataDir)\*.psd1";
-			#{ Approve-File $psManifest.FullName } | Should Not Throw;
+			{ Approve-File $psManifest.FullName } | Should Not Throw;
 		}
 	}
-	#Pop-Location;
+
+	Context "Git" {
+		It "should return a list of the modified files." {
+			$result.ModifiedFiles.Count | Should BeGreaterThan 2;
+		}
+
+		It "should commit modified files to source control" {
+			$stauts = &git status | Out-String;
+			$stauts | Should Match "nothing to commit";
+		}
+
+		It "should tag commit with version number" {
+			$tag = &git tag | Out-String;
+			$tag | Should Match "v$($result.Manifest.Version.ToString())";
+		}
+	}
+	Pop-Location;
 }

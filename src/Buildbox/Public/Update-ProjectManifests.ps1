@@ -91,9 +91,9 @@ function Update-ProjectManifests()
 	{
 		$wasUpdated = Update-NetStandardProject $projectFile.FullName $Manifest;
 		if ($wasUpdated) { $modifiedFiles.Add($projectFile.FullName); }
-		
-		$wasUpdated = Update-NetFrameworkProject $projectFile.FullName $Manifest;
-		if ($wasUpdated) { $modifiedFiles.Add($projectFile.FullName); }
+
+		$assemblyInfo = Update-NetFrameworkProject $projectFile.FullName $Manifest;
+		if (Test-Path $assemblyInfo -PathType Leaf) { $modifiedFiles.Add($assemblyInfo); }
 	}
 
 	# Update all powershell module manifest.
@@ -101,21 +101,22 @@ function Update-ProjectManifests()
 	{
 		try
 		{
+			$tags = [string]::Join(' ', $Manifest.Tags.Split(@(' ', ',', ';')));
 			Update-ModuleManifest -Path $projectFile.FullName `
 			-Author $Manifest.Authors `
 			-CompanyName $Manifest.Owner `
 			-Description $Manifest.Description `
 			-Copyright $Manifest.Copyright `
-			-Tags $Manifest.Tags.Split(' ', ',', ';') `
 			-ProjectUri $Manifest.ProjectUrl `
 			-ReleaseNotes $Manifest.ReleaseNotes `
 			-LicenseUri $Manifest.LicenseUri `
 			-IconUri $Manifest.IconUri `
+			-Tags $tags `
 			-ModuleVersion $Manifest.Version.ToString();
 
 			$modifiedFiles.Add($projectFile.FullName);
 		}
-		catch {  }
+		catch { Write-Warning $_.Exception.Message; }
 	}
 
 	# Update all '.vsixmanifest' files
@@ -123,6 +124,25 @@ function Update-ProjectManifests()
 	{
 		Update-VSIXManifest $projectFile.FullName $Manifest;
 		$modifiedFiles.Add($projectFile.FullName);
+	}
+
+	# Commit Changes
+	if ($CommitChanges)
+	{
+		foreach ($file in $modifiedFiles) { &git add $file; }
+
+		$msg = "";
+		$version = $Manifest.Version.ToString();
+		if ([string]::IsNullOrEmpty($CommitMessage))
+		{
+			$msg = "Increment version number to $version";
+		}
+		else
+		{
+			$msg = [string]::Format($CommitMessage, $version);
+		}
+		&git commit -m $msg;
+		if ($Tag) { &git tag v$version; }
 	}
 
 	return New-Object PSCustomObject -Property @{
@@ -209,9 +229,8 @@ function Update-NetFrameworkProject([string]$projectFile, $manifest)
 			}
 		}
 		$contents | Out-File $assemblyInfo -Encoding utf8;
-		return $true;
 	}
-	return $false;
+	return $assemblyInfo;
 }
 
 function Update-VSIXManifest([string]$projectFile, $manifest)
@@ -219,7 +238,7 @@ function Update-VSIXManifest([string]$projectFile, $manifest)
 	[xml]$doc = Get-Content $projectFile;
     $ns = New-Object Xml.XmlNamespaceManager $doc.NameTable;
     $ns.AddNamespace("x", "http://schemas.microsoft.com/developer/vsx-schema/2011");
-	
+
 	$metadata = $doc.SelectSingleNode("//x:Metadata", $ns);
 	if ($metadata -ne $null)
 	{

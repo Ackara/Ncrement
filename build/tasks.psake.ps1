@@ -66,7 +66,7 @@ Task "Update-Manifest" -alias "version" -description "Increment the manifest ver
 	-LicenseUri $manifest.license `
 	-Description $manifest.description `
 	-IconUri $manifest.icon `
-	-Tags $manifest.tags `
+	-Tags $manifest.tags.Split(' ') `
 	-CmdletsToExport * `
 	-FunctionsToExport * `
 	-Author $manifest.author;
@@ -104,12 +104,12 @@ Task "Package-Application" -alias "pack" -description "Package module as a nuget
 }
 
 Task "Publish-Module" -alias "push" -description "Publish module to 'powershellgallery.com' and 'nuget.org'" `
--depends @("test", "pack") -action {
-	$psd1 = (Get-Item "$RootDir\src\*\*.psd1").FullName;
+-depends @("pack") -action {
+	$psd1 = (Get-Item "$RootDir\src\*\*.psd1").DirectoryName;
 	$nupkg = (Get-Item "$ArtifactsDir\*.nupkg").FullName;
 
 	$keys = Get-Content "$PSScriptRoot\secrets.json" | Out-String | ConvertFrom-Json;
-	Exec { &$nuget push $nupkg -ApiKey $keys.nugetKey; }
+	#Exec { &$nuget push $nupkg -Source "https://api.nuget.org/v3/index.json" -ApiKey $keys.nugetKey; }
 	Publish-Module -Path $psd1 -NuGetApiKey $keys.psGalleryKey;
 }
 

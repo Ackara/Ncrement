@@ -123,6 +123,7 @@ class Manifest
 	[string]$LicenseUri;
 	[string]$ProjectUrl;
 	[string]$RepositoryUrl;
+	[string]$ReleaseNotes;
 
 	$BranchSuffixMap = @{};
 
@@ -143,6 +144,7 @@ class Manifest
 		$manifest.ProductName = $json.productName;
 		$manifest.ProjectUrl = $json.projectUrl;
 		$manifest.Copyright = $json.copyright;
+		$manifest.ReleaseNotes = $json.releaseNotes;
 
 		$map = @{};
 		foreach ($property in $json.branchSuffixMap.PSObject.Properties)
@@ -156,7 +158,7 @@ class Manifest
 	[void] Save()
 	{
 		$clone = $this | ConvertTo-Json | ConvertFrom-Json;
-		$nullProperties = $clone.Psobject.Properties | Where-Object {$_.Value -EQ $null} | Select-Object -ExpandProperty Name;
+		$nullProperties = $clone.Psobject.Properties | Where-Object {$_.Value -eq $null} | Select-Object -ExpandProperty Name;
 		foreach ($property in $nullProperties)
 		{
 			$clone.Psobject.Properties.Remove($property);

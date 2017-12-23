@@ -9,6 +9,7 @@
   "iconUri": "https://example.com/icon/buildbox.png",
   "licenseUri": "https://example.com/buildbox/license.txt",
   "tags": "build, deploy",
+  "releaseNotes":  "some notes",
   "version":
   {
     "major": 1,
