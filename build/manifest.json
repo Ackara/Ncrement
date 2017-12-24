@@ -11,5 +11,6 @@
   "license": "https://github.com/Ackara/Buildbox/blob/master/LICENSE",
   "icon": "https://raw.githubusercontent.com/Ackara/Buildbox/master/assets/icon.png",
   "copyright": "Released under the MIT license.",
-  "tags": "build automation continous deployment vsts"
+  "tags": "build automation continous deployment vsts",
+  "releaseNotes": "https://github.com/Ackara/Buildbox/blob/master/releaseNotes.txt"
 }

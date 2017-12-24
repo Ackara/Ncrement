@@ -109,14 +109,8 @@ Task "Publish-Module" -alias "push" -description "Publish module to 'powershellg
 	$nupkg = (Get-Item "$ArtifactsDir\*.nupkg").FullName;
 
 	$keys = Get-Content "$PSScriptRoot\secrets.json" | Out-String | ConvertFrom-Json;
-	#Exec { &$nuget push $nupkg -Source "https://api.nuget.org/v3/index.json" -ApiKey $keys.nugetKey; }
 	Publish-Module -Path $psd1 -NuGetApiKey $keys.psGalleryKey;
+	Exec { &$nuget push $nupkg -Source "https://api.nuget.org/v3/index.json" -ApiKey $keys.nugetKey; }
 }
-
-#endregion
-
-#region ----- FUNCTIONS -----
-
-
 
 #endregion

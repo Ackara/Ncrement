@@ -34,8 +34,9 @@ Describe "Update-ProjectManifests" {
 		}
 
 		It "should update a powershell module manifest" {
-			$psManifest = Get-Item "$($context.TestDataDir)\*.psd1";
-			{ Approve-File $psManifest.FullName } | Should Not Throw;
+			$psManifest = Get-Item "$($context.TestDataDir)\*.psd1" | Get-Content | Out-String;
+			$psManifest = $psManifest -replace '(?i)generated on:.+', '';
+			{ Approve-Text $psManifest "mock1.psd1" } | Should Not Throw;
 		}
 	}
 

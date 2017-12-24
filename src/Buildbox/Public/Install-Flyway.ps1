@@ -1,33 +1,33 @@
+<#
+.SYNOPSIS
+Install the flyway command-line tool from 'https://flywaydb.org' to the specified directory.
+
+.DESCRIPTION
+This function will install the flyway command-line tool from 'https://flywaydb.org' to the specified directory. Returns a PSCustomObject the stores the full path of the flyway executable ([string] Filename) and its configuration file ([string] ConfigFile).
+
+.PARAMETER InstallationDirectory
+The installation folder.
+
+.PARAMETER Version
+The version number. (default: 4.2.0).
+
+.OUTPUTS
+System.Management.Automation.PSCustomObject
+
+.EXAMPLE
+Install-Flyway "c:\temp";
+In this example, the flyway cli is downloaded into a temp directory.
+
+.EXAMPLE
+$flyway = Install-Flyway "c:\temp";
+In this example, the flyway cli is downloaded into the current directory.
+
+.LINK
+https://flywaydb.org/documentation/
+#>
+
 function Install-Flyway()
 {
-	<#
-	.SYNOPSIS
-	Install the flyway command-line tool from 'https://flywaydb.org' to the specified directory.
-
-	.DESCRIPTION
-	This function will install the flyway command-line tool from 'https://flywaydb.org' to the specified directory. Returns a PSCustomObject the stores the full path of the flyway executable ([string] Filename) and its configuration file ([string] ConfigFile).
-
-	.PARAMETER InstallationDirectory
-	The installation folder.
-
-	.PARAMETER Version
-	The version number. (default: 4.2.0).
-	
-	.OUTPUTS
-	System.Management.Automation.PSCustomObject
-
-	.EXAMPLE
-	Install-Flyway "c:\temp";
-	In this example, the flyway cli is downloaded into a temp directory.
-
-	.EXAMPLE
-	$flyway = Install-Flyway "c:\temp";
-	In this example, the flyway cli is downloaded into the current directory.
-
-	.LINK
-	https://flywaydb.org/documentation/
-	#>
-
 	Param(
 		[Alias('p', 'dir', 'path')]
 		[Parameter(ValueFromPipeline)]

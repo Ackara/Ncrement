@@ -1,43 +1,43 @@
+<#
+.SYNOPSIS
+This cmdlet edits a 'flyway.conf' file.
+
+.DESCRIPTION
+This cmdlet will edit a 'flyway.conf' file using the arguments passed. Returns the full path of the file that was edited.
+
+.PARAMETER Path
+The full path of the configuration file.
+
+.PARAMETER Url
+The jdbc url to use to connect to the database.
+
+.PARAMETER User
+The user to use to connect to the database
+
+.PARAMETER Password
+The password to use to connect to the database.
+
+.PARAMETER Locations
+A list of locations to scan recursively for migrations.
+
+.INPUTS
+System.String
+System.IO.FileInfo
+System.IO.DirectoryInfo
+System.Management.Automation.PSCustomObject
+
+.OUTPUTS
+System.String
+
+.EXAMPLE
+Edit-FlywayConf "c:\tools\flyway\flyway.conf" -url "localhost" -usr "john" -pwd "pa551";
+In this example, the 'flyway.conf' file is modified using the specified values.
+
+.LINK
+https://flywaydb.org/documentation
+#>
 function Edit-FlywayConf()
 {
-	<#
-	.SYNOPSIS
-	This cmdlet edits a 'flyway.conf' file.
-
-	.DESCRIPTION
-	This cmdlet will edit a 'flyway.conf' file using the arguments passed. Returns the full path of the file that was edited.
-
-	.PARAMETER Path
-	The full path of the configuration file.
-
-	.PARAMETER Url
-	The jdbc url to use to connect to the database.
-
-	.PARAMETER User
-	The user to use to connect to the database
-
-	.PARAMETER Password
-	The password to use to connect to the database.
-
-	.PARAMETER Locations
-	A list of locations to scan recursively for migrations.
-
-	.INPUTS
-	System.String
-	System.IO.FileInfo
-	System.IO.DirectoryInfo
-	System.Management.Automation.PSCustomObject
-
-	.OUTPUTS
-	System.String
-
-	.EXAMPLE
-	Edit-FlywayConf "c:\tools\flyway\flyway.conf" -url "localhost" -usr "john" -pwd "pa551";
-	In this example, the 'flyway.conf' file is modified using the specified values.
-
-	.LINK
-	https://flywaydb.org/documentation
-	#>
 	[CmdletBinding(SupportsShouldProcess, ConfirmImpact = "Medium")]
 	Param(
 		[Alias('c', 'conf', 'path')]

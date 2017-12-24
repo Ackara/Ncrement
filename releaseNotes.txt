@@ -1,6 +1,7 @@
 version 4.0.0
 -------------
-Remove dependency on C# .dll.
+* Remove dependency on C# .dll.
+* Rename Out-NugetTokens to ConvertTo-NuGetProperties.
 
 version 3.2.2
 -------------

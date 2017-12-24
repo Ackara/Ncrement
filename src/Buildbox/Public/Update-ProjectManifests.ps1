@@ -19,7 +19,7 @@ The message to use when the -CommitChanges flag is present.
 .PARAMETER CommitChanges
 Determines whether to commit the modified file to source control (using Git).
 
-.PARAMETER Tag
+.PARAMETER TagCommit
 Determines whether the Git commit should be tagged with the current version number.
 
 .PARAMETER Major
@@ -50,7 +50,7 @@ New-BuildboxManifest
 #>
 function Update-ProjectManifests()
 {
-	[CmdletBinding()]
+	[CmdletBinding(SupportsShouldProcess)]
 	Param(
 		[Alias('r', "dir", "root")]
 		[Parameter(Mandatory, Position = 1)]
@@ -67,7 +67,7 @@ function Update-ProjectManifests()
 		[switch]$CommitChanges,
 
 		[Alias('t')]
-		[switch]$Tag,
+		[switch]$TagCommit,
 
 		[Alias("break")]
 		[switch]$Major,
@@ -78,7 +78,7 @@ function Update-ProjectManifests()
 		[Alias("build")]
 		[switch]$Patch
 	)
-
+	
 	$modifiedFiles = New-Object System.Collections.ArrayList;
 
 	# Incrementing the manifest version number.
@@ -127,7 +127,7 @@ function Update-ProjectManifests()
 	}
 
 	# Commit Changes
-	if ($CommitChanges)
+	if ($CommitChanges -and (Assert-GitIsInstalled))
 	{
 		foreach ($file in $modifiedFiles) { &git add $file; }
 
@@ -142,7 +142,7 @@ function Update-ProjectManifests()
 			$msg = [string]::Format($CommitMessage, $version);
 		}
 		&git commit -m $msg;
-		if ($Tag) { &git tag v$version; }
+		if ($TagCommit) { &git tag v$version; }
 	}
 
 	return New-Object PSCustomObject -Property @{
