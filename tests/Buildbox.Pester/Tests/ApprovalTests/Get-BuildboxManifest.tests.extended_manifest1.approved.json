@@ -1,7 +1,6 @@
 ﻿{
-    "id":  "Acklann.Buildbox",
+    "id":  "This field was modified",
     "productName":  "Buildbox",
-    "description":  "This is a informative description.",
     "authors":  "Ackara",
     "owner":  "Ackara",
     "copyright":  "All rights reserved.",
@@ -10,15 +9,20 @@
     "licenseUri":  "https://example.com/buildbox/license.txt",
     "tags":  "build, deploy",
     "releaseNotes":  "some notes",
+    "repositoryUrl":  "https://github.com/Ackara",
     "version":  {
                     "Major":  1,
-                    "Minor":  3,
-                    "Patch":  0,
+                    "Minor":  2,
+                    "Patch":  3,
                     "Suffix":  ""
                 },
     "branchSuffixMap":  {
                             "*":  "alpha",
                             "dev":  "preview",
                             "master":  ""
-                        }
+                        },
+    "feeds":  {
+                  "nuget":  "nuget url here",
+                  "vsts":  "vsts url here"
+              }
 }

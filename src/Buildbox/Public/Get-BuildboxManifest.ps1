@@ -158,13 +158,27 @@ class Manifest
 	[void] Save()
 	{
 		$clone = $this | ConvertTo-Json | ConvertFrom-Json;
-		$nullProperties = $clone.Psobject.Properties | Where-Object {$_.Value -eq $null} | Select-Object -ExpandProperty Name;
-		foreach ($property in $nullProperties)
+		$clone.PSObject.Properties.Remove("Path");
+		if (Test-Path $this.Path)
 		{
-			$clone.Psobject.Properties.Remove($property);
+			$json = Get-Content $this.Path | Out-String | ConvertFrom-Json;
+			foreach ($property in $clone.PSObject.Properties)
+			{
+				if ([string]::IsNullOrEmpty($property.Value))
+			    {
+			        $json.PSObject.Properties.Remove($property.Name);
+			    }
+			    else
+			    {
+			        $json."$($property.Name)" = $property.Value;
+			    }
+			}
+			$json | ConvertTo-Json | Out-File $this.Path -Encoding utf8;
 		}
-		$clone.Psobject.Properties.Remove("Path");
-		$clone | ConvertTo-Json | Out-File $this.Path -Encoding utf8;
+		else
+		{
+			$clone | ConvertTo-Json | Out-File $this.Path -Encoding utf8;
+		}
 	}
 
 	[string] GetVersionSuffix([string]$branchName)

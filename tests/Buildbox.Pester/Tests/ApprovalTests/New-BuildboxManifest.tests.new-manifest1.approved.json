@@ -12,6 +12,11 @@
     "Tags":  "tag1 tag2",
     "Owner":  "Ackeem",
     "Copyright":  "All Rights Reserved.",
+    "IconUri":  null,
+    "LicenseUri":  null,
+    "ProjectUrl":  null,
+    "RepositoryUrl":  null,
+    "ReleaseNotes":  null,
     "BranchSuffixMap":  {
                             "*":  "beta",
                             "master":  ""

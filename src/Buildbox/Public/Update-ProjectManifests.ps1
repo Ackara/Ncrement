@@ -50,7 +50,7 @@ New-BuildboxManifest
 #>
 function Update-ProjectManifests()
 {
-	[CmdletBinding(SupportsShouldProcess)]
+	[CmdletBinding()]
 	Param(
 		[Alias('r', "dir", "root")]
 		[Parameter(Mandatory, Position = 1)]
@@ -66,7 +66,7 @@ function Update-ProjectManifests()
 		[Alias('c', "commit")]
 		[switch]$CommitChanges,
 
-		[Alias('t')]
+		[Alias('t', "tag")]
 		[switch]$TagCommit,
 
 		[Alias("break")]
@@ -75,7 +75,7 @@ function Update-ProjectManifests()
 		[Alias("feature")]
 		[switch]$Minor,
 
-		[Alias("build")]
+		[Alias("bug")]
 		[switch]$Patch
 	)
 	
@@ -171,7 +171,8 @@ function Update-NetStandardProject([string]$projectFile, $manifest)
 			[Arg]::new("PackageIconUrl", $manifest.IconUri),
 			[Arg]::new("PackageProjectUrl", $manifest.ProjectUrl),
 			[Arg]::new("PackageLicenseUrl", $manifest.LicenseUri),
-			[Arg]::new("PackageReleaseNotes", $manifest.ReleaseNotes)
+			[Arg]::new("PackageReleaseNotes", $manifest.ReleaseNotes),
+			[Arg]::new("RepositoryUrl", $manifest.RepositoryUrl)
 		))
 		{
 			if (-not [string]::IsNullOrEmpty($arg.Value))

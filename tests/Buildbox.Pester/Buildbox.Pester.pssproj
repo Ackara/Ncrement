@@ -32,6 +32,7 @@
   <ItemGroup>
     <Compile Include="config.psm1" />
     <Compile Include="Invoke-Tests.ps1" />
+    <Compile Include="TestData\extended_manifest1.json" />
     <Compile Include="Tests\ConvertTo-NuGetProperties.tests.ps1" />
     <Compile Include="Tests\Get-BuildboxManifest.tests.ps1" />
     <Compile Include="Tests\New-BuildboxManifest.tests.ps1" />
