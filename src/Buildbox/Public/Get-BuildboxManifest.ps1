@@ -193,7 +193,7 @@ class Manifest
 		}
 		else
 		{
-			return $null;
+			return "";
 		}
 	}
 }

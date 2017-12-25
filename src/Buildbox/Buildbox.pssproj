@@ -33,6 +33,7 @@
     <Compile Include="Public\ConvertTo-NuGetProperties.ps1" />
     <Compile Include="Public\Edit-FlywayConf.ps1" />
     <Compile Include="Public\Get-BuildboxManifest.ps1" />
+    <Compile Include="Public\Get-VersionSuffix.ps1" />
     <Compile Include="Public\Install-Flyway.ps1" />
     <Compile Include="Public\Install-WAWSDeploy.ps1" />
     <Compile Include="Public\New-BuildboxManifest.ps1" />
