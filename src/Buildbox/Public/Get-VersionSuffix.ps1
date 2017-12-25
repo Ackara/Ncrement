@@ -35,7 +35,7 @@ function Get-VersionSuffix()
 		[string]$BranchName
 	)
 
-	if ([string]::IsNullOrEmpty($BranchName))
+	if ([string]::IsNullOrEmpty($BranchName) -and (Assert-GitIsInstalled))
 	{
 		$match = [Regex]::Match((& git branch), '\*\s*(?<name>\w+)');
 		if ($match.Success) { $BranchName = $match.Groups["name"].Value; }

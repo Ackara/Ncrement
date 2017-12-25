@@ -82,6 +82,7 @@ function Update-ProjectManifests()
 	$modifiedFiles = New-Object System.Collections.ArrayList;
 
 	# Incrementing the manifest version number.
+    $oldVersion = $Manifest.Version.ToString();
 	$Manifest.Version.Increment($Major.IsPresent, $Minor.IsPresent, $Patch.IsPresent);
 	$Manifest.Save();
 	$modifiedFiles.Add($Manifest.Path);
@@ -148,13 +149,15 @@ function Update-ProjectManifests()
 	return New-Object PSCustomObject -Property @{
 		"Manifest"=$Manifest;
 		"ModifiedFiles"=$modifiedFiles;
+        "OldVersion"=$oldVersion;
+        "Version"=$Manifest.Version.ToString();
 	};
 }
 
 function Update-NetStandardProject([string]$projectFile, $manifest)
 {
 	[xml]$doc = Get-Content $projectFile;
-	$netstandardProject = &{ try { return ($doc.FirstChild.Attributes["Sdk"] -ne $null); } catch { return $false; } };
+	$netstandardProject = &{ try { return ($doc.SelectSingleNode("//Project[@Sdk]") -ne $null); } catch { return $false; } };
 
 	if ($netstandardProject)
 	{
