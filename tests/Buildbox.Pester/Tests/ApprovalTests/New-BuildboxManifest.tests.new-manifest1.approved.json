@@ -3,8 +3,7 @@
     "Version":  {
                     "Major":  0,
                     "Minor":  0,
-                    "Patch":  1,
-                    "Suffix":  ""
+                    "Patch":  1
                 },
     "ProductName":  "Your Product Name",
     "Description":  "A useful description.",

@@ -39,7 +39,16 @@ function Approve-File([string]$receivedFile)
 		if ($diff -ne $null)
 		{
 			Write-Host "Copy-Item `"$receivedFile`" `"$approvedFile`";";
-			Invoke-Item $receivedFile;
+			
+			$bc4 = "C:\Program Files\Beyond Compare 4\BCompare.exe";
+			if (Test-Path $bc4)
+			{
+				&$bc4 $receivedFile $approvedFile;
+			}
+			else
+			{
+				Invoke-Item $receivedFile;
+			}
 			throw "'$(Split-Path $receivedFile -Leaf)' is not approved.";
 		}
 	}

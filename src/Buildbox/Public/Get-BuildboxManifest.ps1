@@ -54,7 +54,6 @@ class Version
 	[int]$Major = 0;
 	[int]$Minor = 0;
 	[int]$Patch = 1;
-	[string]$Suffix = "";
 
 	[void] Increment([bool]$major, [bool]$minor, [bool]$patch)
 	{
@@ -77,13 +76,7 @@ class Version
 
 	[string] ToString()
 	{
-		return $this.ToString($false);
-	}
-
-	[string] ToString($withSuffix = $false)
-	{
-		$suff = &{ if ($withSuffix) { return "-$($this.Suffix)"; } else { return ""; }};
-		return "$($this.Major).$($this.Minor).$($this.Patch)$suff";
+		return "$($this.Major).$($this.Minor).$($this.Patch)";
 	}
 }
 
