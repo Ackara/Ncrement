@@ -163,7 +163,7 @@ function Update-NetStandardProject([string]$projectFile, $manifest)
 	{
 		$propertyGroup = $doc.SelectSingleNode("/Project/PropertyGroup[1]");
 		foreach ($arg in @(
-			[Arg]::new("Product", $manifest.ProductName),
+			[Arg]::new("Title", $manifest.ProductName),
 			[Arg]::new("AssemblyVersion", $manifest.Version.ToString()),
 			[Arg]::new("PackageVersion", $manifest.Version.ToString()),
 			[Arg]::new("Description", $manifest.Description),
