@@ -7,10 +7,10 @@
   },
   "description": "A collection of powershell scripts and modules designed for continuous builds and deployments.",
   "author": "Ackara",
-  "url": "https://github.com/Ackara/Buildbox",
-  "license": "https://github.com/Ackara/Buildbox/blob/master/LICENSE",
-  "icon": "https://raw.githubusercontent.com/Ackara/Buildbox/master/assets/icon.png",
+  "url": "https://github.com/Ackara/Ncrement",
+  "license": "https://github.com/Ackara/Ncrement/blob/master/LICENSE",
+  "icon": "https://raw.githubusercontent.com/Ackara/Ncrement/master/assets/icon.png",
   "copyright": "Released under the MIT license.",
   "tags": "build automation continous deployment vsts",
-  "releaseNotes": "https://github.com/Ackara/Buildbox/blob/master/releaseNotes.txt"
+  "releaseNotes": "https://github.com/Ackara/Ncrement/blob/master/releaseNotes.txt"
 }

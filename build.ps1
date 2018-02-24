@@ -1,9 +1,14 @@
 <#
 .SYNOPSIS
-This script bootstraps the psake tasks.
+Run one or more tasks defined in the '\build\tasks.psake.ps1' file.
+
+.EXAMPLE
+.\build.ps1 -Help;
+This example prints a list of all the available tasks.
 #>
 
 Param(
+	[Alias('t')]
 	[string[]]$Tasks = @("default"),
 
 	[Alias('c')]
@@ -13,23 +18,16 @@ Param(
 	[Alias('s', "keys")]
 	[hashtable]$Secrets = @{},
 
-	[Alias('t', "tests")]
-	[string]$TestName = "",
-
 	[Alias("sc", "nobuild")]
 	[switch]$SkipCompilation,
-
-	[Alias("nuget")]
-	[string]$NugetPath = "$PSScriptRoot\tools\NuGet\$NugetVersion\nuget.exe",
-
+	
 	[string]$TaskFile = "$PSScriptRoot\build\*psake*.ps1",
-	[string]$NugetVersion = "4.3.0",
 	[switch]$Major,
 	[switch]$Minor,
 	[switch]$Help
 )
 
-# Set enviroment variables
+# Get source control branch name.
 $branchName = $env:BUILD_SOURCEBRANCHNAME;
 if ([string]::IsNullOrEmpty($branchName))
 {
@@ -37,33 +35,31 @@ if ([string]::IsNullOrEmpty($branchName))
 	if ($match.Success) { $branchName = $match.Groups["name"].Value; }
 }
 
-# Download nuget client
-if (-not (Test-Path $NugetPath))
-{
-    $dir = Split-Path $NugetPath -Parent;
-    if (-not (Test-Path $dir)) { New-Item $dir -ItemType Directory | Out-Null; }
-    Invoke-WebRequest "https://dist.nuget.org/win-x86-commandline/v$NugetVersion/nuget.exe" -OutFile $NugetPath;
+# Install then invoke Psake tasks.
+$psModulesDir = "$PSScriptRoot\build\powershell_modules";
+$modulePath = "$psModulesDir\psake\*\*.psd1";
+if (-not (Test-Path $modulePath))
+{ 
+	if (-not (Test-Path $psModulesDir)) { New-Item $psModulesDir -ItemType Directory | Out-Null; }
+	Save-Module "psake" -Path $psModulesDir; 
 }
+Import-Module $modulePath -Force;
 
-# Install and invoke Psake
-$module = "$PSScriptRoot\tools\psake\*\*.psd1";
-if (-not (Test-Path $module)) { Save-Module "psake" -Path "$PSScriptRoot\tools"; }
-Import-Module $module -Force;
-
-if ($Help) { Invoke-psake -buildFile $TaskFile -docs; }
+if ($Help) { Invoke-Psake -buildFile $TaskFile -docs; }
 else
 {
-	Write-Host "User:    $env:USERNAME";
-	Write-Host "Machine: $env:COMPUTERNAME";
-	Write-Host "Branch:  $branchName";
+	Write-Host -ForegroundColor DarkGray "User:     $env:USERNAME";
+	Write-Host -ForegroundColor DarkGray "Machine:  $env:COMPUTERNAME";
+	Write-Host -ForegroundColor DarkGray "Platform: $env:OS";
+	Write-Host -ForegroundColor DarkGray "Branch:   $branchName";
 	Invoke-psake $taskFile -nologo -taskList $Tasks -properties @{
 		"Secrets"=$Secrets;
 		"Branch"=$branchName;
-		"nuget" = $NugetPath;
-		"TestName" = $TestName;
 		"Major"=$Major.IsPresent;
 		"Minor"=$Minor.IsPresent;
+		"PoshModulesDir"=$psModulesDir;
 		"Configuration"=$Configuration;
 		"SkipCompilation"=$SkipCompilation.IsPresent;
 	}
+	if (-not $psake.build_success) { exit 1; }
 }

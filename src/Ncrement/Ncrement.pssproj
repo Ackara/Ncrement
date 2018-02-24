@@ -32,15 +32,6 @@
     <Compile Include="Buildbox.psm1" />
     <Compile Include="Private\Assert-GitIsInstalled.ps1" />
     <Compile Include="Public\Coalesce.ps1" />
-    <Compile Include="Public\ConvertTo-NuGetProperties.ps1" />
-    <Compile Include="Public\Edit-FlywayConf.ps1" />
-    <Compile Include="Public\Get-BuildboxManifest.ps1" />
-    <Compile Include="Public\Get-VersionNumber.ps1" />
-    <Compile Include="Public\Install-Flyway.ps1" />
-    <Compile Include="Public\Install-WAWSDeploy.ps1" />
-    <Compile Include="Public\New-BuildboxManifest.ps1" />
-    <Compile Include="Public\Show-InputDialog.ps1" />
-    <Compile Include="Public\Update-ProjectManifests.ps1" />
     <Compile Include="Public\Write-LineBreak.ps1" />
   </ItemGroup>
   <ItemGroup>

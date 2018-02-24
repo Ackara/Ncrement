@@ -29,16 +29,19 @@
     <Content Include="manifest.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\build.ps1">
-      <Link>build.ps1</Link>
+    <Compile Include="build1.ps1">
+      <SubType>
+      </SubType>
     </Compile>
-    <Compile Include="package.nuspec" />
+    <Compile Include="nuget\package.nuspec" />
     <Compile Include="secrets.json" />
-    <Compile Include="helper.psm1" />
     <Compile Include="tasks.psake.ps1">
       <SubType>
       </SubType>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="nuget\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

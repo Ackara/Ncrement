@@ -30,10 +30,6 @@
     <Folder Include="Tests\" />
     <Folder Include="TestData\" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="config.psm1" />
-    <Compile Include="Invoke-Tests.ps1" />
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />
   <Import Project="$(MSBuildExtensionsPath)\PowerShell Tools for Visual Studio\PowerShellTools.targets" Condition="Exists('$(MSBuildExtensionsPath)\PowerShell Tools for Visual Studio\PowerShellTools.targets')" />
