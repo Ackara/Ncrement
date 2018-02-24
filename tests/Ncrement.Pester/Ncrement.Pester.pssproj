@@ -6,7 +6,8 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>MyApplication</RootNamespace>
     <AssemblyName>MyApplication</AssemblyName>
-    <Name>Buildbox.Pester</Name>
+    <Name>Ncrement.Pester</Name>
+    <ProjectHome />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,20 +33,6 @@
   <ItemGroup>
     <Compile Include="config.psm1" />
     <Compile Include="Invoke-Tests.ps1" />
-    <Compile Include="TestData\extended_manifest1.json" />
-    <Compile Include="TestData\nosuffix_manifest1.json" />
-    <Compile Include="TestData\Script2.ps1" />
-    <Compile Include="Tests\ConvertTo-NuGetProperties.tests.ps1" />
-    <Compile Include="Tests\Get-BuildboxManifest.tests.ps1" />
-    <Compile Include="Tests\Get-VersionNumber.tests.ps1" />
-    <Compile Include="Tests\New-BuildboxManifest.tests.ps1" />
-    <Compile Include="Tests\Update-ProjectManifests.tests.ps1" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="TestData\manifest-full.json" />
-    <Content Include="TestData\manifest.json" />
-    <Content Include="TestData\mixed_manifest.json" />
-    <Content Include="TestData\source_extension.vsixmanifest" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

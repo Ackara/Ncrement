@@ -7,7 +7,8 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Acklann.Buildbox</RootNamespace>
     <AssemblyName>Acklann.Buildbox</AssemblyName>
-    <Name>Buildbox</Name>
+    <Name>Ncrement</Name>
+    <ProjectHome />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

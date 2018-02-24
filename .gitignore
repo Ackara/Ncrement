@@ -235,6 +235,7 @@ FakesAssemblies/
 # Node.js Tools for Visual Studio
 .ntvs_analysis.dat
 node_modules/
+powershell_modules/
 
 # Typescript v1 declaration files
 typings/
@@ -299,3 +300,6 @@ config.json
 !build/config.json
 !**/semver/config.json
 secrets.json
+
+#
+old/

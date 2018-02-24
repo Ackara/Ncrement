@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".root", ".root", "{23C37FC4-E781-4F6D-BC24-2202BF3DF0ED}"
 	ProjectSection(SolutionItems) = preProject
@@ -16,9 +16,9 @@ Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "build", "build\build.psspro
 		{BB8293A7-F439-44CD-B5F2-E584A2635408} = {BB8293A7-F439-44CD-B5F2-E584A2635408}
 	EndProjectSection
 EndProject
-Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Buildbox", "src\Buildbox\Buildbox.pssproj", "{BB8293A7-F439-44CD-B5F2-E584A2635408}"
+Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Ncrement", "src\Ncrement\Ncrement.pssproj", "{BB8293A7-F439-44CD-B5F2-E584A2635408}"
 EndProject
-Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Buildbox.Pester", "tests\Buildbox.Pester\Buildbox.Pester.pssproj", "{5E14149B-55A6-4857-A267-3106D836189B}"
+Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Ncrement.Pester", "tests\Ncrement.Pester\Ncrement.Pester.pssproj", "{5E14149B-55A6-4857-A267-3106D836189B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
