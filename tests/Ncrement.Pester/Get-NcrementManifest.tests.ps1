@@ -26,6 +26,7 @@ Describe "Get-NcrementManifest" {
 			$result = "nested_manifest.json" | Get-NcrementManifest;
 			$result.Company | Should Not BeNullOrEmpty;
 			$result.Author | Should Not BeNullOrEmpty;
+			$result.Path | Should Not BeNullOrEmpty;
 		}
 
 		It "should load a [Manifest] from specified directory." {

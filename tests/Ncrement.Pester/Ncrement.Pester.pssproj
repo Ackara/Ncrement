@@ -31,7 +31,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Get-NcrementManifest.tests.ps1" />
+    <Compile Include="Save-NcrementManifest.tests.ps1" />
     <Compile Include="Start-Tests.ps1" />
+    <Compile Include="Step-NcrementVersionNumber.tests.ps1" />
     <Compile Include="test.psm1" />
     <Compile Include="New-NcrementManifest.tests.ps1" />
   </ItemGroup>

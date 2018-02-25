@@ -50,7 +50,10 @@ function New-NcrementManifest
 {
 	Param(
 		[string]$Id = ([Guid]::NewGuid().ToString()),
+		
+		[Alias("title", "productName", "name")]
 		[string]$Product,
+		
 		[string]$Description,
 		[string]$Author,
 		[string]$Company,
@@ -65,6 +68,7 @@ function New-NcrementManifest
 	)
 
 	return New-Object PSObject -Property @{
+		"Path"="";
 		"Id"=$Id;
 		"Version"=New-Object PSObject -Property @{
 			"Major"=0;

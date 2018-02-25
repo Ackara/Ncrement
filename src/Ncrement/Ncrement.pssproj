@@ -35,6 +35,8 @@
     <Compile Include="Public\Coalesce.ps1" />
     <Compile Include="Public\Get-NcrementManifest.ps1" />
     <Compile Include="Public\New-NcrementManifest.ps1" />
+    <Compile Include="Public\Save-NcrementManifest.ps1" />
+    <Compile Include="Public\Step-NcrementVersionNumber.ps1" />
     <Compile Include="Public\Update-AllProjectManifests.ps1" />
     <Compile Include="Public\Write-LineBreak.ps1" />
   </ItemGroup>

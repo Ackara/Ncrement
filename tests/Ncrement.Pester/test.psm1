@@ -13,6 +13,8 @@ function New-TestEnvironment()
 		&git init;
 		&git add .;
 		&git commit -m "intia commit";
+		&git branch dev | Out-Null;
+		&git checkout dev | Out-Null;
 	}
 	finally { Pop-Location; }
 

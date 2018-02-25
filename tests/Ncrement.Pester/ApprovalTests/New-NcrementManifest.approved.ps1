@@ -13,8 +13,9 @@
                     "Suffix":  "",
                     "Major":  0
                 },
-    "Author":  "",
     "Product":  "",
+    "Author":  "",
+    "Path":  "",
     "Icon":  "",
     "BranchSuffixMap":  {
                             "*":  "rc",

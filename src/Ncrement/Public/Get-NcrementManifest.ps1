@@ -44,7 +44,7 @@ function Get-NcrementManifest
 		{ $Path = "$PWD\manifest.json"; }
 	elseif ((Test-Path $Path -PathType Container))
 		{ $Path = Join-Path $Path "manifest.json"; }
-	
+
 	if ((-not (Test-Path $Path -PathType Leaf)) -and $CreateIfNotFound.IsPresent)
 	{
 		$manifest = New-NcrementManifest;
@@ -53,14 +53,24 @@ function Get-NcrementManifest
 	}
 	elseif (-not (Test-Path $Path -PathType Leaf))
 	{
-		throw "Could not file file at '$Path'.";	
+		throw "Could not file file at '$Path'.";
 	}
 
 	# Extracting the manifest object from .json file.
-
 	$json = Get-Content $Path | Out-String | ConvertFrom-Json;
 	$manifest = $json.PSObject.Properties | Where-Object { $_.Name -ieq "manifest" } | Select-Object -ExpandProperty Value -First 1;
 	if ($manifest -eq $null) { $manifest = $json; }
+
+	# Appending missing properties.
+	$manifest | Add-Member -MemberType NoteProperty -Name "Path" -Value $Path;
+	$model = New-NcrementManifest;
+	foreach ($prop in $model.PSObject.Properties)
+	{
+		if ($manifest.PSObject.Properties.Match($prop.Name).Count -eq 0)
+		{
+			$manifest | Add-Member -MemberType NoteProperty -Name $prop.Name -Value "";
+		}
+	}
 
 	return $manifest;
 }
