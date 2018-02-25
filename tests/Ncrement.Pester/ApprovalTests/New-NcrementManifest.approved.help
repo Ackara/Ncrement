@@ -1,0 +1,145 @@
+
+NAME
+    New-NcrementManifest
+    
+SYNOPSIS
+    Instantiates a new [Manifest] object.
+    
+    
+SYNTAX
+    New-NcrementManifest [[-Id] <String>] [[-Product] <String>] [[-Description] <String>] [[-Author] <String>] [[-Company] <String>] 
+    [[-Copyright] <String>] [[-RepositoryUrl] <String>] [[-ProjectUrl] <String>] [[-License] <String>] [[-Icon] <String>] [[-ReleaseNotes] 
+    <String>] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    
+
+PARAMETERS
+    -Id <String>
+        The id.
+        
+        Required?                    false
+        Position?                    1
+        Default value                ([Guid]::NewGuid().ToString())
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Product <String>
+        The product name.
+        
+        Required?                    false
+        Position?                    2
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Description <String>
+        The product description.
+        
+        Required?                    false
+        Position?                    3
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Author <String>
+        The author.
+        
+        Required?                    false
+        Position?                    4
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Company <String>
+        The owner(s).
+        
+        Required?                    false
+        Position?                    5
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Copyright <String>
+        The copyright.
+        
+        Required?                    false
+        Position?                    6
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -RepositoryUrl <String>
+        The source control url.
+        
+        Required?                    false
+        Position?                    7
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -ProjectUrl <String>
+        The product url.
+        
+        Required?                    false
+        Position?                    8
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -License <String>
+        The license.
+        
+        Required?                    false
+        Position?                    9
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -Icon <String>
+        The product logo.
+        
+        Required?                    false
+        Position?                    10
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -ReleaseNotes <String>
+        The release notes.
+        
+        Required?                    false
+        Position?                    11
+        Default value                
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (https:/go.microsoft.com/fwlink/?LinkID=113216). 
+    
+INPUTS
+    
+OUTPUTS
+    [Manifest]
+    
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>$manifest = New-NcrementManifest -Product "app_name" -Author "me and you";
+    
+    This example creates a new [Manifest] object.
+    
+    
+    
+    
+    
+RELATED LINKS
+
+
+
+
+

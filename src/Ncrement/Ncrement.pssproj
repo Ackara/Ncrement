@@ -28,15 +28,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Buildbox.psd1" />
-    <Compile Include="Buildbox.psm1" />
+    <Compile Include="Ncrement.psd1" />
+    <Compile Include="Private\Add-NcrementTypes.ps1" />
     <Compile Include="Private\Assert-GitIsInstalled.ps1" />
+    <Compile Include="Private\Manifest.cs" />
     <Compile Include="Public\Coalesce.ps1" />
+    <Compile Include="Public\Get-NcrementManifest.ps1" />
+    <Compile Include="Public\New-NcrementManifest.ps1" />
+    <Compile Include="Public\Update-AllProjectManifests.ps1" />
     <Compile Include="Public\Write-LineBreak.ps1" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Public\" />
     <Folder Include="Private\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Private\Version.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

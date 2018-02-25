@@ -27,8 +27,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="Tests\" />
     <Folder Include="TestData\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Get-NcrementManifest.tests.ps1" />
+    <Compile Include="Start-Tests.ps1" />
+    <Compile Include="test.psm1" />
+    <Compile Include="New-NcrementManifest.tests.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />
