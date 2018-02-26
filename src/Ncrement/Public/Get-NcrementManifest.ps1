@@ -62,7 +62,11 @@ function Get-NcrementManifest
 	if ($manifest -eq $null) { $manifest = $json; }
 
 	# Appending missing properties.
-	$manifest | Add-Member -MemberType NoteProperty -Name "Path" -Value $Path;
+	if ($manifest.PSObject.Properties.Match("Path").Count -eq 0)
+	{
+		$manifest | Add-Member -MemberType NoteProperty -Name "Path" -Value $Path;
+	}
+
 	$model = New-NcrementManifest;
 	foreach ($prop in $model.PSObject.Properties)
 	{

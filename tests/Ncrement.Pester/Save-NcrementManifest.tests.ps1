@@ -3,7 +3,7 @@
 Describe "Save-NcrementManifest" {
 	Context "Help" {
 		It "can display help menu" {
-			$help = (help Save-NcrementManifest -Full);
+			$help = (help Save-NcrementManifest -Full | Out-String);
 			$help | Should Not BeNullOrEmpty;
 			#(Approve-Results $help "Save-NcrementManifest_help.txt") | Should Be $true;
 		}
@@ -20,6 +20,7 @@ Describe "Save-NcrementManifest" {
 		Push-Location $context.TestDir;
 
 		It "should save [Manifest] at default location" {
+			$manifest.Path = "";
 			$path = $manifest | Save-NcrementManifest;
 			$path | Should Be "$PWD\manifest.json";
 			$path | Should Exist;
@@ -44,7 +45,7 @@ Describe "Save-NcrementManifest" {
 
 		It "should serialize all expected fields" {
 			$path = $manifest | Save-NcrementManifest;
-			($manifest | ConvertTo-Json | Out-String) | Approve-Results | Should Be $true;
+			(Get-Content $path | Out-String) | Approve-Results | Should Be $true;
 		}
 
 		Pop-Location;

@@ -40,30 +40,54 @@ function Save-NcrementManifest
 		[string]$Path
 	)
 
+	$clone = $Manifest | ConvertTo-Json | ConvertFrom-Json;
+
 	# Resolving the manifest path
 	if ([string]::IsNullOrEmpty($Path))
-	{ $Path = "$PWD\manifest.json"; }
+	{
+		if (($clone.PSObject.Properties.Match("Path").Count -eq 1) -and (-not [string]::IsNullOrEmpty($clone.Path)))
+		{
+			$Path = $clone.Path;
+		}
+		else
+		{
+			$Path = "$PWD\manifest.json";
+		}
+	}
 	elseif (Test-Path $Path -PathType Container)
 	{ $Path = Join-Path $Path "manifest.json"; }
 	elseif (-not [IO.Path]::IsPathRooted($Path))
 	{ $Path = "$PWD\$Path"; }
 
-	# Serializing [Manifest] object.
-	$Manifest.PSObject.Properties.Remove("Path");
+	# Removing all null and unwanted values.
+	$clone.PSObject.Properties.Remove("Path");
+	foreach ($prop in $clone.PSObject.Properties)
+	{
+		if ($prop.Value -eq $null)
+		{
+			$clone.PSObject.Properties.Remove($prop.Name);
+			Write-Host "Removing: $($prop.Name)";
+		}
+	}
 
+	# Serializing [Manifest] object.
 	if (Test-Path $Path)
 	{
 		$json = Get-Content $Path | Out-String | ConvertFrom-Json;
-		$prop = $json.PSObject.Properties | Where-Object { $_.Name -ieq "manifest" } | Select-Object -First 1;
-		if (-not ($prop -eq $null))
+		foreach ($term in @("manifest", "proudct", "project"))
 		{
-			$json.Manifest = $Manifest;
+			if ($json.PSObject.Properties.Match($term).Count -gt 0)
+			{
+				$json.$term = $clone;
+				break;
+			}
 		}
+
 		$json | ConvertTo-Json | Out-File $Path -Encoding utf8;
 	}
 	else
 	{
-		$Manifest | ConvertTo-Json | Out-File $Path -Encoding utf8;
+		$clone | ConvertTo-Json | Out-File $Path -Encoding utf8;
 	}
 
 	return $Path;

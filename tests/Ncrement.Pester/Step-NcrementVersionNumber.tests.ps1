@@ -2,17 +2,21 @@
 
 Describe "Step-NcrementVersionNumber" {
 	Context "Help" {
-		$help = (help Step-NcrementVersionNumber | Out-String);
-		$help | Should Not BeNullOrEmpty;
-		Approve-Results $help | Should Be $true;
+		$help = (help Step-NcrementVersionNumber -Full | Out-String);
+
+		It "can display help menu" {
+			$help | Should Not BeNullOrEmpty;
+			Approve-Results $help | Should Be $true;
+		}
 	}
 
 	Context "Commnad" {
 		$context = New-TestEnvironment;
-		
-		It "should increment patch number." {
-			$manifest = $context.TestFiles | Get-NcrementManifest;
+		$manifest = $context.TestFiles | Get-NcrementManifest;
 
+		Push-Location $context.TestDir;
+
+		It "should increment patch number." {
 			$result = $manifest | Step-NcrementVersionNumber -Fix;
 			$result.Major | Should Be 1;
 			$result.Minor | Should Be 2;
@@ -25,14 +29,23 @@ Describe "Step-NcrementVersionNumber" {
 			$result.Major | Should Be 1;
 			$result.Minor | Should Be 3;
 			$result.Patch | Should Be 0;
-			$result.Suffix | Should Be '';
+			$result.Suffix | Should BeNullOrEmpty;
 		}
 
-		It "should increment patch number." {
+		It "should increment major number." {
 			$result = $manifest | Step-NcrementVersionNumber -Break;
 			$result.Major | Should Be 2;
 			$result.Minor | Should Be 0;
 			$result.Patch | Should Be 0;
 		}
+
+		It "should save modified [Manifest] back to existing file." {
+			$json = Get-Content $manifest.Path | Out-String | ConvertFrom-Json;
+			$json.Version.Major | Should Not Be 2;
+			$json.Version.Minor | Should Not Be 0;
+			$json.Version.Patch | Should Not Be 0;
+		}
+
+		Pop-Location;
 	}
 }
