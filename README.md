@@ -27,8 +27,5 @@ This function will take the deserialized `manifest.json` file and use it to upda
 ```powershell
 $result = "C:\projects\myapp" | Get-NcremnetManifest | Step-NcrementVersionNumber -Patch | Update-NcrementProjectFile "C:\projects\myapp\src" -Tag -Commit`;
 ```
-### Supported Project Files
 
-
-## Where can I get it?
 
