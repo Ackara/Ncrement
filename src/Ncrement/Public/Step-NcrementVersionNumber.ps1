@@ -89,8 +89,10 @@ function Step-NcrementVersionNumber
 	{
 		[string]$repo = "";
 		if ([string]::IsNullOrEmpty($Manifest.Path)) { $repo = $PWD; }
-		else { $repo = Split-Path $Manifest.Path -Parent; }
+		elseif (Test-Path $Manifest.Path -PathType Container) { $repo = $Manifest.Path; }
+		elseif (Test-Path $Manifest.Path -PathType Leaf) { $repo = Split-Path $Manifest.Path -Parent; }
 
+		Push-Location $repo;
 		if ([string]::IsNullOrEmpty($Branch) -and (Test-GitRepository))
 		{
 			$context = (&git branch | Out-String);

@@ -1,18 +1,19 @@
 ﻿{
-    "version":  {
-                    "major":  5,
-                    "minor":  0,
-                    "patch":  0
-                },
-    "id":  "Acklann.Ncrement",
-    "title":  "Ncrement",
-    "description":  "A collection of powershell scripts and modules designed for continuous builds and deployments.",
-    "author":  "Ackara And Contributors",
-    "owner":  "Acklann",
-    "projectUrl":  "https://github.com/Ackara/Ncrement",
-    "license":  "https://github.com/Ackara/Ncrement/blob/master/LICENSE",
-    "icon":  "https://raw.githubusercontent.com/Ackara/Ncrement/master/assets/icon.png",
-    "copyright":  "Released under the MIT license.",
-    "tags":  "build automation continous deployment vsts",
-    "releaseNotes":  "https://github.com/Ackara/Ncrement/blob/master/releaseNotes.txt"
+  "version":
+  {
+    "major": 5,
+    "minor": 0,
+    "patch": 2
+  },
+  "id": "Acklann.Ncrement",
+  "title": "Ncrement",
+  "description": "A collection of powershell scripts and modules designed for continuous builds and deployments.",
+  "author": "Ackara And Contributors",
+  "owner": "Acklann",
+  "projectUrl": "https://github.com/Ackara/Ncrement",
+  "license": "https://github.com/Ackara/Ncrement/blob/master/license.txt",
+  "icon": "https://github.com/Ackara/Ncrement/raw/master/art/icon.png",
+  "copyright": "Released under the MIT license.",
+  "tags": "build automation continous deployment vsts",
+  "releaseNotes": "https://github.com/Ackara/Ncrement/blob/master/releaseNotes.txt"
 }

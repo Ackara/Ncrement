@@ -195,7 +195,6 @@ Task "Generate-Packages" -alias "pack" -description "This task generates the app
 	{
 		$props += "$token=$($manifest.$token);";
 	}
-	$props;
 
 	Write-LineBreak "nuget: pack";
 	Exec { &$nuget pack "$PSScriptRoot\nuget\package.nuspec"-OutputDirectory $ArtifactsDir -Properties $props; }
@@ -205,7 +204,7 @@ Task "Publish-Application" -alias "publish" -description "This task publish all 
 -depends @("pack", "push-psGallery", "push-nuget");
 
 Task "Publish-NuGetPackages" -alias "push-nuget" -description "This task publish all nuget packages to nuget.org." `
--depends @("restore") -action {
+-depends @("restore", "pack") -action {
 	$apiKey = Get-Secret "nugetKey";
 	Assert (-not [string]::IsNullOrEmpty($apiKey)) "Your nuget api key was not specified. Provided a value via the `$Secrets parameter eg. `$Secrets=@{'nugetKey'='your_api_key'}";
 	Assert (Test-Path $ArtifactsDir) "No nuget packages were found. Try running the 'pack' task then try again.";
@@ -213,12 +212,12 @@ Task "Publish-NuGetPackages" -alias "push-nuget" -description "This task publish
 	foreach ($nupkg in (Get-ChildItem $ArtifactsDir -Recurse -Filter "*.nupkg"))
 	{
 		Write-LineBreak "nuget: push '$($nupkg.Name)'";
-		Exec { &$nuget push $nupkg.FullName --source "https://api.nuget.org/v3/index.json" --api-key $apiKey; }
+		Exec { &$nuget push $nupkg.FullName -Source "https://api.nuget.org/v3/index.json" -ApiKey $apiKey; }
 	}
 }
 
 Task "Publish-PowershellGallery" -alias "push-psGallery" -description "" `
--depends @("restore") -action {
+-depends @("restore", "pack") -action {
 	$apiKey = Get-Secret "psGalleryKey";
 	Assert (-not [string]::IsNullOrEmpty($apiKey)) "Your powershellGallery api key was not specified. Provided a value via the `$Secrets parameter eg. `$Secrets=@{'psGalleryKey'='your_api_key'}";
 	Assert (Test-Path $ArtifactsDir) "No powershell packages were found. Try running the 'pack' task then try again.";
@@ -231,7 +230,9 @@ Task "Publish-PowershellGallery" -alias "push-psGallery" -description "" `
 			try
 			{
 				Push-Location $module.DirectoryName;
-				Write-Warning "NOT IMPLEMENETD $PWD";
+				$name = Split-Path $PWD -Leaf;
+				Publish-Module -Path $PWD -NuGetApiKey $apiKey;
+				#Write-Warning "NOT IMPLEMENETD $PWD";
 			}
 			finally { Pop-Location; }
 		}
