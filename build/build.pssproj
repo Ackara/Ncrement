@@ -27,13 +27,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="manifest.json" />
+    <Content Include="nuget\msbuild.targets" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="build1.ps1">
-      <SubType>
-      </SubType>
+    <Compile Include="..\build.ps1">
+      <Link>build.ps1</Link>
     </Compile>
     <Compile Include="nuget\package.nuspec" />
+    <Compile Include="nuget\Update-ProjectFile.ps1" />
     <Compile Include="secrets.json" />
     <Compile Include="tasks.psake.ps1">
       <SubType>

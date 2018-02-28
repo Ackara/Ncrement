@@ -3,35 +3,37 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <!-- Required Fields -->
-    <id>Acklann.Buildbox</id>
+    <id>$id$</id>
     <version>$version$</version>
     <description>$description$</description>
     <authors>$author$</authors>
 
     <!-- Optional Fields -->
-    <title>Buildbox</title>
-    <owners>$author$</owners>
-    <iconUrl>$iconUri$</iconUrl>
+    <title>$title$</title>
+    <owners>$owner$</owners>
+    <iconUrl>$icon$</iconUrl>
     <copyright>$copyright$</copyright>
     <projectUrl>$projectUrl$</projectUrl>
-    <licenseUrl>$licenseUri$</licenseUrl>
+    <licenseUrl>$license$</licenseUrl>
+    <releaseNotes>$releaseNotes$</releaseNotes>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
 
     <tags>$tags$</tags>
     <language>en-US</language>
+    <developmentDependency>true</developmentDependency>
   </metadata>
 
   <files>
-    <file src="..\src\Buildbox\*.ps*1"
-          target="tools"/>
+    <file src="*.ps1"
+          target="tools\$targetFramework$\" />
 
-    <file src="..\src\Buildbox\Public\*"
-          target="tools\Public"/>
+    <file src="..\..\artifacts\Ncrement\"
+          target="tools\$targetFramework$\" />
 
-    <file src="..\src\Buildbox\Private\*"
-          target="tools\Private"/>
+    <file src="msbuild.targets"
+          target="build\$id$.targets" />
 
-    <file src="..\readme*"
-          target=""/>
+    <file src="..\..\readme.md"
+          target="" />
   </files>
 </package>

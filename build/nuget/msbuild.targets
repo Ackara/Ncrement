@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <NcrementMajor Condition="$(NcrementMajor) == ''">False</NcrementMajor>
+    <NcrementMinor Condition="$(NcrementMinor) == ''">False</NcrementMinor>
+    <NcrementPatch Condition="$(NcrementPatch) == ''">False</NcrementPatch>
+    <NcrementWithDate Condition="$(NcrementWithDate) == ''">False</NcrementWithDate>
+    
+    <NcrementManifestPath Condition="$(NcrementManifestPath) == ''">$(MSBuildProjectDirectory)\manifest.json</NcrementManifestPath>
+    <ShouldUpdateProjectFileOnBuildUsingNcrement Condition="$(ShouldUpdateProjectFileOnBuildUsingNcrement) == ''">False</ShouldUpdateProjectFileOnBuildUsingNcrement>
+    <NcrementEditScript Condition="$(NcrementEditScript) == ''">$([System.IO.Path]::GetDirectoryName('$(MSBuildThisFileDirectory.TrimEnd('\\').TrimEnd('/'))'))\UpdateProjectFileWithNcrementls\netstandard2.0\Update-ProjectFile.ps1</NcrementEditScript>
+  </PropertyGroup>
+
+  <Target Name="UpdateProjectFileOnBuild" BeforeTargets="Build"
+          Condition="$(ShouldUpdateProjectFileOnBuildUsingNcrement)">
+    <CallTarget Targets="UpdateProjectFileWithNcrement" />
+  </Target>
+
+  <Target Name="UpdateProjectFileWithNcrement">
+    <Warning Condition="!Exists('$(NcrementEditScript)')"
+             Text="Could not find edit script at '$(NcrementEditScript)'." />
+
+    <Warning Condition="!Exists('$(NcrementManifestPath)')"
+             Text="Could not find manifest file at '$(NcrementManifestPath)'." />
+    
+    <Exec Condition="Exists('$(NcrementEditScript)') AND Exists('$(NcrementManifestPath)')"
+          Command="powershell -ExecutionPolicy Bypass -NonInteractive -File &quot;$(NcrementEditScript)&quot; &quot;$(NcrementManifestPath)&quot; &quot;$(MSBuildProjectFullPath)&quot; &quot;$(NcrementMajor)&quot; &quot;$(NcrementMinor)&quot; &quot;$(NcrementPatch)&quot; &quot;$(NcrementWithDate)&quot;" />
+  </Target>
+</Project>
