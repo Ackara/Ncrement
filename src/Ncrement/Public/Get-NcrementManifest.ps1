@@ -3,7 +3,7 @@
 Creates a new [Manifest] instance from the specified path.
 
 .DESCRIPTION
-This function creates a new [Manifest] instance from the given path. If no path is given the funtion will search the current directory for a 'manifest.json' file; Passing a path to a directory will also invoke the same behavior.
+This function creates a new [Manifest] instance from the specified path. If a path is not provided the function will search the current directory for a 'manifest.json' file; passing a path to a directory will also invoke the same behavior.
 
 .PARAMETER Path
 The path of the manifest file.
@@ -26,6 +26,9 @@ This example creates a new [Manifest] from the specified path.
 
 .LINK
 New-NcrementManifest
+
+.LINK
+Save-NcrementManifest
 #>
 
 function Get-NcrementManifest
@@ -48,7 +51,7 @@ function Get-NcrementManifest
 	if ((-not (Test-Path $Path -PathType Leaf)) -and $CreateIfNotFound.IsPresent)
 	{
 		$manifest = New-NcrementManifest;
-		$manifest | ConvertTo-Json | Out-File $Path -Encoding utf8;
+		$manifest | Save-NcrementManifest $Path;
 		return $manifest;
 	}
 	elseif (-not (Test-Path $Path -PathType Leaf))
