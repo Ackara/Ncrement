@@ -74,7 +74,7 @@ function Save-NcrementManifest
 	if (Test-Path $Path)
 	{
 		$json = Get-Content $Path | Out-String | ConvertFrom-Json;
-		foreach ($term in @("manifest", "proudct", "project"))
+		foreach ($term in @("manifest", "project", "product"))
 		{
 			if ($json.PSObject.Properties.Match($term).Count -gt 0)
 			{

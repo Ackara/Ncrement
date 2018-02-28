@@ -12,7 +12,7 @@ Describe "Save-NcrementManifest" {
 	Context "Command" {
 		$context = New-TestEnvironment;
 		$manifest = Get-NcrementManifest $context.TestFiles;
-		$manifest.Product = "Automated Test";
+		$manifest.Name = "Automated Test";
 		$manifest.Version.Major = 2;
 		$manifest.Version.Minor = 2;
 		$manifest.Version.Patch = 2;

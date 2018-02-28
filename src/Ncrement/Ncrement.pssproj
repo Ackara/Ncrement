@@ -32,12 +32,18 @@
     <Compile Include="Private\Add-NcrementTypes.ps1" />
     <Compile Include="Private\Assert-GitIsInstalled.ps1" />
     <Compile Include="Private\Manifest.cs" />
+    <Compile Include="Private\Test-GitRepository.ps1" />
     <Compile Include="Public\Coalesce.ps1" />
+    <Compile Include="Public\Convert-NcrementVersionNumberToString.ps1" />
     <Compile Include="Public\Get-NcrementManifest.ps1" />
     <Compile Include="Public\New-NcrementManifest.ps1" />
     <Compile Include="Public\Save-NcrementManifest.ps1" />
     <Compile Include="Public\Step-NcrementVersionNumber.ps1" />
-    <Compile Include="Public\Update-AllProjectManifests.ps1" />
+    <Compile Include="Public\Step-NcrementVersionNumberUsingDate.ps1" />
+    <Compile Include="Public\Update-NcrementProjectFile.ps1" />
+    <Compile Include="Private\Edit-NetCoreProjectFile.ps1" />
+    <Compile Include="Private\Edit-NetFrameworkProjectFile.ps1" />
+    <Compile Include="Private\Edit-VSIXManifestFile.ps1" />
     <Compile Include="Public\Write-LineBreak.ps1" />
   </ItemGroup>
   <ItemGroup>
@@ -45,7 +51,7 @@
     <Folder Include="Private\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Private\Version.cs" />
+    <Content Include="Private\Token.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -10,7 +10,7 @@ Describe "Get-NcrementManifest" {
 			#Approve-Results $help | Should Be $true;
 		}
 	}
-
+	
 	Context "Command" {
 		Push-Location $context.TestFiles;
 
@@ -31,7 +31,7 @@ Describe "Get-NcrementManifest" {
 
 		It "should load a [Manifest] from specified directory." {
 			$result = Get-NcrementManifest $PWD;
-			$result.ProjectUrl | Should Not BeNullOrEmpty;
+			$result.Website | Should Not BeNullOrEmpty;
 			$result.RepositoryUrl | Should Not BeNullOrEmpty;
 		}
 

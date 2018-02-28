@@ -3,7 +3,7 @@
 Increments the specified [Manifest] version number.
 
 .DESCRIPTION
-This function increments the [Manifest] version number.
+This function increments the [Manifest] version number. Also when invoked, the version will be incremented then the modified [Manifest] object will be saved to disk as well.
 
 .PARAMETER Manifest
 The [Manifest] object.
@@ -18,7 +18,10 @@ Determines whether the 'Minor' version number should be incremented.
 Determines whether the 'Patch' version number should be incremented.
 
 .PARAMETER Branch
-The current source control branch.
+The source control branch. The value provided will be used to determine the version suffix. If not set 'git branch' will be used as default.
+
+.PARAMETER DoNotSave
+Determines whether to not save the modified [Manifest] object to disk.
 
 .INPUTS
 [Manifest]
@@ -58,7 +61,9 @@ function Step-NcrementVersionNumber
 		[switch]$Minor,
 
 		[Alias("fix", "bug")]
-		[switch]$Patch
+		[switch]$Patch,
+
+		[switch]$DoNotSave
 	)
 
 	# Incrementing the [Manifest] version number.
@@ -80,17 +85,25 @@ function Step-NcrementVersionNumber
 	}
 
 	# Resolving the current branch name if it was not given.
-	if ([string]::IsNullOrEmpty($Branch) -and (Test-GitRepository))
+	try
 	{
-		$context = (&git branch | Out-String);
-		$regex = New-Object Regex -ArgumentList @('(?i)\*\s+(?<name>\w+)');
-		$match = $regex.Match($context);
+		[string]$repo = "";
+		if ([string]::IsNullOrEmpty($Manifest.Path)) { $repo = $PWD; }
+		else { $repo = Split-Path $Manifest.Path -Parent; }
 
-		if ($match.Success)
+		if ([string]::IsNullOrEmpty($Branch) -and (Test-GitRepository))
 		{
-			$Branch = $match.Groups["name"].Value;
+			$context = (&git branch | Out-String);
+			$regex = New-Object Regex -ArgumentList @('(?i)\*\s+(?<name>\w+)');
+			$match = $regex.Match($context);
+
+			if ($match.Success)
+			{
+				$Branch = $match.Groups["name"].Value;
+			}
 		}
 	}
+	finally { Pop-Location; }
 
 	# Adding the 'Suffix' property to [Version] if it is missing.
 	if ($version.PSObject.Properties.Match("Suffix").Count -eq 0)
@@ -114,7 +127,7 @@ function Step-NcrementVersionNumber
 	else { Write-Warning "The 'BranchSuffixMap' property is undefined."; }
 
 	# Saving the changes made to [Manifest].
-	$Manifest | Save-NcrementManifest;
+	if (-not ($DoNotSave)) { $Manifest | Save-NcrementManifest; }
 
-	return $Manifest.Version;
+	return $Manifest;
 }

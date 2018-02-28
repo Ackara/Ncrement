@@ -58,7 +58,7 @@ function Get-NcrementManifest
 
 	# Extracting the manifest object from .json file.
 	$json = Get-Content $Path | Out-String | ConvertFrom-Json;
-	$manifest = $json.PSObject.Properties | Where-Object { $_.Name -ieq "manifest" } | Select-Object -ExpandProperty Value -First 1;
+	$manifest = $json.PSObject.Properties | Where-Object { ($_.Name -ieq "manifest") -or ($_.Name -ieq "project") -or ($_.Name -ieq "product")  } | Select-Object -ExpandProperty Value -First 1;
 	if ($manifest -eq $null) { $manifest = $json; }
 
 	# Appending missing properties.

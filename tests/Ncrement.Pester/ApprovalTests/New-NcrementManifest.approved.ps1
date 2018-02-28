@@ -1,11 +1,12 @@
 {
+    "Website":  "",
     "Id":  "Ncrement",
     "RepositoryUrl":  "",
     "License":  "",
     "ReleaseNotes":  "",
     "Copyright":  "",
     "Company":  "",
-    "ProjectUrl":  "",
+    "Name":  "",
     "Description":  "",
     "Version":  {
                     "Minor":  0,
@@ -13,12 +14,12 @@
                     "Suffix":  "",
                     "Major":  0
                 },
-    "Product":  "",
+    "Summary":  "",
     "Author":  "",
     "Path":  "",
     "Icon":  "",
     "BranchSuffixMap":  {
-                            "*":  "rc",
+                            "*":  "alpha",
                             "master":  ""
                         }
 }

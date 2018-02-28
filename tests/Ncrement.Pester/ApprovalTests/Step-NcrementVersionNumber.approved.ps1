@@ -7,11 +7,13 @@ SYNOPSIS
     
     
 SYNTAX
-    Step-NcrementVersionNumber [-Manifest] <Object> [[-Branch] <String>] [-Major] [-Minor] [-Patch] [<CommonParameters>]
+    Step-NcrementVersionNumber [-Manifest] <Object> [[-Branch] <String>] [-Major] [-Minor] 
+    [-Patch] [-DoNotSave] [<CommonParameters>]
     
     
 DESCRIPTION
-    This function increments the [Manifest] version number.
+    This function increments the [Manifest] version number. Also when invoked, the version 
+    will be incremented then the modified [Manifest] object will be saved to disk as well.
     
 
 PARAMETERS
@@ -25,7 +27,8 @@ PARAMETERS
         Accept wildcard characters?  false
         
     -Branch <String>
-        The current source control branch.
+        The source control branch. The value provided will be used to determine the version 
+        suffix. If not set 'git branch' will be used as default.
         
         Required?                    false
         Position?                    1
@@ -53,6 +56,15 @@ PARAMETERS
         
     -Patch [<SwitchParameter>]
         Determines whether the 'Patch' version number should be incremented.
+        
+        Required?                    false
+        Position?                    named
+        Default value                False
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+        
+    -DoNotSave [<SwitchParameter>]
+        Determines whether to not save the modified [Manifest] object to disk.
         
         Required?                    false
         Position?                    named

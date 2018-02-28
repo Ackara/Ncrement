@@ -8,7 +8,7 @@ The id.
 .PARAMETER Version
 The version number.
 
-.PARAMETER Product
+.PARAMETER Name
 The product name.
 
 .PARAMETER Description
@@ -26,7 +26,7 @@ The copyright.
 .PARAMETER License
 The license.
 
-.PARAMETER ProjectUrl
+.PARAMETER Website
 The product url.
 
 .PARAMETER RepositoryUrl
@@ -50,17 +50,17 @@ function New-NcrementManifest
 {
 	Param(
 		[string]$Id = ([Guid]::NewGuid().ToString()),
-		
-		[Alias("title", "productName", "name")]
-		[string]$Product,
-		
+
+		[Alias("title", "productName", "product")]
+		[string]$Name,
+
 		[string]$Description,
 		[string]$Author,
 		[string]$Company,
 		[string]$Copyright,
 
 		[string]$RepositoryUrl,
-		[string]$ProjectUrl,
+		[string]$Website,
 		[string]$License,
 		[string]$Icon,
 
@@ -77,14 +77,15 @@ function New-NcrementManifest
 			"Suffix"="";
 		};
 
-		"Product"=$Product;
+		"Name"=$Name;
+		"Summary"="";
 		"Description"=$Description;
 		"Author"=$Author;
 		"Company"=$Company;
 		"Copyright"=$Copyright;
 
 		"RepositoryUrl"=$RepositoryUrl;
-		"ProjectUrl"=$ProjectUrl;
+		"Website"=$Website;
 		"License"=$License;
 		"Icon"=$Icon;
 
@@ -92,7 +93,7 @@ function New-NcrementManifest
 
 		"BranchSuffixMap"=@{
 			"master"="";
-			"*"="rc";
+			"*"="alpha";
 		};
 	};
 }

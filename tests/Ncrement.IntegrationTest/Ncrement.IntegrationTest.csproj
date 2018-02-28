@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Description>A collection of powershell scripts and modules designed for continuous builds and deployments.</Description>
+    <Authors>Ackara &amp; Contributors</Authors>
+    <Company>Acklann</Company>
+    <PackageTags>build automation continous deployment vsts</PackageTags>
+    <Copyright>Released under the MIT license.</Copyright>
+    <PackageIconUrl>https://raw.githubusercontent.com/Ackara/Ncrement/master/assets/icon.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/Ackara/Ncrement</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/Ackara/Ncrement/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageReleaseNotes>https://github.com/Ackara/Ncrement/blob/master/releaseNotes.txt</PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/Ackara/Ncrement.git</RepositoryUrl>
+    <NcrementMinor>True</NcrementMinor>
+    <AssemblyVersion>1.4.0</AssemblyVersion>
+    <PackageVersion>1.4.0</PackageVersion>
+  </PropertyGroup>
+  <Target Name="BuildPackage" AfterTargets="Build">
+    <Exec Command="powershell -File ..\..\build.ps1 build" />
+  </Target>
+  <Import Condition="Exists('msbuild\build\msbuild.targets')" Project="msbuild\build\msbuild.targets" />
+</Project>

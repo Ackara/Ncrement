@@ -20,6 +20,8 @@ Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Ncrement", "src\Ncrement\Nc
 EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Ncrement.Pester", "tests\Ncrement.Pester\Ncrement.Pester.pssproj", "{5E14149B-55A6-4857-A267-3106D836189B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ncrement.IntegrationTest", "tests\Ncrement.IntegrationTest\Ncrement.IntegrationTest.csproj", "{0D122268-071A-4D78-BCB7-7E2FB70E5F4B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,10 @@ Global
 		{5E14149B-55A6-4857-A267-3106D836189B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E14149B-55A6-4857-A267-3106D836189B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E14149B-55A6-4857-A267-3106D836189B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D122268-071A-4D78-BCB7-7E2FB70E5F4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D122268-071A-4D78-BCB7-7E2FB70E5F4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D122268-071A-4D78-BCB7-7E2FB70E5F4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D122268-071A-4D78-BCB7-7E2FB70E5F4B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

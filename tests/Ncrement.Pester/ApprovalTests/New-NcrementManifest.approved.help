@@ -7,8 +7,9 @@ SYNOPSIS
     
     
 SYNTAX
-    New-NcrementManifest [[-Id] <String>] [[-Product] <String>] [[-Description] <String>] [[-Author] <String>] [[-Company] <String>] 
-    [[-Copyright] <String>] [[-RepositoryUrl] <String>] [[-ProjectUrl] <String>] [[-License] <String>] [[-Icon] <String>] [[-ReleaseNotes] 
+    New-NcrementManifest [[-Id] <String>] [[-Name] <String>] [[-Description] <String>] 
+    [[-Author] <String>] [[-Company] <String>] [[-Copyright] <String>] [[-RepositoryUrl] 
+    <String>] [[-Website] <String>] [[-License] <String>] [[-Icon] <String>] [[-ReleaseNotes] 
     <String>] [<CommonParameters>]
     
     
@@ -25,7 +26,7 @@ PARAMETERS
         Accept pipeline input?       false
         Accept wildcard characters?  false
         
-    -Product <String>
+    -Name <String>
         The product name.
         
         Required?                    false
@@ -79,7 +80,7 @@ PARAMETERS
         Accept pipeline input?       false
         Accept wildcard characters?  false
         
-    -ProjectUrl <String>
+    -Website <String>
         The product url.
         
         Required?                    false

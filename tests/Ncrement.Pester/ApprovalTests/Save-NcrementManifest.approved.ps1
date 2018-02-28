@@ -7,7 +7,7 @@
     "description":  "A collection of powershell scripts and modules designed for continuous builds and deployments.",
     "author":  "Ackara \u0026 Contributors",
     "company":  "Acklann",
-    "projectUrl":  "https://github.com/Ackara/Ncrement",
+    "website":  "https://github.com/Ackara/Ncrement",
     "repositoryUrl":  "https://github.com/Ackara/Ncrement.git",
     "license":  "https://github.com/Ackara/Ncrement/blob/master/LICENSE",
     "icon":  "https://raw.githubusercontent.com/Ackara/Ncrement/master/assets/icon.png",
@@ -19,6 +19,7 @@
                             "*":  "rc"
                         },
     "Id":  "",
-    "Product":  "Automated Test"
+    "Name":  "Automated Test",
+    "Summary":  ""
 }
 

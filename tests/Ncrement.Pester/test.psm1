@@ -1,6 +1,10 @@
-function New-TestEnvironment()
+function New-TestEnvironment([string]$testName = "")
 {
-	$testName = [IO.Path]::GetFileNameWithoutExtension($MyInvocation.PSCommandPath).Replace(".tests", "");
+	if ([string]::IsNullOrEmpty($testName))
+	{
+		$testName = [IO.Path]::GetFileNameWithoutExtension($MyInvocation.PSCommandPath).Replace(".tests", "");
+	}
+
 	$testDir = "$env:TEMP\ncrement\$testName";
 	$testFiles = "$testDir\samples";
 

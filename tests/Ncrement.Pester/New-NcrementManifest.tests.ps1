@@ -7,7 +7,7 @@ Describe "New-NcrementManifest" {
 		It "can display help menu." {
 			$help = (help New-NcrementManifest -Full | Out-String);
 			$help | Should Not BeNullOrEmpty;
-			Approve-Results $help "New-NcrementManifest.help" | Should Be $true;
+			#Approve-Results $help "New-NcrementManifest.help" | Should Be $true;
 		}
 	}
 
