@@ -1,6 +1,9 @@
 # Ncrement
 [![NuGet](https://img.shields.io/nuget/v/Acklann.Ncrement.svg)](https://www.nuget.org/packages/Acklann.Ncrement/)
 [![NuGet](https://img.shields.io/nuget/dt/Acklann.Ncrement.svg)](https://www.nuget.org/packages/Acklann.Ncrement/)
+![PSGallery](https://img.shields.io/powershellgallery/v/Ncrement.svg)
+![PSGallery](https://img.shields.io/powershellgallery/dt/Ncrement.svg)
+![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)
 ---
 
 ## What it is?
@@ -21,11 +24,27 @@ This function will take the deserialized `manifest.json` file and increment it's
 
 **[Update-NcrementProjectFile](/src/Ncrement/Public/Update-NcrementProjectFile.ps1)**
 
-This function will take the deserialized `manifest.json` file and use it to update all supported project files. It accepts a full-path to the directory you wish to update. In addition, by using the `-Commit` and `-Tag` switches it will commit all files it modified to source control (*GIT*) then tag that commit with the version number.
+This function will take the deserialized `manifest.json` file and use it to update all *supported project* files. It accepts a full-path to the directory you wish to update. In addition, by using the `-Commit` and `-Tag` switches it will commit all files it modified to source control (*GIT*) then tag that commit with the version number.
 
 **Example:** 
 ```powershell
-$result = "C:\projects\myapp" | Get-NcremnetManifest | Step-NcrementVersionNumber -Patch | Update-NcrementProjectFile "C:\projects\myapp\src" -Tag -Commit`;
+$result = "C:\projects\myapp" | Get-NcremnetManifest | Step-NcrementVersionNumber -Patch | Update-NcrementProjectFile "C:\projects\myapp\src" -Commit`;
 ```
 
+Ncrement will update the following files:
+
+|                       | File-Type      | Description |
+|-----------------------|----------------|-------------|
+| :white_check_mark:    | *.*proj        | All .NET project files.
+| :white_check_mark:    | *.vsixmanifest | Visual Studio Extension manifest file.
+| :white_check_mark:    | *.psd1         | Powershell module manifest.
+| :white_check_mark:    | package.json   | Node project file.
+
+## Where can I get it?
+
+Ncrement is available on [nuget.org](https://www.nuget.org/packages/Acklann.Ncrement/) and [powershell gallery](https://www.powershellgallery.com/packages/Ncrement/)
+
+`PM> Install-Package Acklann.Ncrement -Version 5.0.2 `
+
+`PS> Save-Module -Name Ncrement -Path <path>` 
 

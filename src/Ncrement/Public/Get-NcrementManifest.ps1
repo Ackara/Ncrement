@@ -38,7 +38,7 @@ function Get-NcrementManifest
 		[Parameter(ValueFromPipeline)]
 		[string]$Path,
 
-		[Alias('c', 'create', 'force')]
+		[Alias('c', "save", "create", "force")]
 		[switch]$CreateIfNotFound
 	)
 
