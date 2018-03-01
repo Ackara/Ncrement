@@ -33,6 +33,21 @@ Describe "Update-NcrementProjectFile" {
 			Approve-File $target | Should Be $true;
 		}
 
+		It "should update powershell manifest" {
+			$target = Join-Path $context.TestFiles "mock.psd1";
+			$content = (Get-Content $target | Out-String);
+			$content = $content.Substring($content.IndexOf('@'));
+
+			$result.ModifiedFiles.Contains($target) | Should Be $true;
+			Approve-Results $content (Split-Path $target -Leaf) | Should Be $true;
+		}
+
+		It "should update package.json" {
+			$target = Join-Path $context.TestFiles "package.json";
+			$result.ModifiedFiles.Contains($target) | Should Be $true;
+			Approve-File $target | Should Be $true;
+		}
+
 		It "should not commit modified files to source control" {
 			(&git status | Out-String) | Should BeLike "*changes not staged for commit*";
 		}

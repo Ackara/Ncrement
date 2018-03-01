@@ -76,7 +76,9 @@ function Update-NcrementProjectFile
 	foreach ($result in @(
 		(Edit-NetCoreProjectFile $Manifest $Path),
 		(Edit-NetFrameworkProjectFile $Manifest $Path),
-		(Edit-VSIXManifestFile $Manifest $Path)
+		(Edit-VSIXManifestFile $Manifest $Path),
+		(Edit-PSManifestFile $Manifest $Path),
+		(Edit-PackageJsonFile $Manifest $Path)
 	))
 	{
 		if ($result -ne $null)

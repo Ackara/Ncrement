@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-Updates a 'netcore' all projects in a directory using the in the specified [Manifest] object.
+Updates all 'netcore' projects in a directory using the in the specified [Manifest] object.
 
 .PARAMETER $Manifest
 The [Manifest] object.

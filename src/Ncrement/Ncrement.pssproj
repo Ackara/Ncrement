@@ -31,9 +31,10 @@
     <Compile Include="Ncrement.psd1" />
     <Compile Include="Private\Add-NcrementTypes.ps1" />
     <Compile Include="Private\Assert-GitIsInstalled.ps1" />
+    <Compile Include="Private\Edit-PackageJsonFile.ps1" />
+    <Compile Include="Private\Edit-PSManifestFile.ps1" />
     <Compile Include="Private\Manifest.cs" />
     <Compile Include="Private\Test-GitRepository.ps1" />
-    <Compile Include="Public\Coalesce.ps1" />
     <Compile Include="Public\Convert-NcrementManifestToNugetTokens.ps1" />
     <Compile Include="Public\Convert-NcrementVersionNumberToString.ps1" />
     <Compile Include="Public\Get-NcrementManifest.ps1" />
@@ -45,7 +46,6 @@
     <Compile Include="Private\Edit-NetCoreProjectFile.ps1" />
     <Compile Include="Private\Edit-NetFrameworkProjectFile.ps1" />
     <Compile Include="Private\Edit-VSIXManifestFile.ps1" />
-    <Compile Include="Public\Write-LineBreak.ps1" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Public\" />

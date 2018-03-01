@@ -5,6 +5,9 @@ Returns the string representation of a [Manifest] version object.
 .PARAMETER InputObject
 The [Manifest] object or [Version] object.
 
+.PARAMETER Branch
+The current branch name from source control.
+
 .PARAMETER AppendSuffix
 Determine wether to append the version suffix.
 
@@ -17,7 +20,7 @@ Determine wether to append the version suffix.
 
 .EXAMPLE
 $manifest | Convert-NcrementVersionNumberToString;
-This example returns the [Manifest] version number as a string.
+This example returns the [Manifest] version number as a string. eg: Major.Minor.Path-Suffix
 #>
 
 function Convert-NcrementVersionNumberToString
@@ -26,25 +29,40 @@ function Convert-NcrementVersionNumberToString
 		[Parameter(Mandatory, ValueFromPipeline)]
 		$InputObject,
 
+		[Parameter(Position=0)]
+		[string]$Branch = "",
+
+		[Alias("suffix")]
 		[switch]$AppendSuffix
 	)
 
-	[string]$version = "";
+	[string]$version = "", $suffix;
 	if ($InputObject.PSObject.Properties.Match("Version").Count -gt 0)
 	{
-		$version = "$($InputObject.Version.Major).$($InputObject.Version.Minor).$($InputObject.Version.Patch)";
-		if ($AppendSuffix -and (-not [string]::IsNullOrEmpty($InputObject.Version.Suffix)))
+		if (-not [string]::IsNullOrEmpty($Branch))
 		{
-			$version = "$($version)-$($InputObject.Version.Suffix)";
+			$match = $InputObject.BranchSuffixMap.PSObject.Properties.Match($Branch);
+			if ($match.Count -gt 0)
+			{
+				$suffix = $match.Item(0).Value;
+			}
+			elseif ($InputObject.BranchSuffixMap.PSObject.Properties.Match("*").Count -gt 0)
+			{
+				$suffix = $InputObject.BranchSuffixMap."*";
+			}
 		}
+		else { $suffix = $InputObject.Version.Suffix; }
+		$version = "$($InputObject.Version.Major).$($InputObject.Version.Minor).$($InputObject.Version.Patch)";
 	}
 	else
 	{
+		$suffix = $InputObject.Suffix;
 		$version = "$($InputObject.Major).$($InputObject.Minor).$($InputObject.Patch)";
-		if ($AppendSuffix -and (-not [string]::IsNullOrEmpty($InputObject.Suffix)))
-		{
-			$version = "$($version)-$($InputObject.Suffix)";
-		}
+	}
+
+	if ($AppendSuffix.IsPresent -and (-not [string]::IsNullOrEmpty($suffix)))
+	{
+		$version += "-$suffix";
 	}
 
 	return $version;

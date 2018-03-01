@@ -63,6 +63,7 @@ function Step-NcrementVersionNumber
 		[Alias("fix", "bug")]
 		[switch]$Patch,
 
+		[Alias("no-save")]
 		[switch]$DoNotSave
 	)
 

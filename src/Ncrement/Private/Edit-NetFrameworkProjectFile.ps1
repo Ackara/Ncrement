@@ -20,7 +20,7 @@ function Edit-NetFrameworkProjectFile
 
 	$modifiedFiles = [System.Collections.ArrayList]::new();
 
-	foreach ($csproj in (Get-ChildItem $Path -Recurse -Filter "*.csproj"))
+	foreach ($csproj in (Get-ChildItem $Path -Recurse -Filter "*.*proj"))
 	{
 		[string]$assemblyInfo = "$(Split-Path $csproj.FullName -Parent)\Properties\AssemblyInfo.cs";
 		if ((Test-Path $assemblyInfo) -and ($PSCmdlet.ShouldProcess($assemblyInfo)))
