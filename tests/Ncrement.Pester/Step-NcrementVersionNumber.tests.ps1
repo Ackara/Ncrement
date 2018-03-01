@@ -39,9 +39,9 @@ Describe "Step-NcrementVersionNumber" {
 
 		It "should save modified [Manifest] back to existing file." {
 			$json = Get-Content $manifest.Path | Out-String | ConvertFrom-Json;
-			$json.Version.Major | Should Not Be 2;
-			$json.Version.Minor | Should Not Be 0;
-			$json.Version.Patch | Should Not Be 0;
+			$json.Version.Major | Should Be 2;
+			$json.Version.Minor | Should Be 0;
+			$json.Version.Patch | Should Be 0;
 		}
 	}
 }

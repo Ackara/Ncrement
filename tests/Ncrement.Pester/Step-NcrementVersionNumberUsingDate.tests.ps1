@@ -32,9 +32,9 @@ Describe "Step-NcrementVersionNumberUsingDate" {
 
 		It "should save modified [Manifest] back to existing file." {
 			$json = Get-Content $manifest.Path | Out-String | ConvertFrom-Json;
-			$json.Version.Major | Should Not Be 1709;
-			$json.Version.Minor | Should Not Be 4321;
-			$json.Version.Patch | Should Not Be 12;
+			$json.Version.Major | Should Be 1709;
+			$json.Version.Minor | Should Be 4321;
+			$json.Version.Patch | Should Be 12;
 		}
 	}
 }
