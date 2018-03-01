@@ -12,7 +12,7 @@
 # RootModule = ''
 
 # Version number of this module.
-ModuleVersion = '5.0.2'
+ModuleVersion = '5.0.3'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -66,10 +66,28 @@ ScriptsToProcess = 'Private\Add-NcrementTypes.ps1'
 # FormatsToProcess = @()
 
 # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
-NestedModules = @()
+NestedModules = @('Private\Assert-GitIsInstalled.ps1', 
+               'Private\Edit-NetCoreProjectFile.ps1', 
+               'Private\Edit-NetFrameworkProjectFile.ps1', 
+               'Private\Edit-PackageJsonFile.ps1', 
+               'Private\Edit-PSManifestFile.ps1', 
+               'Private\Edit-VSIXManifestFile.ps1', 
+               'Private\Test-GitRepository.ps1', 
+               'Public\Convert-NcrementManifestToNugetTokens.ps1', 
+               'Public\Convert-NcrementVersionNumberToString.ps1', 
+               'Public\Get-NcrementManifest.ps1', 
+               'Public\New-NcrementManifest.ps1', 
+               'Public\Save-NcrementManifest.ps1', 
+               'Public\Step-NcrementVersionNumber.ps1', 
+               'Public\Step-NcrementVersionNumberUsingDate.ps1', 
+               'Public\Update-NcrementProjectFile.ps1')
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-FunctionsToExport = @()
+FunctionsToExport = 'Convert-NcrementManifestToNugetTokens', 
+               'Convert-NcrementVersionNumberToString', 'Get-NcrementManifest', 
+               'New-NcrementManifest', 'Save-NcrementManifest', 
+               'Step-NcrementVersionNumber', 'Step-NcrementVersionNumberUsingDate', 
+               'Update-NcrementProjectFile'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
