@@ -73,22 +73,22 @@ function Save-NcrementManifest
 	# Serializing [Manifest] object.
 	if (Test-Path $Path)
 	{
+        [bool]$nested = $false;
 		$json = Get-Content $Path | Out-String | ConvertFrom-Json;
 		foreach ($term in @("manifest", "project", "product"))
 		{
 			if ($json.PSObject.Properties.Match($term).Count -gt 0)
 			{
 				$json.$term = $clone;
+                $nested = $true;
 				break;
 			}
 		}
 
-		$json | ConvertTo-Json | Out-File $Path -Encoding utf8;
+        if ($nested) { $json | ConvertTo-Json | Out-File $Path -Encoding utf8; }
+        else { $clone | ConvertTo-Json | Out-File $Path -Encoding utf8; }
 	}
-	else
-	{
-		$clone | ConvertTo-Json | Out-File $Path -Encoding utf8;
-	}
+	else { $clone | ConvertTo-Json | Out-File $Path -Encoding utf8; }
 
 	return $Path;
 }
