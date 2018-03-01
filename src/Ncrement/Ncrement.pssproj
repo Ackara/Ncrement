@@ -34,6 +34,7 @@
     <Compile Include="Private\Manifest.cs" />
     <Compile Include="Private\Test-GitRepository.ps1" />
     <Compile Include="Public\Coalesce.ps1" />
+    <Compile Include="Public\Convert-NcrementManifestToNugetTokens.ps1" />
     <Compile Include="Public\Convert-NcrementVersionNumberToString.ps1" />
     <Compile Include="Public\Get-NcrementManifest.ps1" />
     <Compile Include="Public\New-NcrementManifest.ps1" />

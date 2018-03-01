@@ -30,6 +30,7 @@
     <Folder Include="TestData\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Convert-NcrementManifestToNugetTokens.tests.ps1" />
     <Compile Include="Get-NcrementManifest.tests.ps1" />
     <Compile Include="Save-NcrementManifest.tests.ps1" />
     <Compile Include="Start-Tests.ps1" />
