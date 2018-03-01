@@ -54,18 +54,26 @@ Describe "Update-NcrementProjectFile" {
 	}
 
 	Context "Git" {
-		[string]$status;
+		[string]$status, $tag;
 		$context = New-TestEnvironment "Update-NcrementProjectFile_git";
 
 		$manifest = Get-NcrementManifest $context.TestFiles;
 		$results = $manifest | Update-NcrementProjectFile $context.TestFiles -Tag -Commit;
 
 		Push-Location $context.TestFiles;
-		try { $status = (&git status | Out-String); }
+		try 
+		{ 
+			$status = (&git status | Out-String);
+			$tag = (&git tag | Out-String);
+		}
 		finally { Pop-Location; }
 
 		It "should commit all modified files to source control." {
 			$status | Should BeLike "*nothing to commit*";
+		}
+
+		It "should tag commit." {
+			$tag | Should BeLike "v*.*.*";
 		}
 	}
 }

@@ -107,16 +107,17 @@ function Update-NcrementProjectFile
 			}
 
 			# Resolving the commit message.
+			$version = $Manifest | Convert-NcrementVersionNumberToString;
 			if ([string]::IsNullOrEmpty($CommitMessage))
-			{ $CommitMessage = "Increment the version number to '$nextVersion'."; }
+			{ $CommitMessage = "Increment the version number to '$version'."; }
 			else
-			{ $CommitMessage = [string]::Format($CommitMessage, $nextVersion); }
+			{ $CommitMessage = [string]::Format($CommitMessage, $version); }
 
 			# Commiting files to source control.
 			if ($PSCmdlet.ShouldProcess($Path, "git commit"))
 			{
 				&git commit -m $CommitMessage | Out-Null;
-				if ($TagCommit) { &git tag v$nextVersion | Out-Null; }
+				if ($TagCommit) { &git tag v$version | Out-Null; }
 				Write-Information "Committed modified project files to source control.";
 			}
 		}
