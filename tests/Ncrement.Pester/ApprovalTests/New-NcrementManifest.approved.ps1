@@ -1,26 +1,26 @@
 {
-    "Website":  "",
+    "Path":  null,
     "Id":  "Ncrement",
-    "RepositoryUrl":  "",
-    "License":  "",
-    "ReleaseNotes":  "",
-    "Copyright":  "",
-    "Company":  "",
-    "Name":  "",
-    "Description":  "",
     "Version":  {
+                    "Major":  0,
                     "Minor":  0,
                     "Patch":  1,
-                    "Suffix":  "",
-                    "Major":  0
+                    "Suffix":  ""
                 },
-    "Summary":  "",
+    "Name":  "",
+    "Summary":  null,
+    "Description":  "",
     "Author":  "",
-    "Path":  "",
+    "Company":  "",
+    "License":  "",
+    "Copyright":  "",
+    "Website":  "",
+    "RepositoryUrl":  "",
+    "ReleaseNotes":  "",
     "Icon":  "",
     "BranchSuffixMap":  {
-                            "*":  "alpha",
-                            "master":  ""
+                            "master":  "",
+                            "*":  "alpha"
                         }
 }
 

@@ -4,7 +4,6 @@ namespace Ncrement
     {
         public Manifest()
         {
-            Id = System.Guid.NewGuid().ToString();
             Version = new Version { Major = 0, Minor = 0, Patch = 1, Suffix = "" };
             BranchSuffixMap = new System.Collections.Generic.Dictionary<string, string>
             {
@@ -28,7 +27,7 @@ namespace Ncrement
         public string Copyright { get; set; }
 
         public string Website { get; set; }
-        public string RespositoryUrl { get; set; }
+        public string RepositoryUrl { get; set; }
         public string ReleaseNotes { get; set; }
         public string Icon { get; set; }
 

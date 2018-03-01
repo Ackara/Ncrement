@@ -67,33 +67,48 @@ function New-NcrementManifest
 		[string]$ReleaseNotes
 	)
 
-	return New-Object PSObject -Property @{
-		"Path"="";
-		"Id"=$Id;
-		"Version"=New-Object PSObject -Property @{
-			"Major"=0;
-			"Minor"=0;
-			"Patch"=1;
-			"Suffix"="";
-		};
+	$manifest = [Ncrement.Manifest]::new();
+	$manifest.Id = $Id;
+	$manifest.Name = $Name;
+	$manifest.Author = $Author;
+	$manifest.Company = $Company;
+	$manifest.Copyright = $Copyright;
+	$manifest.Description = $Description;
+	$manifest.RepositoryUrl = $RepositoryUrl;
+	$manifest.Website = $Website;
+	$manifest.License = $License;
+	$manifest.Icon = $Icon;
+	$manifest.ReleaseNotes = $ReleaseNotes;
 
-		"Name"=$Name;
-		"Summary"="";
-		"Description"=$Description;
-		"Author"=$Author;
-		"Company"=$Company;
-		"Copyright"=$Copyright;
+	return $manifest;
 
-		"RepositoryUrl"=$RepositoryUrl;
-		"Website"=$Website;
-		"License"=$License;
-		"Icon"=$Icon;
+	#return New-Object PSObject -Property @{
+	#	"Path"="";
+	#	"Id"=$Id;
+	#	"Version"=New-Object PSObject -Property @{
+	#		"Major"=0;
+	#		"Minor"=0;
+	#		"Patch"=1;
+	#		"Suffix"="";
+	#	};
 
-		"ReleaseNotes"=$ReleaseNotes;
+	#	"Name"=$Name;
+	#	"Summary"="";
+	#	"Description"=$Description;
+	#	"Author"=$Author;
+	#	"Company"=$Company;
+	#	"Copyright"=$Copyright;
 
-		"BranchSuffixMap"=@{
-			"master"="";
-			"*"="alpha";
-		};
-	};
+	#	"RepositoryUrl"=$RepositoryUrl;
+	#	"Website"=$Website;
+	#	"License"=$License;
+	#	"Icon"=$Icon;
+
+	#	"ReleaseNotes"=$ReleaseNotes;
+
+	#	"BranchSuffixMap"=@{
+	#		"master"="";
+	#		"*"="alpha";
+	#	};
+	#};
 }
