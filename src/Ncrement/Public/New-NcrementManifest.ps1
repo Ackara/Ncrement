@@ -53,8 +53,8 @@ function New-NcrementManifest
 
 		[Alias("title", "productName", "product")]
 		[string]$Name,
-
 		[string]$Description,
+
 		[string]$Author,
 		[string]$Company,
 		[string]$Copyright,
@@ -81,34 +81,4 @@ function New-NcrementManifest
 	$manifest.ReleaseNotes = $ReleaseNotes;
 
 	return $manifest;
-
-	#return New-Object PSObject -Property @{
-	#	"Path"="";
-	#	"Id"=$Id;
-	#	"Version"=New-Object PSObject -Property @{
-	#		"Major"=0;
-	#		"Minor"=0;
-	#		"Patch"=1;
-	#		"Suffix"="";
-	#	};
-
-	#	"Name"=$Name;
-	#	"Summary"="";
-	#	"Description"=$Description;
-	#	"Author"=$Author;
-	#	"Company"=$Company;
-	#	"Copyright"=$Copyright;
-
-	#	"RepositoryUrl"=$RepositoryUrl;
-	#	"Website"=$Website;
-	#	"License"=$License;
-	#	"Icon"=$Icon;
-
-	#	"ReleaseNotes"=$ReleaseNotes;
-
-	#	"BranchSuffixMap"=@{
-	#		"master"="";
-	#		"*"="alpha";
-	#	};
-	#};
 }

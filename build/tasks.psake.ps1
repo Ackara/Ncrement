@@ -232,7 +232,6 @@ Task "Publish-PowershellGallery" -alias "push-psGallery" -description "" `
 				Push-Location $module.DirectoryName;
 				$name = Split-Path $PWD -Leaf;
 				Publish-Module -Path $PWD -NuGetApiKey $apiKey;
-				#Write-Warning "NOT IMPLEMENETD $PWD";
 			}
 			finally { Pop-Location; }
 		}
