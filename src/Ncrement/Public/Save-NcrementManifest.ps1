@@ -61,6 +61,8 @@ function Save-NcrementManifest
 
 	# Removing all null and unwanted values.
 	$clone.PSObject.Properties.Remove("Path");
+	$clone.Version.PSObject.Properties.Remove("Suffix");
+
 	foreach ($prop in $clone.PSObject.Properties)
 	{
 		if ($prop.Value -eq $null)

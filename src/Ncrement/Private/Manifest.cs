@@ -8,7 +8,7 @@ namespace Ncrement
             BranchSuffixMap = new System.Collections.Generic.Dictionary<string, string>
             {
                 {"master", "" },
-                {"*", "alpha" }
+                {"*", "beta" }
             };
         }
 
@@ -26,10 +26,10 @@ namespace Ncrement
         public string License { get; set; }
         public string Copyright { get; set; }
 
+        public string Icon { get; set; }
         public string Website { get; set; }
         public string RepositoryUrl { get; set; }
         public string ReleaseNotes { get; set; }
-        public string Icon { get; set; }
 
         public System.Collections.Generic.Dictionary<string, string> BranchSuffixMap { get; set; }
     }
