@@ -14,13 +14,13 @@
     "Company":  "",
     "License":  "",
     "Copyright":  "",
+    "Icon":  "",
     "Website":  "",
     "RepositoryUrl":  "",
     "ReleaseNotes":  "",
-    "Icon":  "",
     "BranchSuffixMap":  {
                             "master":  "",
-                            "*":  "alpha"
+                            "*":  "rc"
                         }
 }
 
