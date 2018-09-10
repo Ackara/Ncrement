@@ -1,8 +1,8 @@
 # Ncrement
 [![NuGet](https://img.shields.io/nuget/v/Acklann.Ncrement.svg)](https://www.nuget.org/packages/Acklann.Ncrement/)
-[![NuGet](https://img.shields.io/nuget/dt/Acklann.Ncrement.svg)](https://www.nuget.org/packages/Acklann.Ncrement/) │
+[![NuGet](https://img.shields.io/nuget/dt/Acklann.Ncrement.svg)](https://www.nuget.org/packages/Acklann.Ncrement/) •
 [![PSGallery](https://img.shields.io/powershellgallery/v/Ncrement.svg)](https://www.powershellgallery.com/packages/Ncrement)
-[![PSGallery](https://img.shields.io/powershellgallery/dt/Ncrement.svg)](https://www.powershellgallery.com/packages/Ncrement) │
+[![PSGallery](https://img.shields.io/powershellgallery/dt/Ncrement.svg)](https://www.powershellgallery.com/packages/Ncrement) •
 ![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)
 ---
 
