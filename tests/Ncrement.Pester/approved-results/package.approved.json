@@ -1,0 +1,19 @@
+{
+    "version":  "1.2.3",
+    "name":  "raikui",
+    "private":  false,
+    "dependencies":  {
+                         "@types/knockout":  "3.4.47",
+                         "knockout":  "3.4.2"
+                     },
+    "author":  "Ackara \u0026 Contributors",
+    "description":  "A collection of powershell scripts and modules designed for continuous builds and deployments.",
+    "homepage":  "https://github.com/Ackara/Ncrement",
+    "keywords":  [
+                     "build",
+                     "automation",
+                     "continous",
+                     "deployment",
+                     "vsts"
+                 ]
+}

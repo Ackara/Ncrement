@@ -5,19 +5,31 @@
     {
       "fileName": "powershell.exe",
       "workingDirectory": ".",
-      "arguments": "-ExecutionPolicy Bypass -NonInteractive -File build.ps1 version -Commit -Major"
+      "arguments": "-ExecutionPolicy Bypass -NoProfile -NonInteractive -File build.ps1 version -Major"
     },
     "version: minor":
     {
       "fileName": "powershell.exe",
       "workingDirectory": ".",
-      "arguments": "-ExecutionPolicy Bypass -NonInteractive -File build.ps1 version -Commit -Minor"
+      "arguments": "-ExecutionPolicy Bypass -NoProfile -NonInteractive -File build.ps1 version -Minor"
     },
     "version: patch":
     {
       "fileName": "powershell.exe",
       "workingDirectory": ".",
-      "arguments": "-ExecutionPolicy Bypass -NonInteractive -File build.ps1 version -Commit"
+      "arguments": "-ExecutionPolicy Bypass -NoProfile -NonInteractive -File build.ps1 version"
+    },
+    "publish":
+    {
+      "fileName": "powershell.exe",
+      "workingDirectory": ".",
+      "arguments": "-ExecutionPolicy Bypass -NoProfile -NonInteractive -File build.ps1 push"
+    },
+	"build":
+    {
+      "fileName": "powershell.exe",
+      "workingDirectory": ".",
+      "arguments": "-ExecutionPolicy Bypass -NoProfile -NonInteractive -File build.ps1 build -Debug"
     }
   }
 }

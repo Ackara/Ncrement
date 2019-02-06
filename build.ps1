@@ -1,6 +1,6 @@
-<#
+﻿<#
 .SYNOPSIS
-Run one or more tasks defined in the '\build\tasks.psake.ps1' file.
+A psake bootstraper; This script runs one or more tasks defined in the psake file.
 
 .EXAMPLE
 .\build.ps1 -Help;
@@ -11,23 +11,32 @@ Param(
 	[Alias('t')]
 	[string[]]$Tasks = @("default"),
 
+    [Alias('s', "keys")]
+	[hashtable]$Secrets = @{},
+
 	[Alias('c')]
 	[ValidateSet("Debug", "Release")]
 	[string]$Configuration = "Release",
 
-	[Alias('s', "keys")]
-	[hashtable]$Secrets = @{},
-
-	[Alias("sc", "nobuild")]
+	[Alias("sc", "no-build")]
 	[switch]$SkipCompilation,
+
+    [Alias('h', '?')]
+    [switch]$Help,
+
+    [Alias('no-commit')]
+    [switch]$NoCommit,
 	
-	[string]$TaskFile = "$PSScriptRoot\build\*psake*.ps1",
+	[string]$TaskFile = "$PSScriptRoot/build/tasks.psake.ps1",
+    [switch]$SkipClean,
+	[switch]$Debug,
 	[switch]$Major,
-	[switch]$Minor,
-	[switch]$Help
+	[switch]$Minor
 )
 
-# Get source control branch name.
+if ($Debug) { $Configuration = "Debug"; }
+
+# Getting the current branch of source control.
 $branchName = $env:BUILD_SOURCEBRANCHNAME;
 if ([string]::IsNullOrEmpty($branchName))
 {
@@ -35,31 +44,41 @@ if ([string]::IsNullOrEmpty($branchName))
 	if ($match.Success) { $branchName = $match.Groups["name"].Value; }
 }
 
-# Install then invoke Psake tasks.
-$psModulesDir = "$PSScriptRoot\build\powershell_modules";
-$modulePath = "$psModulesDir\psake\*\*.psd1";
-if (-not (Test-Path $modulePath))
+# Installing then invoking the Psake tasks.
+$toolsDir = "$PSScriptRoot/tools";
+$psakeModule = Join-Path $toolsDir "psake/*/*.psd1";
+if (-not (Test-Path $psakeModule))
 { 
-	if (-not (Test-Path $psModulesDir)) { New-Item $psModulesDir -ItemType Directory | Out-Null; }
-	Save-Module "psake" -Path $psModulesDir; 
+	if (-not (Test-Path $toolsDir)) { New-Item $toolsDir -ItemType Directory | Out-Null; }
+	Save-Module "psake" -Path $toolsDir; 
 }
-Import-Module $modulePath -Force;
+Import-Module $psakeModule -Force;
 
-if ($Help) { Invoke-Psake -buildFile $TaskFile -docs; }
+if ($Help) 
+{
+    Invoke-Psake -buildFile $TaskFile -docs;
+}
 else
 {
-	Write-Host -ForegroundColor DarkGray "User:     $env:USERNAME";
-	Write-Host -ForegroundColor DarkGray "Machine:  $env:COMPUTERNAME";
-	Write-Host -ForegroundColor DarkGray "Platform: $env:OS";
-	Write-Host -ForegroundColor DarkGray "Branch:   $branchName";
+    Write-Host -ForegroundColor DarkGray "OS:            $([Environment]::OSVersion.Platform)";
+	Write-Host -ForegroundColor DarkGray "User:          $([Environment]::UserName)@$([Environment]::MachineName)";
+    Write-Host -ForegroundColor DarkGray "Branch:        $branchName";
+    Write-Host -ForegroundColor DarkGray "Configuration: $Configuration | $Platform";
+
 	Invoke-psake $taskFile -nologo -taskList $Tasks -properties @{
-		"Secrets"=$Secrets;
+        "Secrets"=$Secrets;
 		"Branch"=$branchName;
+        "ToolsDir"=$toolsDir;
+        "RootDir"=$PSScriptRoot;
 		"Major"=$Major.IsPresent;
 		"Minor"=$Minor.IsPresent;
-		"PoshModulesDir"=$psModulesDir;
+		"Debug"=$Debug.IsPresent;
 		"Configuration"=$Configuration;
+        "SkipClean"=$SkipClean.IsPresent;
+        "Commit"=(-not $NoCommit.IsPresent);
+        "TempDir"=([System.IO.Path]::GetTempPath());
 		"SkipCompilation"=$SkipCompilation.IsPresent;
+        "SolutionName"=(Split-Path $PSScriptRoot -Leaf);
 	}
 	if (-not $psake.build_success) { exit 1; }
 }

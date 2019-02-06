@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard1.4</TargetFramework>
+    <AssemblyName>Acklann.Buildbox</AssemblyName>
+    <AssemblyVersion>1.2.3</AssemblyVersion>
+    <RootNamespace>Acklann.Buildbox</RootNamespace>
+    <Authors>Ackara &amp; Contributors</Authors>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PackageVersion>1.2.3</PackageVersion>
+    <RepositoryUrl>https://github.com/Ackara/Ncrement.git</RepositoryUrl>
+    <PackageTags>build automation continous deployment vsts</PackageTags>
+    <Company>Acklann</Company>
+    <PackageProjectUrl>https://github.com/Ackara/Ncrement</PackageProjectUrl>
+    <Description>A collection of powershell scripts and modules designed for continuous builds and deployments.</Description>
+    <Copyright>Released under the MIT license.</Copyright>
+    <PackageLicenseUrl>https://github.com/Ackara/Ncrement/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/Ackara/Ncrement/master/assets/icon.png</PackageIconUrl>
+    <PackageReleaseNotes>https://github.com/Ackara/Ncrement/blob/master/releaseNotes.txt</PackageReleaseNotes>
+  </PropertyGroup>
+</Project>

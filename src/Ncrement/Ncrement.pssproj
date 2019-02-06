@@ -1,14 +1,12 @@
 ﻿<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{bb8293a7-f439-44cd-b5f2-e584a2635408}</ProjectGuid>
+    <ProjectGuid>{c82f5e3e-470d-4588-b884-7591ab229274}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Acklann.Buildbox</RootNamespace>
-    <AssemblyName>Acklann.Buildbox</AssemblyName>
+    <RootNamespace>MyApplication</RootNamespace>
+    <AssemblyName>MyApplication</AssemblyName>
     <Name>Ncrement</Name>
-    <ProjectHome />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,31 +26,29 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Ncrement.psd1" />
-    <Compile Include="Private\Add-NcrementTypes.ps1" />
-    <Compile Include="Private\Assert-GitIsInstalled.ps1" />
-    <Compile Include="Private\Edit-PackageJsonFile.ps1" />
-    <Compile Include="Private\Edit-PSManifestFile.ps1" />
-    <Compile Include="Private\Manifest.cs" />
-    <Compile Include="Private\Test-GitRepository.ps1" />
-    <Compile Include="Public\Convert-NcrementManifestToNugetTokens.ps1" />
-    <Compile Include="Public\Convert-NcrementVersionNumberToString.ps1" />
-    <Compile Include="Public\Get-NcrementManifest.ps1" />
-    <Compile Include="Public\New-NcrementManifest.ps1" />
-    <Compile Include="Public\Save-NcrementManifest.ps1" />
-    <Compile Include="Public\Step-NcrementVersionNumber.ps1" />
-    <Compile Include="Public\Step-NcrementVersionNumberUsingDate.ps1" />
-    <Compile Include="Public\Update-NcrementProjectFile.ps1" />
-    <Compile Include="Private\Edit-NetCoreProjectFile.ps1" />
-    <Compile Include="Private\Edit-NetFrameworkProjectFile.ps1" />
-    <Compile Include="Private\Edit-VSIXManifestFile.ps1" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Public\" />
     <Folder Include="Private\" />
+    <Folder Include="Public\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Private\Token.cs" />
+    <Compile Include="Ncrement.psd1" />
+    <Compile Include="Private\Add-GitFile.ps1" />
+    <Compile Include="Private\ConvertTo-Path.ps1" />
+    <Compile Include="Private\Edit-NetcoreProjectFile.ps1" />
+    <Compile Include="Private\Edit-NetFrameworkProjectFile.ps1" />
+    <Compile Include="Private\Edit-PackageJson.ps1" />
+    <Compile Include="Private\Edit-PowershellManifest.ps1" />
+    <Compile Include="Private\Edit-VSIXManifest.ps1" />
+    <Compile Include="Private\Test-Git.ps1" />
+    <Compile Include="Private\Test-NetFrameworkProjectFile.ps1" />
+    <Compile Include="Private\Test-NetcoreProjectFile.ps1" />
+    <Compile Include="Public\ConvertTo-NcrementVersionNumber.ps1" />
+    <Compile Include="Public\New-NcrementManifest.ps1" />
+    <Compile Include="Private\Test-PackageJson.ps1" />
+    <Compile Include="Private\Test-VSIXManifest.ps1" />
+    <Compile Include="Public\Step-NcrementVersionNumber.ps1" />
+    <Compile Include="Public\Update-ProjectFile.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Target Name="Build" />
+  <Import Project="$(MSBuildExtensionsPath)\PowerShell Tools for Visual Studio\PowerShellTools.targets" Condition="Exists('$(MSBuildExtensionsPath)\PowerShell Tools for Visual Studio\PowerShellTools.targets')" />
 </Project>

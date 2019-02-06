@@ -3,24 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".root", ".root", "{23C37FC4-E781-4F6D-BC24-2202BF3DF0ED}"
+Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "build", "build\build.pssproj", "{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}"
+EndProject
+Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Ncrement.Pester", "tests\Ncrement.Pester\Ncrement.Pester.pssproj", "{5E14149B-55A6-4857-A267-3106D836189B}"
+EndProject
+Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Ncrement", "src\Ncrement\Ncrement.pssproj", "{C82F5E3E-470D-4588-B884-7591AB229274}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".misc", ".misc", "{61E11AA7-940A-43FF-B622-6CCC028402E9}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		commands.json = commands.json
 		README.md = README.md
 		releaseNotes.txt = releaseNotes.txt
 	EndProjectSection
-EndProject
-Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "build", "build\build.pssproj", "{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}"
-	ProjectSection(ProjectDependencies) = postProject
-		{BB8293A7-F439-44CD-B5F2-E584A2635408} = {BB8293A7-F439-44CD-B5F2-E584A2635408}
-	EndProjectSection
-EndProject
-Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Ncrement", "src\Ncrement\Ncrement.pssproj", "{BB8293A7-F439-44CD-B5F2-E584A2635408}"
-EndProject
-Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Ncrement.Pester", "tests\Ncrement.Pester\Ncrement.Pester.pssproj", "{5E14149B-55A6-4857-A267-3106D836189B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ncrement.IntegrationTest", "tests\Ncrement.IntegrationTest\Ncrement.IntegrationTest.csproj", "{0D122268-071A-4D78-BCB7-7E2FB70E5F4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,18 +27,14 @@ Global
 		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BB8293A7-F439-44CD-B5F2-E584A2635408}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BB8293A7-F439-44CD-B5F2-E584A2635408}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BB8293A7-F439-44CD-B5F2-E584A2635408}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BB8293A7-F439-44CD-B5F2-E584A2635408}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5E14149B-55A6-4857-A267-3106D836189B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5E14149B-55A6-4857-A267-3106D836189B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E14149B-55A6-4857-A267-3106D836189B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E14149B-55A6-4857-A267-3106D836189B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0D122268-071A-4D78-BCB7-7E2FB70E5F4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0D122268-071A-4D78-BCB7-7E2FB70E5F4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0D122268-071A-4D78-BCB7-7E2FB70E5F4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0D122268-071A-4D78-BCB7-7E2FB70E5F4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C82F5E3E-470D-4588-B884-7591AB229274}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C82F5E3E-470D-4588-B884-7591AB229274}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C82F5E3E-470D-4588-B884-7591AB229274}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C82F5E3E-470D-4588-B884-7591AB229274}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,66 +1,65 @@
-<#
-.SYNOPSIS
-Updates a 'net-framework' all projects in a directory using the in the specified [Manifest] object.
-
-.PARAMETER $Manifest
-The [Manifest] object.
-
-.PARAMETER Path
-The project directory.
-#>
-
-function Edit-NetFrameworkProjectFile
+﻿function Edit-NetFrameworkProjectFile
 {
+	[CmdletBinding(SupportsShouldProcess)]
 	Param(
-		[Parameter(Mandatory, ValueFromPipeline)]
+		[Parameter(Mandatory)]
 		$Manifest,
 
-		[string]$Path
+		[Parameter(Mandatory, ValueFromPipeline)]
+		$InputObject
 	)
 
-	$modifiedFiles = [System.Collections.ArrayList]::new();
-
-	foreach ($csproj in (Get-ChildItem $Path -Recurse -Filter "*.*proj"))
+	BEGIN
 	{
-		[string]$assemblyInfo = "$(Split-Path $csproj.FullName -Parent)\Properties\AssemblyInfo.cs";
-		if ((Test-Path $assemblyInfo) -and ($PSCmdlet.ShouldProcess($assemblyInfo)))
-		{
-			$version = $Manifest | Convert-NcrementVersionNumberToString;
-			$contents = Get-Content $assemblyInfo | Out-String;
-			foreach ($token in @(
-				[Ncrement.Token]::new("Title", "`"$($manifest.Name)`""),
-				[Ncrement.Token]::new("Product", "`"$($manifest.Name)`""),
-				[Ncrement.Token]::new("Company", "`"$($manifest.Company)`""),
-				[Ncrement.Token]::new("Description", "`"$($manifest.Description)`""),
-				[Ncrement.Token]::new("Copyright", "`"$($manifest.Copyright)`""),
-				[Ncrement.Token]::new("InformationalVersion", "`"$($version)`""),
-				[Ncrement.Token]::new("FileVersion", "`"$($version)`""),
-				[Ncrement.Token]::new("Version", "`"$($version)`"")
-			))
-			{
-				if (-not [string]::IsNullOrEmpty($token.Value))
-				{
-					$matches = [Regex]::Matches($contents, [string]::Format('(?i)Assembly{0}\s*\(\s*(?<value>"?.*"?)\)', $token.TagName));
-					if ($matches.Count -ge 1)
-					{
-						foreach ($match in $matches)
-						{
-							$value = $match.Groups["value"];
-							$contents = $contents.Remove($value.Index, $value.Length);
-							$contents = $contents.Insert($value.Index, $token.Value);
-						}
-					}
-					else
-					{
-						$contents = [string]::Concat($contents.TrimEnd(), [System.Environment]::NewLine, "[assembly: Assembly$($token.TagName)($($token.Value))]");
-					}
-				}
-			}
-			$contents | Out-File $assemblyInfo -Encoding utf8;
-		}
-
-		if (Test-Path $assemblyInfo) { $modifiedFiles.Add($assemblyInfo) | Out-Null; }
+		$path = ConvertTo-Path $Manifest;
+		if ((-not [string]::IsNullOrEmpty($path)) -and (Test-Path $path -PathType Leaf)) { $Manifest = Get-Content $path | ConvertFrom-Json; }
 	}
 
-	return $modifiedFiles;
+	PROCESS
+	{
+		$proj = Test-NetFrameworkProjectFile $InputObject;
+		if ($proj)
+		{
+			$path = $proj.Path;
+			$hasChanges = $false;
+			$version = ConvertTo-NcrementVersionNumber $Manifest;
+			$infoFile = Join-Path (Split-Path $path -Parent) "Properties/AssemblyInfo.cs";
+			$contents = Get-Content $infoFile | Out-String;
+
+			if ((Test-Path $infoFile))
+			{
+				foreach ($token in @{
+					"AssemblyTitle"=$Manifest.Name;
+					"AssemblyProduct"=$Manifest.Name;
+					"AssemblyCompany"=$Manifest.Company;
+					"AssemblyDescription"=$Manifest.Description;
+					"AssemblyCopyright"=$Manifest.Copyright;
+					"AssemblyInformationalVersion"=$version;
+					"AssemblyFileVersion"=$version;
+					"AssemblyVersion"=$version;
+				}.GetEnumerator())
+				{
+					if (($token.Value -ne $null) -and (-not [string]::IsNullOrWhiteSpace($token.Value)))
+					{
+						$hasChanges = $true;
+						$pattern = [string]::Format('(?i){0}\s*\(\s*(?<value>"?.*"?)\)', $token.Name);
+						$match = [Regex]::Match($contents, $pattern);
+
+						if ($match.Success)
+						{
+							$contents = [Regex]::Replace($contents, $pattern, "$($token.Name)(`"$($token.Value)`")");
+						}
+						else
+						{
+							$contents = [string]::Concat($contents.TrimEnd(), [Environment]::NewLine, "[assembly: $($token.Name)(`"$($token.Value)`")");
+						}
+					}
+				}
+				if ($PSCmdlet.ShouldProcess($infoFile)) { $contents | Out-File $infoFile -Encoding utf8; }
+				return $infoFile;
+			}
+		}
+
+		return $false;
+	}
 }

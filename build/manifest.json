@@ -1,18 +1,11 @@
 ﻿{
     "version":  {
-                    "major":  5,
+                    "major":  6,
                     "minor":  0,
-                    "patch":  9
+                    "patch":  4
                 },
-    "id":  "Acklann.Ncrement",
-    "title":  "Ncrement",
-    "description":  "A library for applying semantic versioning to your projects.",
-    "author":  "Ackara and Contributors",
-    "owner":  "Acklann",
-    "projectUrl":  "https://github.com/Ackara/Ncrement",
-    "license":  "https://github.com/Ackara/Ncrement/blob/master/license.txt",
-    "icon":  "https://github.com/Ackara/Ncrement/raw/master/art/icon.png",
-    "copyright":  "Released under the MIT license.",
-    "tags":  "build automation continous deployment vsts",
+    "projectUri":  "https://github.com/Ackara/Ncrement",
+    "iconUri":  "https://github.com/Ackara/Ncrement/raw/master/art/icon.png",
+    "licenseUri":  "https://github.com/Ackara/Ncrement/blob/master/license.txt",
     "releaseNotes":  "https://github.com/Ackara/Ncrement/blob/master/releaseNotes.txt"
 }

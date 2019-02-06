@@ -27,18 +27,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="TestData\" />
+    <Folder Include="sample-data\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Convert-NcrementManifestToNugetTokens.tests.ps1" />
-    <Compile Include="Get-NcrementManifest.tests.ps1" />
-    <Compile Include="Save-NcrementManifest.tests.ps1" />
-    <Compile Include="Start-Tests.ps1" />
-    <Compile Include="Step-NcrementVersionNumberUsingDate.tests.ps1" />
-    <Compile Include="Step-NcrementVersionNumber.tests.ps1" />
-    <Compile Include="test.psm1" />
-    <Compile Include="New-NcrementManifest.tests.ps1" />
-    <Compile Include="Update-NcrementProjectFile.tests.ps1" />
+    <Compile Include="public.tests.ps1" />
+    <Compile Include="private.tests.ps1" />
+    <Compile Include="run.ps1" />
+    <Compile Include="util.psm1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />
