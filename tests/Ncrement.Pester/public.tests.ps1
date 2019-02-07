@@ -8,6 +8,9 @@ Describe "ConvertTo-NcrementVersionNumber" {
 		$result = $manifest | ConvertTo-NcrementVersionNumber;
 		$result.Suffix | Should Be "rc";
 
+		$result = $manifest | ConvertTo-NcrementVersionNumber -CurrentBranch "dev";
+		$result.Suffix | Should Be "rc";
+
 		$result = $manifest | ConvertTo-NcrementVersionNumber -CurrentBranch "master";
 		$result.FullVersion | Should Be "1.2.3";
 	}

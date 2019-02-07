@@ -18,9 +18,10 @@
 		if ($manifest -ne $null)
 		{
 			[string]$suffix = "";
-			if (($manifest | Get-Member "branchSuffixMap") -and ($manifest.branchSuffixMap | Get-Member $CurrentBranch))
+			if (($manifest | Get-Member "branchSuffixMap"))
 			{
-				$suffix = $manifest.branchSuffixMap.$CurrentBranch;
+				if ($manifest.branchSuffixMap | Get-Member $CurrentBranch) { $suffix = $manifest.branchSuffixMap.$CurrentBranch; }
+				elseif ($manifest.branchSuffixMap | Get-Member "*") { $suffix = $manifest.branchSuffixMap."*"; }
 			}
 
 			return [PSCustomObject]@{
