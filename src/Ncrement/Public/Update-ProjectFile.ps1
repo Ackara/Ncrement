@@ -11,28 +11,12 @@
 		[Alias('m', "Message")]
 		[string]$CommitMessage,
 
-		[switch]$Commit,
-
-		[Alias("Break")]
-		[switch]$Major,
-
-		[Alias("Feature")]
-		[switch]$Minor,
-
-		[Alias("Fix")]
-		[switch]$Patch
+		[switch]$Commit
 	)
 
 	BEGIN
 	{
 		[int]$filesModified = 0; [string]$cwd;
-		$currentVersion = ConvertTo-NcrementVersionNumber $Manifest;
-		$Manifest = Step-NcrementVersionNumber $Manifest -Major:$Major -Minor:$Minor -Patch:$Patch;
-		$nextVersion = ConvertTo-NcrementVersionNumber $Manifest;
-		if ([string]::IsNullOrWhiteSpace(($CommitMessage)))
-		{
-			$CommitMessage = "Update the version-number from '$currentVersion' to '$nextVersion'.";
-		}
 	}
 
 	PROCESS
@@ -92,6 +76,9 @@
 		{
 			try
 			{
+				$currentVersion = ConvertTo-NcrementVersionNumber $Manifest;
+				if ([string]::IsNullOrWhiteSpace(($CommitMessage))) { $CommitMessage = "Update the version-number to '$currentVersion'."; }
+
 				Push-Location $cwd;
 				&git commit -m $CommitMessage | Out-Null;
 				Write-Verbose "Committed $filesModified file(s) to git repository.";

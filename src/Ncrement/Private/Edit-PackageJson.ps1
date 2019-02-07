@@ -30,7 +30,7 @@
 			if (-not [string]::IsNullOrEmpty($Manifest.Tags)) { $tags = $Manifest.Tags.Split(' '); }
 
 			[bool]$appliedChanges = $false;
-			$version = ConvertTo-NcrementVersionNumber $Manifest;
+			$version = ConvertTo-NcrementVersionNumber $Manifest | Select-Object -ExpandProperty Version;
 
 			foreach ($token in @{
 				"name"=$name;

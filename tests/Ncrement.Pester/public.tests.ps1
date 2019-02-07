@@ -1,5 +1,18 @@
 ﻿Join-Path $PSScriptRoot "*.psm1" | Get-Item | Import-Module -Force;
 
+Describe "ConvertTo-NcrementVersionNumber" {
+	$context = New-TestEnvironment "convert-ver1";
+	$manifest = Join-Path $context.SampleDir "manifest.json" | Get-Item;
+
+	It "should convert manifest version number to an object." {
+		$result = $manifest | ConvertTo-NcrementVersionNumber;
+		$result.Suffix | Should Be "rc";
+
+		$result = $manifest | ConvertTo-NcrementVersionNumber -CurrentBranch "master";
+		$result.FullVersion | Should Be "1.2.3";
+	}
+}
+
 Describe "New-NcrementManifest" {
 	It "should return new manifest" {
 		$manifest = New-NcrementManifest;
@@ -41,18 +54,28 @@ Describe "Step-NcrementVersionNumber" {
 
 Describe "Update-ProjectFile" {
 	$context = New-TestEnvironment "update" -Data -Git;
-	$manifest = Join-Path $context.SampleDir "manifest.json" | Get-Item;
+	$manifestPath = Join-Path $context.SampleDir "manifest.json";
+	$manifest = Get-Content $manifestPath | ConvertFrom-Json;
+	$manifest.version.major = 2; $manifest.version.minor = 0; $manifest.version.patch = 0;
+	#$manifest | ConvertTo-Json | Out-File $manifestPath -Encoding utf8;
 
 	It "should update all project files." {
 		foreach ($file in (Get-ChildItem $context.SampleDir -Recurse -File -Filter "*"))
 		{
 			Write-Host "`t=> testing: $($file.FullName)" -ForegroundColor DarkGray;
 			$before = Get-Content $file.FullName | Out-String;
-			$after = $file | Update-ProjectFile $manifest -Major -Commit -Verbose;
+			$after = $file | Update-ProjectFile $manifest -Commit -Verbose;
 			if ($after)
 			{
 				Get-Content $after.FullName | Out-String | Should Match "2.0.0";
 			}
 		}
+
+		try
+		{
+			Push-Location $context.SampleDir;
+			&git status | Out-String | Should Match "nothing to commit";
+		}
+		finally { Pop-Location; }
 	}
 }

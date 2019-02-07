@@ -24,7 +24,7 @@
 			$hasChanges = $false;
 			$hasNewNodes = $false;
 			$myGroup = $doc.CreateElement("PropertyGroup");
-			$version = ConvertTo-NcrementVersionNumber $Manifest;
+			$version = ConvertTo-NcrementVersionNumber $Manifest | Select-Object -ExpandProperty Version;
 
 			foreach ($token in @{
 				"Title"=$Manifest.Name;

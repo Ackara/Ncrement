@@ -20,7 +20,7 @@
 		[string]$path = ConvertTo-Path $InputObject;
 		if ($path.EndsWith(".psd1") -and (Test-ModuleManifest $path) -and $PSCmdlet.ShouldProcess($InputObject))
 		{
-			$version = ConvertTo-NcrementVersionNumber $Manifest;
+			$version = ConvertTo-NcrementVersionNumber $Manifest | Select-Object -ExpandProperty Version;
 			Update-ModuleManifest $path `
 			-ModuleVersion $version `
 			-Author ($Manifest.Author | Get-IfNull $env:USERNAME) `

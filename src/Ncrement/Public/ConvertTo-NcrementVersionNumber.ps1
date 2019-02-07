@@ -2,19 +2,33 @@
 {
 	Param(
 		[Parameter(Mandatory, ValueFromPipeline)]
-		$InputObject
+		$InputObject,
+
+		[string]$CurrentBranch = "*"
 	)
-
-	$manifest = $InputObject;
-	$path = ConvertTo-Path $InputObject;
-	if ((-not [string]::IsNullOrEmpty($path)) -and (Test-Path $path -PathType Leaf))
+	PROCESS
 	{
-		$manifest = Get-Content $path | ConvertFrom-Json;
-	}
+		$manifest = $InputObject;
+		$path = ConvertTo-Path $InputObject;
+		if ((-not [string]::IsNullOrEmpty($path)) -and (Test-Path $path -PathType Leaf))
+		{
+			$manifest = Get-Content $path | ConvertFrom-Json;
+		}
 
-	if ($manifest -ne $null)
-	{
-		return "$($manifest.version.major).$($manifest.version.minor).$($manifest.version.patch)";
+		if ($manifest -ne $null)
+		{
+			[string]$suffix = "";
+			if (($manifest | Get-Member "branchSuffixMap") -and ($manifest.branchSuffixMap | Get-Member $CurrentBranch))
+			{
+				$suffix = $manifest.branchSuffixMap.$CurrentBranch;
+			}
+
+			return [PSCustomObject]@{
+				"Suffix"=$suffix;
+				"Version"="$($manifest.version.major).$($manifest.version.minor).$($manifest.version.patch)";
+				"FullVersion"="$($manifest.version.major).$($manifest.version.minor).$($manifest.version.patch)$suffix";
+			};
+		}
+		else { Write-Error "The 'InputObject' cannot be null or empty."; }
 	}
-	else { Write-Error "The 'InputObject' cannot be null or empty."; }
 }

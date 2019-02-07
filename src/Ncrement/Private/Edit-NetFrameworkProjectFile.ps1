@@ -22,7 +22,7 @@
 		{
 			$path = $proj.Path;
 			$hasChanges = $false;
-			$version = ConvertTo-NcrementVersionNumber $Manifest;
+			$version = ConvertTo-NcrementVersionNumber $Manifest | Select-Object -ExpandProperty Version;
 			$infoFile = Join-Path (Split-Path $path -Parent) "Properties/AssemblyInfo.cs";
 			$contents = Get-Content $infoFile | Out-String;
 

@@ -26,7 +26,7 @@
 
 			if ($metadata -ne $null)
 			{
-				$version = ConvertTo-NcrementVersionNumber $Manifest;
+				$version = ConvertTo-NcrementVersionNumber $Manifest | Select-Object -ExpandProperty Version;
 				$identity = $metadata.SelectSingleNode("x:Identity", $ns);
 
 				foreach ($token in @{
