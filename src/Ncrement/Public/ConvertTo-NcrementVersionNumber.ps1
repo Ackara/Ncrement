@@ -24,10 +24,13 @@
 				elseif ($manifest.branchSuffixMap | Get-Member "*") { $suffix = $manifest.branchSuffixMap."*"; }
 			}
 
+			$tag = "";
+			if (-not [string]::IsNullOrEmpty($tag)) { $tag = "-$suffix"; }
+
 			return [PSCustomObject]@{
 				"Suffix"=$suffix;
 				"Version"="$($manifest.version.major).$($manifest.version.minor).$($manifest.version.patch)";
-				"FullVersion"="$($manifest.version.major).$($manifest.version.minor).$($manifest.version.patch)$suffix";
+				"FullVersion"="$($manifest.version.major).$($manifest.version.minor).$($manifest.version.patch)$tag";
 			};
 		}
 		else { Write-Error "The 'InputObject' cannot be null or empty."; }
