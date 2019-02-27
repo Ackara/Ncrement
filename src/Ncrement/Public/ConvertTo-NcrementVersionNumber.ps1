@@ -25,7 +25,7 @@
 			}
 
 			$tag = "";
-			if (-not [string]::IsNullOrEmpty($tag)) { $tag = "-$suffix"; }
+			if (-not [string]::IsNullOrEmpty($suffix)) { $tag = "-$suffix"; }
 
 			return [PSCustomObject]@{
 				"Suffix"=$suffix;
