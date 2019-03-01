@@ -1,6 +1,17 @@
-﻿function New-NcrementManifest()
+﻿<#
+.SYNOPSIS
+Creates a new [Manifest] object.
+
+.DESCRIPTION
+This function creates a new [Manifest] object.
+
+.EXAMPLE
+New-NcrementManifest | ConvertTo-Json | Out-File "C:\app\manifest.json";
+This example, creates a new [Manifest] and saves to a file.
+#>
+function New-NcrementManifest()
 {
-	@"
+	return @"
 	{
 		"id": null,
 		"name": null,

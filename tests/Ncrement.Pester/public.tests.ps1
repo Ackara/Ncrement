@@ -53,6 +53,15 @@ Describe "Step-NcrementVersionNumber" {
 		$manifest | Step-NcrementVersionNumber -Patch | ConvertTo-Json | Approve-Results -TestName "step-patch.json" | Should Be $true;
 		$manifest.FullName | Step-NcrementVersionNumber -Patch | ConvertTo-Json | Approve-Results -TestName "step-patch.json" | Should Be $true;
 	}
+
+	It "can increment and save manifest via one pipe" {
+		$outFile = New-TemporaryFile;
+		$oldVersion = Get-Content $manifest | ConvertFrom-Json;
+		Get-Content $manifest | ConvertFrom-Json | Step-NcrementVersionNumber -Minor | ConvertTo-Json | Out-File $outFile.FullName -Encoding utf8;
+		$newVersion = Get-Content $outFile.FullName | ConvertFrom-Json;
+
+		$newVersion.version.minor | Should Not Be $oldVersion.version.minor;
+	}
 }
 
 Describe "Update-ProjectFile" {
@@ -67,7 +76,7 @@ Describe "Update-ProjectFile" {
 		{
 			Write-Host "`t=> testing: $($file.FullName)" -ForegroundColor DarkGray;
 			$before = Get-Content $file.FullName | Out-String;
-			$after = $file | Update-ProjectFile $manifest -Commit -Verbose;
+			$after = $file | Update-NcrementProjectFile $manifest -Commit -Verbose;
 			if ($after)
 			{
 				Get-Content $after.FullName | Out-String | Should Match "2.0.0";

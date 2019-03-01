@@ -190,7 +190,7 @@ function Invoke-Build
 	-CompanyName "Acklann" `
 	-Copyright "(c) 2019 Acklann. All rights reserved." `
 	-NestedModules $nestedModules `
-	-FunctionsToExport $functions `
+	-CmdletsToExport $functions `
 	-Tags @("semantic", "versioning", "build", "automation") `
 	-IconUri $manifest.iconUri `
 	-ProjectUri $manifest.projectUri `

@@ -1,4 +1,18 @@
-﻿function ConvertTo-NcrementVersionNumber
+﻿<#
+.SYNOPSIS
+Returns a version number.
+
+.DESCRIPTION
+This cmdlet creates a version number from the specified input. The input can be a '.json' file or an object.
+
+.PARAMETER InputObject
+The file-path or instance of a [Manifest] object.
+
+.PARAMETER CurrentBrach
+The branch name of the current repository.
+#>
+
+function ConvertTo-NcrementVersionNumber
 {
 	Param(
 		[Parameter(Mandatory, ValueFromPipeline)]

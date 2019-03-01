@@ -46,7 +46,7 @@
     <Compile Include="Private\Test-PackageJson.ps1" />
     <Compile Include="Private\Test-VSIXManifest.ps1" />
     <Compile Include="Public\Step-NcrementVersionNumber.ps1" />
-    <Compile Include="Public\Update-ProjectFile.ps1" />
+    <Compile Include="Public\Update-NcrementProjectFile.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

@@ -3,9 +3,11 @@
 	[CmdletBinding(ConfirmImpact = "Medium", SupportsShouldProcess)]
 	Param(
 		[Parameter(Mandatory)]
+		[ValidateNotNull()]
 		$Manifest,
 
 		[Parameter(Mandatory, ValueFromPipeline)]
+		[ValidateNotNull()]
 		$InputObject
 	)
 

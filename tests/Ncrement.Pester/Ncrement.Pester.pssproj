@@ -30,6 +30,7 @@
     <Folder Include="sample-data\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="help.tests.ps1" />
     <Compile Include="public.tests.ps1" />
     <Compile Include="private.tests.ps1" />
     <Compile Include="run.ps1" />
