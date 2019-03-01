@@ -5,7 +5,7 @@
 
 Your application is composed of one or more projects and you need to keep their version number in-sync. 
 
-## The solution
+## The Solution
 
 **Ncrement** is a powershell module that help you to apply **semantic versioning** to your projects. It can also synchronize your projects metadata;  by utilizing a `.json` file to store the current version and metadata of your solution, Ncrement can inject said information into a project file.
 
