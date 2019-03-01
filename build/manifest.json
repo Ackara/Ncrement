@@ -1,8 +1,8 @@
 ﻿{
     "version":  {
-                    "major":  6,
+                    "major":  7,
                     "minor":  0,
-                    "patch":  12
+                    "patch":  0
                 },
     "projectUri":  "https://github.com/Ackara/Ncrement",
     "iconUri":  "https://github.com/Ackara/Ncrement/raw/master/art/icon.png",
