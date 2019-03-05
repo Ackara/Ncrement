@@ -104,7 +104,7 @@ function Update-NcrementProjectFile
 			try
 			{
 				$currentVersion = ConvertTo-NcrementVersionNumber $Manifest | Select-Object -ExpandProperty Version;
-				if ([string]::IsNullOrWhiteSpace(($CommitMessage))) { $CommitMessage = "Update the version-number to '$currentVersion'."; }
+				if ([string]::IsNullOrWhiteSpace(($CommitMessage))) { $CommitMessage = "Update the version-number to $currentVersion."; }
 
 				Push-Location $cwd;
 				&git commit -m $CommitMessage | Out-Null;
