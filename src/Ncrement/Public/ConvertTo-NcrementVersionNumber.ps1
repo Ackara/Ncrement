@@ -20,6 +20,7 @@ function ConvertTo-NcrementVersionNumber
 
 		[string]$CurrentBranch = "*"
 	)
+
 	PROCESS
 	{
 		$manifest = $InputObject;

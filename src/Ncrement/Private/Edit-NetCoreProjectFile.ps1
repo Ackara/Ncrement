@@ -41,7 +41,7 @@
 				"PackageProjectUrl"=$Manifest.Website;
 				"PackageIconUrl"=$Manifest.Icon;
 				"PackageReleaseNotes"=$Manifest.ReleaseNotes;
-				"RepositoryUrl"=$Manifest.RepositoryUrl;
+				"RepositoryUrl"=$Manifest.Repository;
 				"PackageLicenseUrl"=$Manifest.License;
 			}.GetEnumerator())
 			{

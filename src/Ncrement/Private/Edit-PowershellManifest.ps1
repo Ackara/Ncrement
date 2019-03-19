@@ -20,9 +20,9 @@
 		[string]$path = ConvertTo-Path $InputObject;
 		if ($path.EndsWith(".psd1") -and (Test-ModuleManifest $path) -and $PSCmdlet.ShouldProcess($InputObject))
 		{
-			$version = ConvertTo-NcrementVersionNumber $Manifest | Select-Object -ExpandProperty Version;
+			$version = ConvertTo-NcrementVersionNumber $Manifest;
 			Update-ModuleManifest $path `
-			-ModuleVersion $version `
+			-ModuleVersion $version.Version `
 			-Author ($Manifest.Author | Get-IfNull $env:USERNAME) `
 			-CompanyName ($Manifest.Company | Get-IfNull $env:USERNAME) `
 			-Description ($Manifest.Description | Get-IfNull $null) `
@@ -32,6 +32,8 @@
 			-IconUri ($Manifest.Icon | Get-IfNull $null) `
 			-ReleaseNotes ($Manifest.ReleaseNotes | Get-IfNull $null) `
 			-Tags (($Manifest.Tags | Get-IfNull $null).Split(' '));
+
+			if (-not [string]::IsNullOrEmpty($version.Suffix)) { Update-ModuleManifest $path -Prerelease $version.Suffix; }
 
 			return $InputObject;
 		}

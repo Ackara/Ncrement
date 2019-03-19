@@ -17,7 +17,7 @@ function New-NcrementManifest()
 		"name": null,
 		"author": null,
 		"company": null,
-		"copyright": null,
+		"copyright": "Copyright © $(Get-Date | Select-Object -ExpandProperty Year)",
 		"website": null,
 		"license": null,
 		"repository": null,
