@@ -15,6 +15,7 @@ The branch name of the current repository.
 function ConvertTo-NcrementVersionNumber
 {
 	Param(
+		[ValidateNotNull()]
 		[Parameter(Mandatory, ValueFromPipeline)]
 		$InputObject,
 

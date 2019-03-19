@@ -24,7 +24,9 @@ This example increments version number then saves it back to disk.
 
 function Step-NcrementVersionNumber
 {
+	[CmdletBinding()]
 	Param(
+		[ValidateNotNull()]
 		[Parameter(Mandatory, ValueFromPipeline)]
 		$InputObject,
 
@@ -45,26 +47,29 @@ function Step-NcrementVersionNumber
 			$manifest = Get-Content $path | ConvertFrom-Json;
 		}
 
-		if ($InputObject | Get-Member "version") { $manifest = $InputObject; }
+		if ($InputObject | Get-Member "Version") { $manifest = $InputObject; }
 
 		if ($manifest -ne $null)
 		{
+			$oldVersion = "$($manifest.Version.Major).$($manifest.Version.Minor).$($manifest.Version.Patch)";
 			if ($Major)
 			{
-				$manifest.version.major = $manifest.version.major + 1;
-				$manifest.version.minor = 0;
-				$manifest.version.patch = 0;
+				$manifest.Version.Major = $manifest.Version.Major + 1;
+				$manifest.Version.Minor = 0;
+				$manifest.Version.Patch = 0;
 			}
 			elseif ($Minor)
 			{
-				$manifest.version.minor = $manifest.version.minor + 1;
-				$manifest.version.patch = 0;
+				$manifest.Version.Minor = $manifest.Version.Minor + 1;
+				$manifest.Version.Patch = 0;
 			}
 			else
 			{
-				$manifest.version.patch = $manifest.version.patch + 1;
+				$manifest.Version.Patch = $manifest.Version.Patch + 1;
 			}
+			$newVersion = "$($manifest.Version.Major).$($manifest.Version.Minor).$($manifest.Version.Patch)";
 
+			Write-Verbose "Incremented version-number from $oldVersion to $newVersion";
 			return $manifest;
 		}
 	}

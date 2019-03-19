@@ -18,7 +18,7 @@ Properties {
 	$Branch = "";
 }
 
-Task "Default" -depends @("restore", "build", "test");
+Task "Default" -depends @("restore", "build", "test", "pack");
 
 Task "Deploy" -alias "push" -description "This task compile, test then publish the application." `
 -depends @("restore", "version", "test", "pack", "push-ps");
@@ -32,7 +32,7 @@ Task "Import-Dependencies" -alias "restore" -description "This task imports all 
 	{
 		$modulePath = Join-Path $ToolsDir "$moduleId/*/*.psd1";
 		if (-not (Test-Path $modulePath)) { Save-Module $moduleId -Path $ToolsDir; }
-		Write-Host "  * imported $moduleId.";
+		Write-Host "  -> imported $moduleId.";
 	}
 
 	# Add secrets.json if not exist.
@@ -40,7 +40,7 @@ Task "Import-Dependencies" -alias "restore" -description "This task imports all 
 	if (-not (Test-Path $secretsPath))
 	{
 		'{ "psGalleryKey": null }' | Out-File -FilePath $secretsPath -Encoding utf8;
-		Write-Host "  * created secrets.json";
+		Write-Host "  -> created secrets.json";
 	}
 }
 
@@ -50,8 +50,8 @@ Task "Increment-VersionNumber" -alias "version" -description "This task incremen
 	$manifest = Get-Content $manifestPath | ConvertFrom-Json;
 	$oldVersion =  "$($manifest.version.major).$($manifest.version.minor).$($manifest.version.patch)";
 
-	if ($Major) 
-	{ 
+	if ($Major)
+	{
 		$manifest.version.major++;
 		$manifest.version.minor = 0;
 		$manifest.version.patch = 0;
@@ -62,12 +62,15 @@ Task "Increment-VersionNumber" -alias "version" -description "This task incremen
 		$manifest.patch = 0;
 	}
 	else { $manifest.version.patch++; }
-	$manifest | ConvertTo-Json | Out-File $manifestPath -Encoding utf8;
-	#$buildScript = Join-Path (Split-Path $PSScriptRoot -Parent) "build.ps1";
-	Invoke-Build;
-	
 	$version =  "$($manifest.version.major).$($manifest.version.minor).$($manifest.version.patch)";
-	Write-Host "  * incremented version number from '$oldVersion' to '$version'.";
+
+	$manifest | ConvertTo-Json | Out-File $manifestPath -Encoding utf8;
+	Invoke-Build;
+	[string]$psd1 = Join-Path $RootDir "src/*/*.psd1" | Resolve-Path;
+	&git add $psd1; &git add $manifestPath;
+	&git commit -m "Update version-number to $version";
+
+	Write-Host "  -> incremented version number from '$oldVersion' to '$version'.";
 }
 
 Task "Build-Solution" -alias "build" -description "This task compiles the solution." `
@@ -107,7 +110,7 @@ Task "Generate-Packages" -alias "pack" -description "This task generates the app
 	Copy-Item $moduleDir -Destination $packageDir -Recurse;
 	Get-ChildItem $packageDir -Directory | Where-Object { ($_.Name -eq "bin") -or ($_.Name -eq "obj") } | Remove-Item -Recurse -Force;
 	Get-ChildItem $packageDir -Recurse -File | Where-Object { $_.Name -notlike "*.ps*1" } | Remove-Item -Force;
-	Write-Host "  * created $($moduleDir.Name) module.";
+	Write-Host " -> created $($moduleDir.Name) module.";
 }
 
 Task "Publish-PowershellGallery" -alias "push-ps" -description "" `
@@ -136,6 +139,50 @@ Task "Publish-PowershellGallery" -alias "push-ps" -description "" `
 
 #region ----- FUNCTIONS -----
 
+function Invoke-Build
+{
+	$psd1 = Get-Item "$RootDir\src\*\*.psd1" -ErrorAction Stop;
+	$projectDir = $psd1.DirectoryName;
+
+	$cmdlets = [System.Collections.ArrayList]::new();
+	$functions = [System.Collections.ArrayList]::new();
+	$nestedModules = [System.Collections.ArrayList]::new();
+
+	foreach ($file in (Get-ChildItem "$projectDir\Private" -Filter "*.ps1"))
+	{
+		$nestedModules.Add("Private\$($file.Name)") | Out-Null;
+		if ($Debug) { $functions.Add($file.BaseName) | Out-Null; }
+	}
+
+	foreach ($file in (Get-ChildItem "$projectDir\Public"))
+	{
+		$nestedModules.Add("Public\$($file.Name)") | Out-Null;
+		$cmdlets.Add($file.BaseName) | Out-Null;
+		Write-Host " -> added $($file.BaseName) cmdlet.";
+	}
+
+	$manifest = Get-Content (Join-Path $PSScriptRoot "manifest.json") | ConvertFrom-Json;
+	if (Test-Path $psd1) { Remove-Item $psd1 | Out-Null; }
+
+	New-ModuleManifest $psd1.FullName `
+	-Guid "332b06ed-278e-482a-b17c-98919e43f577" `
+	-ModuleVersion "$($manifest.version.major).$($manifest.version.minor).$($manifest.version.patch)" `
+	-Description "A module for applying semantic versioning to your projects." `
+	-Author "Ackara" `
+	-CompanyName "Ackara" `
+	-IconUri $manifest.iconUri `
+	-ProjectUri $manifest.projectUri `
+	-LicenseUri $manifest.licenseUri `
+	-ReleaseNotes $manifest.releaseNotes `
+	-Tags @("semantic", "version", "build", "automation", ".net") `
+	-Copyright "Copyright (c) 2018-$(Get-Date | Select-Object -ExpandProperty Year) Ackara" `
+	-NestedModules $nestedModules `
+	-CmdletsToExport $cmdlets `
+	-PowerShellVersion "5.0";
+
+	Write-Host " -> updated $($psd1.Name).";
+}
+
 function Get-Secret([string]$key)
 {
 	$value = $Secrets.$key;
@@ -156,49 +203,6 @@ function Write-LineBreak([string]$Title = "", [int]$length = 70)
 	}
 
 	Write-Host ''; Write-Host $line; Write-Host '';
-}
-
-function Invoke-Build
-{
-	$psd1 = Get-Item "$RootDir\src\*\*.psd1" -ErrorAction Stop;
-	$projectDir = $psd1.DirectoryName;
-
-	$cmdlets = [System.Collections.ArrayList]::new();
-	$functions = [System.Collections.ArrayList]::new();
-	$nestedModules = [System.Collections.ArrayList]::new();
-	
-	foreach ($file in (Get-ChildItem "$projectDir\Private" -Filter "*.ps1"))
-	{
-		$nestedModules.Add("Private\$($file.Name)") | Out-Null;
-		if ($Debug) { $functions.Add($file.BaseName) | Out-Null; }
-	}
-
-	foreach ($file in (Get-ChildItem "$projectDir\Public"))
-	{
-		$nestedModules.Add("Public\$($file.Name)") | Out-Null;
-		$functions.Add($file.BaseName) | Out-Null;
-	}
-
-	$manifest = Get-Content (Join-Path $PSScriptRoot "manifest.json") | ConvertFrom-Json;
-	if (Test-Path $psd1) { Remove-Item $psd1 | Out-Null; }
-
-	New-ModuleManifest $psd1.FullName `
-	-Guid "332b06ed-278e-482a-b17c-98919e43f577" `
-	-ModuleVersion "$($manifest.version.major).$($manifest.version.minor).$($manifest.version.patch)" `
-	-Description "A module for applying semantic versioning to your projects." `
-	-Author "Ackara" `
-	-CompanyName "Acklann" `
-	-Copyright "(c) 2019 Acklann. All rights reserved." `
-	-NestedModules $nestedModules `
-	-CmdletsToExport $functions `
-	-Tags @("semantic", "versioning", "build", "automation") `
-	-IconUri $manifest.iconUri `
-	-ProjectUri $manifest.projectUri `
-	-LicenseUri $manifest.licenseUri `
-	-ReleaseNotes $manifest.releaseNotes `
-	-PowerShellVersion "5.0";
-
-	Write-Host "   * updated $($psd1.Name).";
 }
 
 #endregion

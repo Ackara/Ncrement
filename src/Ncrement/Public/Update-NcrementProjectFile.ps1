@@ -108,7 +108,7 @@ function Update-NcrementProjectFile
 
 				Push-Location $cwd;
 				&git commit -m $CommitMessage | Out-Null;
-				Write-Verbose "Committed $filesModified file(s) to git repository.";
+				Write-Verbose "Committed $filesModified file(s).";
 			}
 			finally { Pop-Location; }
 		}
