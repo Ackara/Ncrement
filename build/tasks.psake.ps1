@@ -175,7 +175,7 @@ function Invoke-Build
 	-LicenseUri $manifest.licenseUri `
 	-ReleaseNotes $manifest.releaseNotes `
 	-Tags @("semantic", "version", "build", "automation", ".net") `
-	-Copyright "Copyright (c) 2018-$(Get-Date | Select-Object -ExpandProperty Year) Ackara" `
+	-Copyright "Copyright (c) $(Get-Date | Select-Object -ExpandProperty Year) Ackara" `
 	-NestedModules $nestedModules `
 	-CmdletsToExport $cmdlets `
 	-PowerShellVersion "5.0";

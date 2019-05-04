@@ -27,7 +27,8 @@ function Step-NcrementVersionNumber
 	[CmdletBinding()]
 	Param(
 		[ValidateNotNull()]
-		[Parameter(Mandatory, ValueFromPipeline)]
+		[Alias("Path", "FullName")]
+		[Parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
 		$InputObject,
 
 		[switch]$Major,
@@ -40,7 +41,7 @@ function Step-NcrementVersionNumber
 	PROCESS
 	{
 		[string]$path = ConvertTo-Path $InputObject;
-
+		
 		$manifest = $null;
 		if ((-not [string]::IsNullOrEmpty($path)) -and (Test-Path $path -PathType Leaf))
 		{

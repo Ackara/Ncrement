@@ -29,15 +29,14 @@
 			$version = ConvertTo-NcrementVersionNumber $Manifest | Select-Object -ExpandProperty Version;
 
 			foreach ($token in @{
-				"Title"=$Manifest.Name;
 				"PackageVersion"=$version;
 				"AssemblyVersion"=$version;
 				"Description"=$Manifest.Description;
 				"Authors"=$Manifest.Author;
 				"Company"=$Manifest.Company;
 				"Copyright"=$Manifest.Copyright;
-				"PackageTags"=$Manifest.Tags;
 
+				"PackageTags"=$Manifest.Tags;
 				"PackageProjectUrl"=$Manifest.Website;
 				"PackageIconUrl"=$Manifest.Icon;
 				"PackageReleaseNotes"=$Manifest.ReleaseNotes;

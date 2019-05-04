@@ -30,7 +30,8 @@ function Update-NcrementProjectFile
 		[ValidateNotNull()]
 		$Manifest,
 
-		[Parameter(Mandatory, ValueFromPipeline)]
+		[Alias("Path", "FullName")]
+		[Parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
 		[ValidateNotNull()]
 		$InputObject,
 

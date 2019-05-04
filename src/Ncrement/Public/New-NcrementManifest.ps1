@@ -13,20 +13,20 @@ function New-NcrementManifest()
 {
 	return @"
 	{
-		"id": null,
 		"name": null,
 		"author": null,
 		"company": null,
-		"copyright": "Copyright © $(Get-Date | Select-Object -ExpandProperty Year)",
+		"copyright": "Copyright $(Get-Date | Select-Object -ExpandProperty Year)",
+
 		"website": null,
-		"license": null,
 		"repository": null,
 		"icon": null,
 		"tags": null,
+		"license": null,
 		"releaseNotes": null,
 
-		"version": { "major": 0, "minor": 0, "patch": 1 },
-		"branchSuffixMap": { "master": "", "*": "rc" }
+		"version": { "major": 0, "minor": 0, "patch": 0 },
+		"branchSuffixMap": { "master": "", "*": "beta" }
 	}
 "@ | ConvertFrom-Json;
 }

@@ -16,7 +16,8 @@ function ConvertTo-NcrementVersionNumber
 {
 	Param(
 		[ValidateNotNull()]
-		[Parameter(Mandatory, ValueFromPipeline)]
+		[Alias("Path", "FullName")]
+		[Parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
 		$InputObject,
 
 		[string]$CurrentBranch = "*"
@@ -45,8 +46,12 @@ function ConvertTo-NcrementVersionNumber
 
 			return [PSCustomObject]@{
 				"Suffix"=$suffix;
+				
 				"Version"="$($manifest.version.major).$($manifest.version.minor).$($manifest.version.patch)";
 				"FullVersion"="$($manifest.version.major).$($manifest.version.minor).$($manifest.version.patch)$tag";
+				
+				"Name"="$($manifest.version.major).$($manifest.version.minor).$($manifest.version.patch)";
+				"FullName"="$($manifest.version.major).$($manifest.version.minor).$($manifest.version.patch)$tag";
 			};
 		}
 		else { Write-Error "The 'InputObject' cannot be null or empty."; }

@@ -110,7 +110,7 @@ PrivateData = @{
         ReleaseNotes = 'https://github.com/Ackara/Ncrement/blob/master/releaseNotes.txt'
 
         # Prerelease string of this module
-        # Prerelease = ''
+        Prerelease = 'rc'
 
         # Flag to indicate whether the module requires explicit user acceptance for install/update
         # RequireLicenseAcceptance = $false
