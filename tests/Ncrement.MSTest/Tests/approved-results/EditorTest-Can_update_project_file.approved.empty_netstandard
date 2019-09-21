@@ -1,0 +1,26 @@
+# BEFORE
+##################################################
+
+<Project Sdk="Microsoft.NET.Sdk">
+</Project>
+
+# AFTER
+##################################################
+
+<Project Sdk="Microsoft.NET.Sdk">
+
+<PropertyGroup>
+<PackageId>Acme.Ncrement</PackageId>
+<Version>1.2.3</Version>
+<Title>Ncrement</Title>
+<Description>This is a useful package.</Description>
+<RepositoryUrl>https://acme.com/repo/ncrement.git</RepositoryUrl>
+<PackageProjectUrl>https://acme.com</PackageProjectUrl>
+<PackageIconUrl>http://cdn.acme.com/img/logo.png</PackageIconUrl>
+<PackageTags>awesome cool</PackageTags>
+<PackageReleaseNotes>https://acme.com/project/ncrement/notes</PackageReleaseNotes>
+<Authors>Ackara</Authors>
+<Copyright>Copyright 2019 Acme All Rights Reserved.</Copyright>
+<PackageLicenseFile>MIT</PackageLicenseFile>
+</PropertyGroup>
+</Project>

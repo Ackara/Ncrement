@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard1.4</TargetFramework>
+    <AssemblyName>Acklann.Buildbox</AssemblyName>
+    <AssemblyVersion>0.0.0</AssemblyVersion>
+    <RootNamespace>Acklann.Buildbox</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>xxx</PackageId>
+    <Version>xxx</Version>
+    <Title>xxx</Title>
+
+    <Description>xxx</Description>
+    <RepositoryUrl>xxx</RepositoryUrl>
+    <PackageProjectUrl>xxx</PackageProjectUrl>
+    <PackageIconUrl>xxx</PackageIconUrl>
+    <PackageReleaseNotes>xxx</PackageReleaseNotes>
+    <PackageTags>xxx</PackageTags>
+    
+    <Authors>xxx</Authors>
+    <Copyright>xxx</Copyright>
+    <PackageLicenseFile>xxx</PackageLicenseFile>
+    
+  </PropertyGroup>
+</Project>

@@ -5,10 +5,6 @@ VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "build", "build\build.pssproj", "{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}"
 EndProject
-Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Ncrement.Pester", "tests\Ncrement.Pester\Ncrement.Pester.pssproj", "{5E14149B-55A6-4857-A267-3106D836189B}"
-EndProject
-Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Ncrement", "src\Ncrement\Ncrement.pssproj", "{C82F5E3E-470D-4588-B884-7591AB229274}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".misc", ".misc", "{61E11AA7-940A-43FF-B622-6CCC028402E9}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
@@ -16,6 +12,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".misc", ".misc", "{61E11AA7
 		README.md = README.md
 		releaseNotes.txt = releaseNotes.txt
 	EndProjectSection
+EndProject
+Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Ncrement.Pester", "tests\Ncrement.Pester\Ncrement.Pester.pssproj", "{5E14149B-55A6-4857-A267-3106D836189B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ncrement", "src\Ncrement\Ncrement.csproj", "{FF4C6DF6-AED2-4394-AFF4-25F8CBD636CF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ncrement.MSTest", "tests\Ncrement.MSTest\Ncrement.MSTest.csproj", "{D35452C9-7A37-48BA-A38F-DA78A22B4073}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ncrement.Powershell", "src\Ncrement.Powershell\Ncrement.Powershell.csproj", "{A2E8638C-A5E5-4D68-8EEC-C30BF8FB3F71}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,10 +35,18 @@ Global
 		{5E14149B-55A6-4857-A267-3106D836189B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E14149B-55A6-4857-A267-3106D836189B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E14149B-55A6-4857-A267-3106D836189B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C82F5E3E-470D-4588-B884-7591AB229274}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C82F5E3E-470D-4588-B884-7591AB229274}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C82F5E3E-470D-4588-B884-7591AB229274}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C82F5E3E-470D-4588-B884-7591AB229274}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF4C6DF6-AED2-4394-AFF4-25F8CBD636CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF4C6DF6-AED2-4394-AFF4-25F8CBD636CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF4C6DF6-AED2-4394-AFF4-25F8CBD636CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF4C6DF6-AED2-4394-AFF4-25F8CBD636CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D35452C9-7A37-48BA-A38F-DA78A22B4073}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D35452C9-7A37-48BA-A38F-DA78A22B4073}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D35452C9-7A37-48BA-A38F-DA78A22B4073}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D35452C9-7A37-48BA-A38F-DA78A22B4073}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2E8638C-A5E5-4D68-8EEC-C30BF8FB3F71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2E8638C-A5E5-4D68-8EEC-C30BF8FB3F71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2E8638C-A5E5-4D68-8EEC-C30BF8FB3F71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2E8638C-A5E5-4D68-8EEC-C30BF8FB3F71}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
