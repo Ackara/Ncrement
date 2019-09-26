@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace Acklann.Ncrement.Tests
@@ -54,23 +55,26 @@ namespace Acklann.Ncrement.Tests
 
         private static IEnumerable<object[]> GetProjectFiles()
         {
-            foreach (string path in Directory.EnumerateFiles(Path.Combine(Sample.DirectoryName, "projects")))
-                yield return new object[] { path };
+            var testFiles = (from x in Directory.EnumerateFiles(Path.Combine(Sample.DirectoryName, "projects"))
+                             //where Path.GetExtension(x) == ".json"
+                             select x);
+
+            foreach (string path in testFiles) yield return new object[] { path };
         }
 
         private static Manifest GetManifest()
         {
             var manifest = new Manifest()
             {
-                ProductId = "Acme.Ncrement",
+                Id = "Acme.Ncrement",
                 Version = "1.2.3",
-                ProductName = "Ncrement",
+                Name = "Ncrement",
                 Description = "This is a useful package.",
 
                 Tags = "awesome cool",
                 Website = "https://acme.com",
                 Repository = "https://acme.com/repo/ncrement.git",
-                IconUri = "http://cdn.acme.com/img/logo.png",
+                Icon = "http://cdn.acme.com/img/logo.png",
                 ReleaseNotes = "https://acme.com/project/ncrement/notes",
 
                 Company = "Acme",

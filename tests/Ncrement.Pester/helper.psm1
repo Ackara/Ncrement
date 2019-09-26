@@ -1,35 +1,13 @@
-function New-TestEnvironment([string]$testName = "", [switch]$Data, [switch]$Git)
+function New-TestEnvironment()
 {
-	if ([string]::IsNullOrEmpty($testName))
-	{
-		$testName = [IO.Path]::GetFileNameWithoutExtension($MyInvocation.PSCommandPath).Replace(".tests", "");
-	}
+	$solutionFolder = Split-Path $PSScriptRoot -Parent | Split-Path -Parent;
+	$modulePath = Join-Path $solutionFolder "artifacts\*\*.Powershell.dll" | Resolve-Path;
+	$sampleFolder = Join-Path $solutionFolder "tests/*.MSTest/samples" | Resolve-Path;
+	$tempFolder = Join-Path ([IO.Path]::GetTempPath()) "ncrement-pester";
 
-	$testDir = Join-Path $env:TEMP "ncrement\$testName";
-	$testFiles = Join-Path $testDir "sample-data";
-
-	if (Test-Path $testDir) { Remove-Item $testDir -Recurse -Force; }
-	if ($Data) { Copy-Item "$PSScriptRoot\sample-data\" -Destination $testFiles -Recurse; }
-	else { $testFiles = Join-Path $PSScriptRoot "sample-data"; }
-
-	if ($Git)
-	{
-		try
-		{
-			Push-Location $testDir;
-			&git init;
-			&git add .;
-			&git commit -m "intia commit" | Out-Null;
-			&git branch dev | Out-Null;
-			&git checkout dev | Out-Null;
-		}
-		finally { Pop-Location; }
-	}
-
-	return New-Object PSObject -Property @{
-		"TestName"=$testName;
-		"TestDir"=$testDir;
-		"SampleDir"=$testFiles;
+	return [PSCustomObject]@{
+		"ModulePath"=$modulePath;
+		"SampleDirectory"=$sampleFolder;
 	};
 }
 
@@ -89,5 +67,3 @@ function Approve-Results([Parameter(ValueFromPipeline)]$result, [string]$testNam
 
 	return Approve-File $receivedFile;
 }
-
-Get-Item "$(Split-Path (Split-Path $PSScriptRoot -Parent) -Parent)\src\*\*.psd1" | Import-Module -Force;

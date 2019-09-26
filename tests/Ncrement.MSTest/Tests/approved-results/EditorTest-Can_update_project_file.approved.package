@@ -1,0 +1,37 @@
+# BEFORE
+##################################################
+
+{
+  "private": false,
+  "author": "xxx",
+  "dependencies": {
+    "@types/knockout": "3.4.47",
+    "knockout": "3.4.2"
+  }
+}
+
+
+# AFTER
+##################################################
+
+{
+  "private": false,
+  "author": "Ackara",
+  "dependencies": {
+    "@types/knockout": "3.4.47",
+    "knockout": "3.4.2"
+  },
+  "name": "ncrement",
+  "description": "This is a useful package.",
+  "version": "1.2.3",
+  "license": "MIT",
+  "homepage": "https://acme.com",
+  "repository": {
+    "type": "git",
+    "url": "https://acme.com/repo/ncrement.git"
+  },
+  "keywords": [
+    "awesome",
+    "cool"
+  ]
+}

@@ -1,9 +1,27 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk" DefaultTargets="Publish">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Acklann.Ncrement.Powershell</AssemblyName>
     <RootNamespace>Acklann.Ncrement</RootNamespace>
+    <SolutionName Condition="$(SolutionName)==''">$(MSBuildProjectName.Substring(0, $(MSBuildProjectName.IndexOf('.'))))</SolutionName>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DocumentationFile>$(OutputPath)$(AssemblyName).xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Package">
+    <Version>0.0.0</Version>
+
+    <Company>Ackara</Company>
+    <Authors>Ackara</Authors>
+    <Copyright>Copyright $([System.DateTime]::Now.Year) $(Company), All Rights Reserved.</Copyright>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Files And Folders">
+    <ModuleManifestFile>manifest.psd1</ModuleManifestFile>
+    <ArtifactFolder>..\..\artifacts\$(SolutionName)\</ArtifactFolder>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,5 +31,22 @@
   <ItemGroup>
     <ProjectReference Include="..\Ncrement\Ncrement.csproj" />
   </ItemGroup>
+  
+  <Target Name="UpdatePSModule" BeforeTargets="PreBuildEvent">
+    <Exec Command="powershell -NoProfile -Command &quot;Update-ModuleManifest 'manifest.psd1' -RootModule '.\$(AssemblyName).dll' -Copyright '$(Copyright)' &quot;" WorkingDirectory="$(MSBuildThisFileDirectory)" />
+  </Target>
+
+  <Target Name="GeneratePowershellModule" AfterTargets="Publish">
+    <ItemGroup>
+      <AssemblyFiles Include="$(OutputPath)publish\**" />
+      <DocFiles Include="$(OutputPath)*.xml" />
+    </ItemGroup>
+
+    <RemoveDir Directories="$(ArtifactFolder)" />
+    <Copy SourceFiles="@(AssemblyFiles)" DestinationFolder="$(ArtifactFolder)%(RecursiveDir)" />
+    <Copy SourceFiles="$(ModuleManifestFile)" DestinationFiles="$(ArtifactFolder)$(SolutionName).psd1" />
+    <Copy SourceFiles="@(DocFiles)" DestinationFolder="$(ArtifactFolder)" />
+    
+  </Target>
 
 </Project>

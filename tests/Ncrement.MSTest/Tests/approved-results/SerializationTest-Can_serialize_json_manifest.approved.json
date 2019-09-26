@@ -1,0 +1,23 @@
+{
+  "Name": "Ncrement",
+  "Description": "A collection of powershell scripts and modules designed for continuous builds and deployments.",
+  "Version": {
+    "Major": 0,
+    "Minor": 0,
+    "Patch": 3,
+    "IsPreRelease": false,
+    "IsStable": false
+  },
+  "Company": "Acklann",
+  "Copyright": "Released under the MIT license.",
+  "License": "https://github.com/Ackara/Ncrement/blob/master/LICENSE",
+  "Website": "https://github.com/Ackara/Ncrement",
+  "Repository": "https://github.com/Ackara/Ncrement.git",
+  "Icon": "https://raw.githubusercontent.com/Ackara/Ncrement/master/assets/icon.png",
+  "ReleaseNotes": "https://github.com/Ackara/Ncrement/blob/master/releaseNotes.txt",
+  "Tags": "build automation continous deployment vsts",
+  "BranchVersionMap": {
+    "master": "C",
+    "default": "G"
+  }
+}

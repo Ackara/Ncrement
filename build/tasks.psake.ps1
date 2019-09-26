@@ -18,9 +18,9 @@ Properties {
 	$Branch = "";
 }
 
-Task "Default" -depends @("restore", "build", "test", "pack");
+Task "Default" -alias "build" -depends @("restore", "compile", "test", "pack");
 
-Task "Deploy" -alias "push" -description "This task compile, test then publish the application." `
+Task "Publish" -alias "push" -description "This task compile, test then publish the application." `
 -depends @("restore", "version", "test", "pack", "push-ps");
 
 #region ----- COMPILATION -----
@@ -65,26 +65,42 @@ Task "Increment-VersionNumber" -alias "version" -description "This task incremen
 	$version =  "$($manifest.version.major).$($manifest.version.minor).$($manifest.version.patch)";
 
 	$manifest | ConvertTo-Json | Out-File $manifestPath -Encoding utf8;
-	Invoke-Build;
 	[string]$psd1 = Join-Path $RootDir "src/*/*.psd1" | Resolve-Path;
-	&git add $psd1; &git add $manifestPath;
-	&git commit -m "Update version-number to $version";
+
+	Update-ModuleManifest $psd1 -ModuleVersion $version `
+	-Author $manifest.author `
+	-CompanyName $manifest.company `
+	-Description $manifest.description `
+	-IconUri $manifest.iconUri `
+	-ProjectUri $manifest.projectUri `
+	-LicenseUri $manifest.licenseUri `
+	-ReleaseNotes $manifest.releaseNotes `
+	-Tags @("semantic", "version", "build", "automation", ".net");
 
 	Write-Host "  -> incremented version number from '$oldVersion' to '$version'.";
 }
 
-Task "Build-Solution" -alias "build" -description "This task compiles the solution." `
--depends @("restore") -precondition { return (-not $SkipCompilation); } -action { Invoke-Build; }
+Task "Build-Solution" -alias "compile" -description "This task compiles the solution." `
+-depends @("restore") -precondition { return (-not $SkipCompilation); } -action {
+	[string]$sln = Join-Path $RootDir "*.sln" | Resolve-Path;
+	&dotnet build $sln --configuration $Configuration;
+}
 
 Task "Run-Tests" -alias "test" -description "This task invoke all tests within the 'tests' folder." `
 -depends @("restore") -action {
 	try
 	{
-		# Running all Pester tests.
 		Push-Location $RootDir;
+
+		# Running all mstest
+		Write-LineBreak "MSTest";
+		[string]$proj = Join-Path $RootDir "tests/*.MSTest/*.proj" | Resolve-Path;
+		&dotnet test $proj;
+
+		# Running all Pester tests.
 		Write-LineBreak "pester";
 		$testsFailed = 0;
-		foreach ($testFile in (Get-ChildItem "$RootDir\tests\*\" -Recurse -Filter "public.tests.ps1"))
+		foreach ($testFile in (Get-ChildItem "$RootDir\tests\*.Pester\*.tests.ps1" -Recurse))
 		{
 			$results = Invoke-Pester -Script $testFile.FullName -PassThru;
 			$testsFailed += $results.FailedCount;
@@ -100,17 +116,32 @@ Task "Run-Tests" -alias "test" -description "This task invoke all tests within t
 
 Task "Generate-Packages" -alias "pack" -description "This task generates the app delployment packages." `
 -depends @("restore") -action {
-	if (Test-Path $ArtifactsDir) { Remove-Item $ArtifactsDir -Recurse -Force; }
-	New-Item $ArtifactsDir -ItemType Directory | Out-Null;
+	$nupkg = Join-Path ([IO.Path]::GetTempPath()) "xmldoc2cmdletdoc.zip";
+	if (-not (Test-Path $nupkg))
+	{
+		Invoke-WebRequest "https://www.nuget.org/api/v2/package/XmlDoc2CmdletDoc/0.2.13" -OutFile $nupkg;
+	}
 
-	$moduleDir = Join-Path $RootDir "src/*/*.psd1" | Resolve-Path | Split-Path -Parent | Get-Item;
-	$packageDir = Join-Path $ArtifactsDir $moduleDir.Name;
+	$x2cDir = Join-Path $ToolsDir "XmlDoc2CmdletDoc";
+	$xmlDoc2CmdletDoc = Join-Path $x2cDir "tools/XmlDoc2CmdletDoc.exe";
+	if (-not (Test-Path $xmlDoc2CmdletDoc))
+	{
+		Expand-Archive $nupkg -DestinationPath $x2cDir -Force;
+	}
 
-	# Copying the module to powershell gallery package.
-	Copy-Item $moduleDir -Destination $packageDir -Recurse;
-	Get-ChildItem $packageDir -Directory | Where-Object { ($_.Name -eq "bin") -or ($_.Name -eq "obj") } | Remove-Item -Recurse -Force;
-	Get-ChildItem $packageDir -Recurse -File | Where-Object { $_.Name -notlike "*.ps*1" } | Remove-Item -Force;
-	Write-Host " -> created $($moduleDir.Name) module.";
+	[string]$dll = Join-Path $ArtifactsDir "*/*.Powershell.dll" | Resolve-Path;
+	&$xmlDoc2CmdletDoc $dll;
+	[string]$help = Join-Path $ArtifactsDir "*/*-Help.xml" | Resolve-Path;
+	$help | Copy-Item -Destination (Join-Path (Split-Path $help -Parent) "$(Split-Path $RootDir -Leaf)-Help.xml") -Force;
+
+	# -----
+
+	[string]$proj = Join-Path $RootDir "src/*.CodeGen/*.csproj" | Resolve-Path;
+	&dotnet publish $proj --configuration $Configuration;
+
+	$dll = Join-Path (Split-Path $proj -Parent) "bin/$Configuration/*/publish/*.CodeGen.dll" | Resolve-Path;
+	$schema = Join-Path $RootDir "schema.json";
+	&dotnet $dll "$schema";
 }
 
 Task "Publish-PowershellGallery" -alias "push-ps" -description "" `
@@ -138,50 +169,6 @@ Task "Publish-PowershellGallery" -alias "push-ps" -description "" `
 #endregion
 
 #region ----- FUNCTIONS -----
-
-function Invoke-Build
-{
-	$psd1 = Get-Item "$RootDir\src\*\*.psd1" -ErrorAction Stop;
-	$projectDir = $psd1.DirectoryName;
-
-	$cmdlets = [System.Collections.ArrayList]::new();
-	$functions = [System.Collections.ArrayList]::new();
-	$nestedModules = [System.Collections.ArrayList]::new();
-
-	foreach ($file in (Get-ChildItem "$projectDir\Private" -Filter "*.ps1"))
-	{
-		$nestedModules.Add("Private\$($file.Name)") | Out-Null;
-		if ($Debug) { $functions.Add($file.BaseName) | Out-Null; }
-	}
-
-	foreach ($file in (Get-ChildItem "$projectDir\Public"))
-	{
-		$nestedModules.Add("Public\$($file.Name)") | Out-Null;
-		$cmdlets.Add($file.BaseName) | Out-Null;
-		Write-Host " -> added $($file.BaseName) cmdlet.";
-	}
-
-	$manifest = Get-Content (Join-Path $PSScriptRoot "manifest.json") | ConvertFrom-Json;
-	if (Test-Path $psd1) { Remove-Item $psd1 | Out-Null; }
-
-	New-ModuleManifest $psd1.FullName `
-	-Guid "332b06ed-278e-482a-b17c-98919e43f577" `
-	-ModuleVersion "$($manifest.version.major).$($manifest.version.minor).$($manifest.version.patch)" `
-	-Description "A module for applying semantic versioning to your projects." `
-	-Author "Ackara" `
-	-CompanyName "Ackara" `
-	-IconUri $manifest.iconUri `
-	-ProjectUri $manifest.projectUri `
-	-LicenseUri $manifest.licenseUri `
-	-ReleaseNotes $manifest.releaseNotes `
-	-Tags @("semantic", "version", "build", "automation", ".net") `
-	-Copyright "Copyright (c) $(Get-Date | Select-Object -ExpandProperty Year) Ackara" `
-	-NestedModules $nestedModules `
-	-CmdletsToExport $cmdlets `
-	-PowerShellVersion "5.0";
-
-	Write-Host " -> updated $($psd1.Name).";
-}
 
 function Get-Secret([string]$key)
 {

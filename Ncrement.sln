@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ncrement", "src\Ncrement\Nc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ncrement.MSTest", "tests\Ncrement.MSTest\Ncrement.MSTest.csproj", "{D35452C9-7A37-48BA-A38F-DA78A22B4073}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ncrement.Powershell", "src\Ncrement.Powershell\Ncrement.Powershell.csproj", "{A2E8638C-A5E5-4D68-8EEC-C30BF8FB3F71}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ncrement.Powershell", "src\Ncrement.Powershell\Ncrement.Powershell.csproj", "{A2E8638C-A5E5-4D68-8EEC-C30BF8FB3F71}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ncrement.CodeGen", "src\Ncrement.CodeGen\Ncrement.CodeGen.csproj", "{FFFBC8CB-481A-4A85-82B9-8D3219CFA968}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{A2E8638C-A5E5-4D68-8EEC-C30BF8FB3F71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2E8638C-A5E5-4D68-8EEC-C30BF8FB3F71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2E8638C-A5E5-4D68-8EEC-C30BF8FB3F71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFFBC8CB-481A-4A85-82B9-8D3219CFA968}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFFBC8CB-481A-4A85-82B9-8D3219CFA968}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFFBC8CB-481A-4A85-82B9-8D3219CFA968}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFFBC8CB-481A-4A85-82B9-8D3219CFA968}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

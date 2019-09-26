@@ -1,0 +1,23 @@
+# BEFORE
+##################################################
+
+<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+</PackageManifest>
+
+# AFTER
+##################################################
+
+
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+
+<Metadata>
+<DisplayName>Ncrement</DisplayName>
+<Description>This is a useful package.</Description>
+<MoreInfo>https://acme.com</MoreInfo>
+<ReleaseNotes>https://acme.com/project/ncrement/notes</ReleaseNotes>
+<Tags>awesome cool</Tags>
+
+<Identity Version="1.2.3" Publisher="Acme" />
+</Metadata>
+</PackageManifest>

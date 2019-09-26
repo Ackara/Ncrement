@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -14,10 +14,10 @@
 
   <ItemGroup>
     <PackageReference Include="Acklann.Diffa" Version="1.0.3" />
-    <PackageReference Include="Acklann.Semver" Version="0.0.7" />
     <PackageReference Include="AutoBogus.Conventions" Version="2.7.1" />
     <PackageReference Include="AutoBogus.FakeItEasy" Version="2.7.1" />
     <PackageReference Include="FakeItEasy" Version="5.2.0" />
+    <PackageReference Include="LibGit2Sharp" Version="0.26.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.0.0" />
     <PackageReference Include="MSTest.TestFramework" Version="2.0.0" />
@@ -41,6 +41,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Ncrement.Powershell\Ncrement.Powershell.csproj" />
     <ProjectReference Include="..\..\src\Ncrement\Ncrement.csproj" />
   </ItemGroup>
 
@@ -48,6 +49,18 @@
     <None Update="Sample.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Sample.cs</LastGenOutput>
+    </None>
+    <None Update="samples\manifest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="samples\projects\empty_extension.vsixmanifest">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="samples\projects\extension.vsixmanifest">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="samples\projects\package.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

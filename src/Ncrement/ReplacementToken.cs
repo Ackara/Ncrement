@@ -18,7 +18,7 @@ namespace Acklann.Ncrement
             return new Dictionary<string, string>()
             {
                 { Year, DateTime.Now.Year.ToString() },
-                {  Username, Environment.GetEnvironmentVariable("USERNAME") }
+                { Username, Environment.GetEnvironmentVariable("USERNAME") }
             };
         }
 

@@ -1,16 +1,28 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using System.Management.Automation;
 
 namespace Acklann.Ncrement.Cmdlets
 {
-	public class NewManifest
-	{
-		
-		
-		#region Backing Members
-		#endregion
-	}
+    /// <summary>
+    /// <para type="synopsis">Creates a new [Manifest] object.</para>
+    /// <para type="description">This cmdlet creates a new [Manifest] object.</para>
+    /// </summary>
+    /// <seealso cref="Acklann.Ncrement.Cmdlets.CmdletBase" />
+    /// <example>
+    /// <code>
+    /// New-NcrementManifest | ConvertTo-Json | Out-File "C:\app\manifest.json";
+    /// </code>
+    /// <para>This example, creates a new [Manifest] and saves to a file.</para>
+    /// </example>
+    [OutputType(typeof(Manifest))]
+    [Cmdlet(VerbsCommon.New, (nameof(Ncrement) + "Manifest"))]
+    public class NewManifest : CmdletBase
+    {
+        /// <summary>
+        /// Processes the record.
+        /// </summary>
+        protected override void ProcessRecord()
+        {
+            WriteObject(Overwrite(Manifest.CreateTemplate()));
+        }
+    }
 }

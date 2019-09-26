@@ -1,9 +1,12 @@
 ﻿{
     "version":  {
-                    "major":  7,
+                    "major":  8,
                     "minor":  0,
-                    "patch":  5
+                    "patch":  8
                 },
+    "author":  "Ackara",
+    "company":  "Acklann",
+    "description":  "Synchronize version and metadata amongst all project files.",
     "projectUri":  "https://github.com/Ackara/Ncrement",
     "iconUri":  "https://github.com/Ackara/Ncrement/raw/master/art/icon.png",
     "licenseUri":  "https://github.com/Ackara/Ncrement/blob/master/license.txt",
