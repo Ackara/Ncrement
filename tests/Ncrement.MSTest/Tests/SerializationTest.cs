@@ -31,5 +31,18 @@ namespace Acklann.Ncrement.Tests
             json.ShouldNotBeNullOrEmpty();
             Diff.Approve(json, ".json");
         }
+
+        [TestMethod]
+        public void Can_get_version_number()
+        {
+            // Arrange
+            var manifestPath = Sample.GetManifestJSON().FullName;
+
+            // Act
+            var manifest = Manifest.LoadFrom(manifestPath);
+
+            // Assert
+
+        }
     }
 }

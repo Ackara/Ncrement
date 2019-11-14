@@ -17,7 +17,7 @@ namespace Acklann.Ncrement.Cmdlets
     /// <seealso cref="Acklann.Ncrement.Cmdlets.CmdletBase" />
     /// <example>
     /// <code>
-    /// Get-ChildItem -Filter "*.csproj" | Update-NcrementProjectFile $manifest -Commit;
+    ///Get-ChildItem -Filter "*.csproj" | Update-NcrementProjectFile $manifest -Commit;
     /// </code>
     /// <para>
     /// This example will update the project file version number then commit the changes to source control.
@@ -25,7 +25,7 @@ namespace Acklann.Ncrement.Cmdlets
     /// </example>
     [OutputType(nameof(String))]
     [Cmdlet(VerbsData.Update, (nameof(Ncrement) + "ProjectFile"), ConfirmImpact = ConfirmImpact.Medium, SupportsShouldProcess = true)]
-    public class UpdateProjectFile : CmdletBase
+    public class UpdateProjectFileCmdlet : CmdletBase
     {
         /// <summary>
         /// <para type="description">The file-path or instance of a [Manifest] object.</para>

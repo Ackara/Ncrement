@@ -13,7 +13,7 @@ namespace Acklann.Ncrement.Cmdlets
     /// <para type="description">This example increments version number then saves it back to disk.</para>
     /// </example>
     [Cmdlet(VerbsCommon.Step, (nameof(Ncrement) + "VersionNumber"))]
-    public class StepVersion : Cmdlet
+    public class StepVersionCmdlet : Cmdlet
     {
         /// <summary>
         /// <para type="description">The file-path or instance of a [Manifest] object.</para>

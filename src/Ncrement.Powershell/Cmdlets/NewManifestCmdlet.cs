@@ -15,7 +15,7 @@ namespace Acklann.Ncrement.Cmdlets
     /// </example>
     [OutputType(typeof(Manifest))]
     [Cmdlet(VerbsCommon.New, (nameof(Ncrement) + "Manifest"))]
-    public class NewManifest : CmdletBase
+    public class NewManifestCmdlet : CmdletBase
     {
         /// <summary>
         /// Processes the record.
