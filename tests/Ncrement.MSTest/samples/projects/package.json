@@ -3,6 +3,6 @@
   "author": "xxx",
   "dependencies": {
     "@types/knockout": "3.4.47",
-    "knockout": "3.4.2"
+    "knockout": "3.5.0"
   }
 }
