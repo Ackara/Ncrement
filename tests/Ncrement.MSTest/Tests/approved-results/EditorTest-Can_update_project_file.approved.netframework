@@ -91,7 +91,9 @@
     <AssemblyName>dotnet_project</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-  </PropertyGroup>
+  
+<AssemblyVersion>1.2.3</AssemblyVersion>
+</PropertyGroup>
 
   <PropertyGroup Label="Package">
     <PackageId>Acme.Ncrement</PackageId>
@@ -149,5 +151,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
- </Project>
+ 
+
+</Project>
 

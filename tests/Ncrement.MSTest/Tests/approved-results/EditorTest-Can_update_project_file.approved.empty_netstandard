@@ -2,18 +2,19 @@
 ##################################################
 
 <Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup></PropertyGroup>
 </Project>
 
 # AFTER
 ##################################################
 
 <Project Sdk="Microsoft.NET.Sdk">
-
-<PropertyGroup>
+  <PropertyGroup>
 <PackageId>Acme.Ncrement</PackageId>
 <Title>Ncrement</Title>
 <Description>This is a useful package.</Description>
 <Version>1.2.3</Version>
+<AssemblyVersion>1.2.3</AssemblyVersion>
 <PackageIconUrl>http://cdn.acme.com/img/logo.png</PackageIconUrl>
 <RepositoryUrl>https://acme.com/repo/ncrement.git</RepositoryUrl>
 <PackageProjectUrl>https://acme.com</PackageProjectUrl>
@@ -23,4 +24,6 @@
 <Copyright>Copyright 2019 Acme All Rights Reserved.</Copyright>
 <PackageLicenseFile>MIT</PackageLicenseFile>
 </PropertyGroup>
+
+
 </Project>

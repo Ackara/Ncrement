@@ -1,7 +1,6 @@
 
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
- 
-<PropertyGroup>
+  <PropertyGroup>
 <Title>Ncrement</Title>
 <Description>A collection of powershell scripts and modules designed for continuous builds and deployments.</Description>
 <Version>0.0.3</Version>
@@ -12,5 +11,8 @@
 <PackageTags>build automation continous deployment vsts</PackageTags>
 <Copyright>Released under the MIT license.</Copyright>
 <PackageLicenseFile>https://github.com/Ackara/Ncrement/blob/master/LICENSE</PackageLicenseFile>
+</PropertyGroup>
+ 
+<PropertyGroup>
 </PropertyGroup>
 </Project>

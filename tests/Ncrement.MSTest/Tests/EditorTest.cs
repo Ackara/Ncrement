@@ -9,7 +9,6 @@ using System.Text;
 namespace Acklann.Ncrement.Tests
 {
     [TestClass]
-    //[Acklann.Diffa.Reporters.Reporter(typeof(Acklann.Diffa.Reporters.FileReporter), interrupt: false)]
     public class EditorTest
     {
         [DataTestMethod]
@@ -53,15 +52,6 @@ namespace Acklann.Ncrement.Tests
             results.ShouldAllBe(x => x == string.Format(format, x));
         }
 
-        private static IEnumerable<object[]> GetProjectFiles()
-        {
-            var testFiles = (from x in Directory.EnumerateFiles(Path.Combine(Sample.DirectoryName, "projects"))
-                                 //where Path.GetExtension(x) == ".json"
-                             select x);
-
-            foreach (string path in testFiles) yield return new object[] { path };
-        }
-
         private static Manifest GetManifest()
         {
             var manifest = new Manifest()
@@ -83,6 +73,13 @@ namespace Acklann.Ncrement.Tests
                 License = "MIT"
             };
             return manifest;
+        }
+
+        private static IEnumerable<object[]> GetProjectFiles()
+        {
+            return from x in Directory.EnumerateFiles(Path.Combine(Sample.DirectoryName, "projects"))
+                       //where x.EndsWith("empty_netframework.csproj")
+                   select new object[] { Path.GetFileName(x) };
         }
     }
 }

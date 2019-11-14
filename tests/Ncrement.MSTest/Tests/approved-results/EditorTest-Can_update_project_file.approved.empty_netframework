@@ -3,6 +3,7 @@
 
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup></PropertyGroup>
  </Project>
 
 
@@ -11,12 +12,12 @@
 
 
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
- 
-<PropertyGroup>
+  <PropertyGroup>
 <PackageId>Acme.Ncrement</PackageId>
 <Title>Ncrement</Title>
 <Description>This is a useful package.</Description>
 <Version>1.2.3</Version>
+<AssemblyVersion>1.2.3</AssemblyVersion>
 <PackageIconUrl>http://cdn.acme.com/img/logo.png</PackageIconUrl>
 <RepositoryUrl>https://acme.com/repo/ncrement.git</RepositoryUrl>
 <PackageProjectUrl>https://acme.com</PackageProjectUrl>
@@ -26,5 +27,7 @@
 <Copyright>Copyright 2019 Acme All Rights Reserved.</Copyright>
 <PackageLicenseFile>MIT</PackageLicenseFile>
 </PropertyGroup>
+ 
+
 </Project>
 

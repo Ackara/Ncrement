@@ -194,21 +194,6 @@
             <para type="description">The commit message.</para>
             </summary>
         </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.UpdateProjectFileCmdlet.Major">
-            <summary>
-            <para type="description">When present, the major version number will be incremented.</para>
-            </summary>
-        </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.UpdateProjectFileCmdlet.Minor">
-            <summary>
-            <para type="description">When present, the minor version number will be incremented.</para>
-            </summary>
-        </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.UpdateProjectFileCmdlet.Patch">
-            <summary>
-            <para type="description">When present, the patch version number will be incremented.</para>
-            </summary>
-        </member>
         <member name="P:Acklann.Ncrement.Cmdlets.UpdateProjectFileCmdlet.Commit">
             <summary>
             <para type="description">

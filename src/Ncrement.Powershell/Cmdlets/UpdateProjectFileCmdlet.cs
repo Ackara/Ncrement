@@ -50,24 +50,6 @@ namespace Acklann.Ncrement.Cmdlets
         public string Message { get; set; }
 
         /// <summary>
-        /// <para type="description">When present, the major version number will be incremented.</para>
-        /// </summary>
-        [Parameter]
-        public SwitchParameter Major { get; set; }
-
-        /// <summary>
-        /// <para type="description">When present, the minor version number will be incremented.</para>
-        /// </summary>
-        [Parameter]
-        public SwitchParameter Minor { get; set; }
-
-        /// <summary>
-        /// <para type="description">When present, the patch version number will be incremented.</para>
-        /// </summary>
-        [Parameter]
-        public SwitchParameter Patch { get; set; }
-
-        /// <summary>
         /// <para type="description">
         /// When present, any files modified by this cmdlet will be committed to source control.
         /// </para>
@@ -85,42 +67,8 @@ namespace Acklann.Ncrement.Cmdlets
         /// </summary>
         protected override void BeginProcessing()
         {
-            InputObject.GetManifestInfo(out _manifest, out string manifestPath);
+            InputObject.GetManifestInfo(out _manifest, out string _);
             Overwrite(_manifest);
-
-            if (Major.IsPresent)
-            {
-                _manifest.Version = _manifest.Version.NextMajor();
-                saveManifest(manifestPath);
-            }
-            else if (Minor.IsPresent)
-            {
-                _manifest.Version = _manifest.Version.NextMinor();
-                saveManifest(manifestPath);
-            }
-            else if (Patch.IsPresent)
-            {
-                _manifest.Version = _manifest.Version.NextPatch();
-                saveManifest(manifestPath);
-            }
-            else
-            {
-                saveManifest(manifestPath);
-            }
-
-            void saveManifest(string filePath)
-            {
-                if (File.Exists(filePath) && ShouldProcess(filePath, "Save"))
-                {
-                    _manifest.Save(filePath);
-                    if (Commit.IsPresent || CommitAll.IsPresent) Git.Stage(filePath);
-                }
-
-                if (string.IsNullOrEmpty(Message))
-                {
-                    Message = $"Change the version number to {_manifest}.";
-                }
-            }
         }
 
         /// <summary>

@@ -17,7 +17,6 @@ namespace Acklann.Ncrement
             if (tokens == null) tokens = ReplacementToken.Create();
             ReplacementToken.Append(tokens, manifest);
 
-            string fileName = Path.GetFileName(filePath);
             if (filePath.EndsWith("proj", StringComparison.OrdinalIgnoreCase))
                 return UpdateDotnetProjectFile(filePath, manifest, tokens);
             else if (string.Equals(Path.GetFileName(filePath), "package.json", StringComparison.OrdinalIgnoreCase))
@@ -94,10 +93,9 @@ namespace Acklann.Ncrement
                 ("PackageId", expand(manifest.Id)),
                 ("Title", expand(manifest.Name)),
                 ("Description", expand(manifest.Description)),
-                
+
                 ("Version", expand(manifest.Version.ToString(manifest.VersionFormat?? "g"))),
-                //("PackageVersion", expand(manifest.Version.ToString(manifest.VersionFormat?? "g"))),
-                //("AssemblyVersion", expand(manifest.Version.ToString(manifest.VersionFormat?? "g"))),
+                ("AssemblyVersion", expand(manifest.Version.ToString("C"))),
 
                 ("PackageIconUrl", expand(manifest.Icon)),
                 ("RepositoryUrl", expand(manifest.Repository)),
@@ -122,15 +120,14 @@ namespace Acklann.Ncrement
             foreach ((string name, string value) in map)
                 if (!string.IsNullOrWhiteSpace(value))
                 {
-                    XElement element = root.XPathSelectElement(string.Format("{0}PropertyGroup/{0}{1}", prefix, name), namespaces);
-                    if (element == null)
+                    XElement targetElement = root.XPathSelectElement(string.Format("{0}PropertyGroup/{0}{1}", prefix, name), namespaces);
+                    if (targetElement == null)
                     {
                         if (group == null)
                         {
                             group = root.XPathSelectElement($"{prefix}PropertyGroup", namespaces) ?? new XElement(XName.Get("PropertyGroup", xmlns));
                             group.Add(Environment.NewLine);
                             root.Add(Environment.NewLine);
-                            root.Add(group);
                             root.Add(Environment.NewLine);
                         }
 
@@ -139,7 +136,7 @@ namespace Acklann.Ncrement
                     }
                     else
                     {
-                        element.SetValue(value);
+                        targetElement.SetValue(value);
                     }
                 }
 
