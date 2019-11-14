@@ -10,7 +10,6 @@ namespace Acklann.Ncrement.Tests
     public class SerializationTest
     {
         [TestMethod]
-        //[Reporter(typeof(FileReporter), false)]
         public void Can_serialize_json_manifest()
         {
             // Arrange
@@ -30,19 +29,6 @@ namespace Acklann.Ncrement.Tests
 
             json.ShouldNotBeNullOrEmpty();
             Diff.Approve(json, ".json");
-        }
-
-        [TestMethod]
-        public void Can_get_version_number()
-        {
-            // Arrange
-            var manifestPath = Sample.GetManifestJSON().FullName;
-
-            // Act
-            var manifest = Manifest.LoadFrom(manifestPath);
-
-            // Assert
-
         }
     }
 }

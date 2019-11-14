@@ -87,7 +87,7 @@
             <param name="manifest">The manifest.</param>
             <returns></returns>
         </member>
-        <member name="T:Acklann.Ncrement.Cmdlets.NewManifest">
+        <member name="T:Acklann.Ncrement.Cmdlets.NewManifestCmdlet">
             <summary>
             <para type="synopsis">Creates a new [Manifest] object.</para>
             <para type="description">This cmdlet creates a new [Manifest] object.</para>
@@ -100,12 +100,33 @@
             <para>This example, creates a new [Manifest] and saves to a file.</para>
             </example>
         </member>
-        <member name="M:Acklann.Ncrement.Cmdlets.NewManifest.ProcessRecord">
+        <member name="M:Acklann.Ncrement.Cmdlets.NewManifestCmdlet.ProcessRecord">
             <summary>
             Processes the record.
             </summary>
         </member>
-        <member name="T:Acklann.Ncrement.Cmdlets.StepVersion">
+        <member name="T:Acklann.Ncrement.Cmdlets.SelectVersionCmdlet">
+            <summary>
+            <para type="synopsis">Select the version number from a manifest.</para>
+            </summary>
+            <seealso cref="T:System.Management.Automation.Cmdlet" />
+        </member>
+        <member name="P:Acklann.Ncrement.Cmdlets.SelectVersionCmdlet.InputObject">
+            <summary>
+            <para type="description">The file-path or instance of a [Manifest] object.</para>
+            </summary>
+        </member>
+        <member name="P:Acklann.Ncrement.Cmdlets.SelectVersionCmdlet.Format">
+            <summary>
+            <para type="description">The format string.</para>
+            </summary>
+        </member>
+        <member name="M:Acklann.Ncrement.Cmdlets.SelectVersionCmdlet.ProcessRecord">
+            <summary>
+            Processes the record.
+            </summary>
+        </member>
+        <member name="T:Acklann.Ncrement.Cmdlets.StepVersionCmdlet">
             <summary>
             <para type="synopsis">Increment a [Manifest] object version number.</para>
             <para type="description">This cmdlet incrments a [Manifest] object's version number.</para>
@@ -116,99 +137,99 @@
             <para type="description">This example increments version number then saves it back to disk.</para>
             </example>
         </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.StepVersion.InputObject">
+        <member name="P:Acklann.Ncrement.Cmdlets.StepVersionCmdlet.InputObject">
             <summary>
             <para type="description">The file-path or instance of a [Manifest] object.</para>
             </summary>
         </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.StepVersion.Major">
+        <member name="P:Acklann.Ncrement.Cmdlets.StepVersionCmdlet.Major">
             <summary>
             <para type="description">When present, the major version number will be incremented.</para>
             </summary>
         </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.StepVersion.Minor">
+        <member name="P:Acklann.Ncrement.Cmdlets.StepVersionCmdlet.Minor">
             <summary>
             <para type="description">When present, the minor version number will be incremented.</para>
             </summary>
         </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.StepVersion.Patch">
+        <member name="P:Acklann.Ncrement.Cmdlets.StepVersionCmdlet.Patch">
             <summary>
             <para type="description">When present, the patch version number will be incremented.</para>
             </summary>
         </member>
-        <member name="M:Acklann.Ncrement.Cmdlets.StepVersion.ProcessRecord">
+        <member name="M:Acklann.Ncrement.Cmdlets.StepVersionCmdlet.ProcessRecord">
             <summary>
             </summary>
         </member>
-        <member name="T:Acklann.Ncrement.Cmdlets.UpdateProjectFile">
-            <summary>
-            <para type="synopsis">Updates a project file version number.</para>
-            <para type="description">
-            This cmdlet will modify a project file with the information in the specified [Manifest]
-            object. If the project file passed is not known it will be ignored.
-            </para>
-            </summary>
-            <seealso cref="T:Acklann.Ncrement.Cmdlets.CmdletBase" />
-            <example>
-            <code>
+        <member name="T:Acklann.Ncrement.Cmdlets.UpdateProjectFileCmdlet">
+             <summary>
+             <para type="synopsis">Updates a project file version number.</para>
+             <para type="description">
+             This cmdlet will modify a project file with the information in the specified [Manifest]
+             object. If the project file passed is not known it will be ignored.
+             </para>
+             </summary>
+             <seealso cref="T:Acklann.Ncrement.Cmdlets.CmdletBase" />
+             <example>
+             <code>
             Get-ChildItem -Filter "*.csproj" | Update-NcrementProjectFile $manifest -Commit;
-            </code>
-            <para>
-            This example will update the project file version number then commit the changes to source control.
-            </para>
-            </example>
+             </code>
+             <para>
+             This example will update the project file version number then commit the changes to source control.
+             </para>
+             </example>
         </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.UpdateProjectFile.InputObject">
+        <member name="P:Acklann.Ncrement.Cmdlets.UpdateProjectFileCmdlet.InputObject">
             <summary>
             <para type="description">The file-path or instance of a [Manifest] object.</para>
             </summary>
         </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.UpdateProjectFile.AbsolutePath">
+        <member name="P:Acklann.Ncrement.Cmdlets.UpdateProjectFileCmdlet.AbsolutePath">
             <summary>
             <para type="description">The project file. If the file type is unknown it will be ignored.</para>
             </summary>
         </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.UpdateProjectFile.Message">
+        <member name="P:Acklann.Ncrement.Cmdlets.UpdateProjectFileCmdlet.Message">
             <summary>
             <para type="description">The commit message.</para>
             </summary>
         </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.UpdateProjectFile.Major">
+        <member name="P:Acklann.Ncrement.Cmdlets.UpdateProjectFileCmdlet.Major">
             <summary>
             <para type="description">When present, the major version number will be incremented.</para>
             </summary>
         </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.UpdateProjectFile.Minor">
+        <member name="P:Acklann.Ncrement.Cmdlets.UpdateProjectFileCmdlet.Minor">
             <summary>
             <para type="description">When present, the minor version number will be incremented.</para>
             </summary>
         </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.UpdateProjectFile.Patch">
+        <member name="P:Acklann.Ncrement.Cmdlets.UpdateProjectFileCmdlet.Patch">
             <summary>
             <para type="description">When present, the patch version number will be incremented.</para>
             </summary>
         </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.UpdateProjectFile.Commit">
+        <member name="P:Acklann.Ncrement.Cmdlets.UpdateProjectFileCmdlet.Commit">
             <summary>
             <para type="description">
             When present, any files modified by this cmdlet will be committed to source control.
             </para>
             </summary>
         </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.UpdateProjectFile.CommitAll">
+        <member name="P:Acklann.Ncrement.Cmdlets.UpdateProjectFileCmdlet.CommitAll">
             <summary>
             <para type="description">When present, all files will be committed to source control.</para>
             </summary>
         </member>
-        <member name="M:Acklann.Ncrement.Cmdlets.UpdateProjectFile.BeginProcessing">
+        <member name="M:Acklann.Ncrement.Cmdlets.UpdateProjectFileCmdlet.BeginProcessing">
             <summary>
             </summary>
         </member>
-        <member name="M:Acklann.Ncrement.Cmdlets.UpdateProjectFile.ProcessRecord">
+        <member name="M:Acklann.Ncrement.Cmdlets.UpdateProjectFileCmdlet.ProcessRecord">
             <summary>
             </summary>
         </member>
-        <member name="M:Acklann.Ncrement.Cmdlets.UpdateProjectFile.EndProcessing">
+        <member name="M:Acklann.Ncrement.Cmdlets.UpdateProjectFileCmdlet.EndProcessing">
             <summary>
             </summary>
         </member>

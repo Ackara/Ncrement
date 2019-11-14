@@ -53,3 +53,16 @@ Describe "Update-ProjectFile" {
 		$projectFile | Approve-File | Should Be $true;
 	}
 }
+
+Describe "Select-VersionNumber" {
+	$manifestPath = Join-Path $context.SampleDirectory "manifest.json" | Resolve-Path;
+	$manifest = Get-Content $manifestPath | ConvertFrom-Json;
+
+	It "can get maniest version number" {
+		$result1 = $manifest | Select-NcrementVersionNumber -Verbose;
+		$result1 | Should Be "0.0.3";
+
+		$result2 = $manifestPath | Select-NcrementVersionNumber -format "z.y.x" -Verbose;
+		$result2 | Should Be "3.0.0";
+	}
+}

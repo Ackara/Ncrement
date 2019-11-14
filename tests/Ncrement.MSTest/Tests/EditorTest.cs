@@ -56,7 +56,7 @@ namespace Acklann.Ncrement.Tests
         private static IEnumerable<object[]> GetProjectFiles()
         {
             var testFiles = (from x in Directory.EnumerateFiles(Path.Combine(Sample.DirectoryName, "projects"))
-                             //where Path.GetExtension(x) == ".json"
+                                 //where Path.GetExtension(x) == ".json"
                              select x);
 
             foreach (string path in testFiles) yield return new object[] { path };
