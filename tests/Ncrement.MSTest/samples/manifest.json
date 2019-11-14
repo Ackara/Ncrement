@@ -8,16 +8,16 @@
     "patch": 3
   },
 
+  "company": "Acklann",
+  "author": "Ackara & Contributors",
+  "copyright": "Released under the MIT license.",
+
   "website": "https://github.com/Ackara/Ncrement",
   "repository": "https://github.com/Ackara/Ncrement.git",
   "icon": "https://raw.githubusercontent.com/Ackara/Ncrement/master/assets/icon.png",
   "releaseNotes": "https://github.com/Ackara/Ncrement/blob/master/releaseNotes.txt",
-  "tags": "build automation continous deployment vsts",
-
-  "company": "Acklann",
-  "author": "Ackara & Contributors",
-  "copyright": "Released under the MIT license.",
   "license": "https://github.com/Ackara/Ncrement/blob/master/LICENSE",
+  "tags": "build automation continous deployment vsts",
 
   "branchVersionMap":
   {

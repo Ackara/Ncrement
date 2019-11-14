@@ -26,12 +26,27 @@ namespace Acklann.Ncrement.Cmdlets
         public string Format { get; set; }
 
         /// <summary>
+        /// <para type="description">The source control current branch.</para>
+        /// </summary>
+        [Parameter]
+        [Alias("b")]
+        [ValidateNotNullOrEmpty]
+        public string CurrentBranch { get; set; }
+
+        /// <summary>
         /// Processes the record.
         /// </summary>
         protected override void ProcessRecord()
         {
-            InputObject.GetManifestInfo(out Manifest manifest, out string _);
-            WriteObject(manifest.Version.ToString(Format ?? "G"));
+            InputObject.GetManifestInfo(out Manifest manifest, out string manifestPath);
+
+            if (!string.IsNullOrEmpty(manifestPath))
+            {
+                string respositoryPath = Git.GetWorkingDirectory(manifestPath);
+                manifest.SetVersionFormat(CurrentBranch ?? Git.GetCurrentBranchName(respositoryPath));
+            }
+
+            WriteObject(manifest.Version.ToString(Format ?? manifest.VersionFormat ?? "G"));
         }
     }
 }

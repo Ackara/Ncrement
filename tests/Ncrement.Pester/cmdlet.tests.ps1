@@ -69,28 +69,28 @@ Describe "Update-ProjectFile" {
 	}
 }
 
-Describe "Basic Usage" {
-	# Creating a working directory.
-	[string]$rootFolder = $context.TempDirectory;
-	if (Test-Path $rootFolder) { Remove-Item $rootFolder -Recurse -Force; }
-	New-Item $rootFolder -ItemType Directory | Out-Null;
+#Describe "Basic Usage" {
+#	# Creating a working directory.
+#	[string]$rootFolder = $context.TempDirectory;
+#	if (Test-Path $rootFolder) { Remove-Item $rootFolder -Recurse -Force; }
+#	New-Item $rootFolder -ItemType Directory | Out-Null;
 
-	# Create manifest.
-	$manifest = New-NcrementManifest -Title "Pester";
-	It "PS: (Step 1) can create new manifest" {
-		$manifest.Name | Should Be "Pester";
-	}
+#	# Create manifest.
+#	$manifest = New-NcrementManifest -Title "Pester";
+#	It "PS: (Step 1) can create new manifest" {
+#		$manifest.Name | Should Be "Pester";
+#	}
 	
-	# Save manifest.
-	$manifestPath = Join-Path $rootFolder "manifest.json";
-	$manifest | ConvertTo-Json | Out-File -FilePath $manifestPath -Encoding utf8;
+#	# Save manifest.
+#	$manifestPath = Join-Path $rootFolder "manifest.json";
+#	$manifest | ConvertTo-Json | Out-File -FilePath $manifestPath -Encoding utf8;
 	
-	# Increment version number
-	$manifest = $manifestPath | Step-NcrementVersionNumber -Patch;
-	$manifest | ConvertTo-Json | Out-File -FilePath $manifestPath -Encoding utf8;
+#	# Increment version number
+#	$manifest = $manifestPath | Step-NcrementVersionNumber -Patch;
+#	$manifest | ConvertTo-Json | Out-File -FilePath $manifestPath -Encoding utf8;
 	
-	# Get version number
-	$version = $manifestPath | Select-NcrementVersionNumber;
-	Write-Host "v: $version";
-	$manifest | Write-Host;
-}
+#	# Get version number
+#	$version = $manifestPath | Select-NcrementVersionNumber;
+#	Write-Host "v: $version";
+#	$manifest | Write-Host;
+#}

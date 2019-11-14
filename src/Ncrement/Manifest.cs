@@ -11,7 +11,6 @@ namespace Acklann.Ncrement
 {
     public class Manifest : IManifest
     {
-        [DataMember(Name = "id")]
         public string Id { get; set; }
 
         [DataMember(IsRequired = true)]
