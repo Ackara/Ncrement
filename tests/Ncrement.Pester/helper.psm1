@@ -7,6 +7,7 @@ function New-TestEnvironment()
 
 	return [PSCustomObject]@{
 		"ModulePath"=$modulePath;
+		"TempDirectory"=$tempFolder;
 		"SampleDirectory"=$sampleFolder;
 	};
 }

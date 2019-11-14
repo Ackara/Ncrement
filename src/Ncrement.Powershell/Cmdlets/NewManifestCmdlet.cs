@@ -1,3 +1,4 @@
+using Acklann.Ncrement.Extensions;
 using System.Management.Automation;
 
 namespace Acklann.Ncrement.Cmdlets
@@ -6,7 +7,7 @@ namespace Acklann.Ncrement.Cmdlets
     /// <para type="synopsis">Creates a new [Manifest] object.</para>
     /// <para type="description">This cmdlet creates a new [Manifest] object.</para>
     /// </summary>
-    /// <seealso cref="Acklann.Ncrement.Cmdlets.CmdletBase" />
+    /// <seealso cref="Acklann.Ncrement.Cmdlets.ManifestCmdletBase" />
     /// <example>
     /// <code>
     /// New-NcrementManifest | ConvertTo-Json | Out-File "C:\app\manifest.json";
@@ -15,14 +16,15 @@ namespace Acklann.Ncrement.Cmdlets
     /// </example>
     [OutputType(typeof(Manifest))]
     [Cmdlet(VerbsCommon.New, (nameof(Ncrement) + "Manifest"))]
-    public class NewManifestCmdlet : CmdletBase
+    public class NewManifestCmdlet : ManifestCmdletBase
     {
+
         /// <summary>
         /// Processes the record.
         /// </summary>
         protected override void ProcessRecord()
         {
-            WriteObject(Overwrite(Manifest.CreateTemplate()));
+            WriteObject(Overwrite(Manifest.CreateTemplate()).ToPSObject());
         }
     }
 }

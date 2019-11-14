@@ -116,6 +116,7 @@ Task "Run-Tests" -alias "test" -description "This task invoke all tests within t
 
 Task "Generate-Packages" -alias "pack" -description "This task generates the app delployment packages." `
 -depends @("restore") -action {
+	# Generating the cmdlets xml help file
 	$nupkg = Join-Path ([IO.Path]::GetTempPath()) "xmldoc2cmdletdoc.zip";
 	if (-not (Test-Path $nupkg))
 	{

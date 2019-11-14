@@ -4,83 +4,83 @@
         <name>Acklann.Ncrement.Powershell</name>
     </assembly>
     <members>
-        <member name="T:Acklann.Ncrement.Cmdlets.CmdletBase">
+        <member name="T:Acklann.Ncrement.Cmdlets.ManifestCmdletBase">
             <summary>
             </summary>
             <seealso cref="T:System.Management.Automation.Cmdlet" />
             <seealso cref="T:Acklann.Ncrement.IManifest" />
         </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.CmdletBase.Id">
+        <member name="P:Acklann.Ncrement.Cmdlets.ManifestCmdletBase.Id">
             <summary>
             <para type="description">The manifest ID.</para>
             </summary>
         </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.CmdletBase.Name">
+        <member name="P:Acklann.Ncrement.Cmdlets.ManifestCmdletBase.Name">
             <summary>
             <para type="description">The manifest name.</para>
             </summary>
         </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.CmdletBase.Version">
+        <member name="P:Acklann.Ncrement.Cmdlets.ManifestCmdletBase.Version">
             <summary>
             <para type="description">The manifest version.</para>
             </summary>
         </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.CmdletBase.VersionFormat">
+        <member name="P:Acklann.Ncrement.Cmdlets.ManifestCmdletBase.VersionFormat">
             <summary>
             <para type="description">The manifest version format.</para>
             </summary>
         </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.CmdletBase.Description">
+        <member name="P:Acklann.Ncrement.Cmdlets.ManifestCmdletBase.Description">
             <summary>
             <para type="description">The manifest description.</para>
             </summary>
         </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.CmdletBase.Tags">
+        <member name="P:Acklann.Ncrement.Cmdlets.ManifestCmdletBase.Tags">
             <summary>
             <para type="description">The manifest tags.</para>
             </summary>
         </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.CmdletBase.Website">
+        <member name="P:Acklann.Ncrement.Cmdlets.ManifestCmdletBase.Website">
             <summary>
             <para type="description">The manifest project url.</para>
             </summary>
         </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.CmdletBase.Icon">
+        <member name="P:Acklann.Ncrement.Cmdlets.ManifestCmdletBase.Icon">
             <summary>
             <para type="description">The manifest icon uri.</para>
             </summary>
         </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.CmdletBase.Repository">
+        <member name="P:Acklann.Ncrement.Cmdlets.ManifestCmdletBase.Repository">
             <summary>
             <para type="description">The manifest repository uri.</para>
             </summary>
         </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.CmdletBase.ReleaseNotes">
+        <member name="P:Acklann.Ncrement.Cmdlets.ManifestCmdletBase.ReleaseNotes">
             <summary>
             <para type="description">The manifest release notes.</para>
             </summary>
         </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.CmdletBase.Company">
+        <member name="P:Acklann.Ncrement.Cmdlets.ManifestCmdletBase.Company">
             <summary>
             <para type="description">The manifest company.</para>
             </summary>
         </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.CmdletBase.Authors">
+        <member name="P:Acklann.Ncrement.Cmdlets.ManifestCmdletBase.Authors">
             <summary>
             <para type="description">The manifest authors.</para>
             </summary>
         </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.CmdletBase.License">
+        <member name="P:Acklann.Ncrement.Cmdlets.ManifestCmdletBase.License">
             <summary>
             <para type="description">The manifest license.</para>
             </summary>
         </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.CmdletBase.Copyright">
+        <member name="P:Acklann.Ncrement.Cmdlets.ManifestCmdletBase.Copyright">
             <summary>
             <para type="description">The manifest copyright.</para>
             </summary>
         </member>
-        <member name="M:Acklann.Ncrement.Cmdlets.CmdletBase.Overwrite(Acklann.Ncrement.Manifest)">
+        <member name="M:Acklann.Ncrement.Cmdlets.ManifestCmdletBase.Overwrite(Acklann.Ncrement.Manifest)">
             <summary>
             Overwrites the specified manifest.
             </summary>
@@ -92,7 +92,7 @@
             <para type="synopsis">Creates a new [Manifest] object.</para>
             <para type="description">This cmdlet creates a new [Manifest] object.</para>
             </summary>
-            <seealso cref="T:Acklann.Ncrement.Cmdlets.CmdletBase" />
+            <seealso cref="T:Acklann.Ncrement.Cmdlets.ManifestCmdletBase" />
             <example>
             <code>
             New-NcrementManifest | ConvertTo-Json | Out-File "C:\app\manifest.json";
@@ -169,7 +169,7 @@
              object. If the project file passed is not known it will be ignored.
              </para>
              </summary>
-             <seealso cref="T:Acklann.Ncrement.Cmdlets.CmdletBase" />
+             <seealso cref="T:Acklann.Ncrement.Cmdlets.ManifestCmdletBase" />
              <example>
              <code>
             Get-ChildItem -Filter "*.csproj" | Update-NcrementProjectFile $manifest -Commit;
@@ -184,7 +184,7 @@
             <para type="description">The file-path or instance of a [Manifest] object.</para>
             </summary>
         </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.UpdateProjectFileCmdlet.AbsolutePath">
+        <member name="P:Acklann.Ncrement.Cmdlets.UpdateProjectFileCmdlet.ProjectFile">
             <summary>
             <para type="description">The project file. If the file type is unknown it will be ignored.</para>
             </summary>

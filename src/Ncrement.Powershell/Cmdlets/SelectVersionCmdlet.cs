@@ -1,5 +1,4 @@
 using Acklann.Ncrement.Extensions;
-using System;
 using System.Management.Automation;
 
 namespace Acklann.Ncrement.Cmdlets
@@ -9,14 +8,14 @@ namespace Acklann.Ncrement.Cmdlets
     /// </summary>
     /// <seealso cref="System.Management.Automation.Cmdlet" />
     [OutputType(typeof(string))]
-    [Cmdlet(VerbsCommon.Select, (nameof(Ncrement) + "VersionNumber"), DefaultParameterSetName = nameof(Object))]
+    [Cmdlet(VerbsCommon.Select, (nameof(Ncrement) + "VersionNumber"))]
     public class SelectVersionCmdlet : Cmdlet
     {
         /// <summary>
         /// <para type="description">The file-path or instance of a [Manifest] object.</para>
         /// </summary>
         [ValidateNotNull]
-        [Parameter(Mandatory = true, ValueFromPipeline = true, ParameterSetName = nameof(Object))]
+        [Parameter(Mandatory = true, ValueFromPipeline = true)]
         public PSObject InputObject { get; set; }
 
         /// <summary>

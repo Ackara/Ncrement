@@ -33,7 +33,7 @@
   </ItemGroup>
   
   <Target Name="UpdatePSModule" BeforeTargets="PreBuildEvent">
-    <Exec Command="powershell -NoProfile -Command &quot;Update-ModuleManifest 'manifest.psd1' -RootModule '.\$(AssemblyName).dll' -Copyright '$(Copyright)' &quot;" WorkingDirectory="$(MSBuildThisFileDirectory)" />
+    <Exec Command="powershell -NoProfile -Command &quot;Update-ModuleManifest 'manifest.psd1' -RootModule '.\$(AssemblyName).dll' -Copyright '$(Copyright)' -CmdletsToExport '*' -FunctionsToExport '*' &quot;" WorkingDirectory="$(MSBuildThisFileDirectory)" />
   </Target>
 
   <Target Name="GeneratePowershellModule" AfterTargets="Publish">

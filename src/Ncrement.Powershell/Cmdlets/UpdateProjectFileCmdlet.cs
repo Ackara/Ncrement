@@ -1,5 +1,4 @@
 using Acklann.Ncrement.Extensions;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,7 +13,7 @@ namespace Acklann.Ncrement.Cmdlets
     /// object. If the project file passed is not known it will be ignored.
     /// </para>
     /// </summary>
-    /// <seealso cref="Acklann.Ncrement.Cmdlets.CmdletBase" />
+    /// <seealso cref="Acklann.Ncrement.Cmdlets.ManifestCmdletBase" />
     /// <example>
     /// <code>
     ///Get-ChildItem -Filter "*.csproj" | Update-NcrementProjectFile $manifest -Commit;
@@ -23,24 +22,24 @@ namespace Acklann.Ncrement.Cmdlets
     /// This example will update the project file version number then commit the changes to source control.
     /// </para>
     /// </example>
-    [OutputType(nameof(String))]
+    [OutputType(typeof(string))]
     [Cmdlet(VerbsData.Update, (nameof(Ncrement) + "ProjectFile"), ConfirmImpact = ConfirmImpact.Medium, SupportsShouldProcess = true)]
-    public class UpdateProjectFileCmdlet : CmdletBase
+    public class UpdateProjectFileCmdlet : ManifestCmdletBase
     {
         /// <summary>
         /// <para type="description">The file-path or instance of a [Manifest] object.</para>
         /// </summary>
         [ValidateNotNull]
-        [Alias("Manifest")]
-        [Parameter(Mandatory = true, Position = 0)]
+        [Alias(nameof(Manifest))]
+        [Parameter(Mandatory = true, Position = 1)]
         public PSObject InputObject { get; set; }
 
         /// <summary>
         /// <para type="description">The project file. If the file type is unknown it will be ignored.</para>
         /// </summary>
-        [Alias("Path", "FullName", "File")]
+        [Alias(nameof(PathInfo.Path), nameof(FileInfo.FullName))]
         [Parameter(Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true)]
-        public string AbsolutePath { get; set; }
+        public string ProjectFile { get; set; }
 
         /// <summary>
         /// <para type="description">The commit message.</para>
@@ -86,20 +85,6 @@ namespace Acklann.Ncrement.Cmdlets
         /// </summary>
         protected override void BeginProcessing()
         {
-            void saveManifest(string filePath)
-            {
-                if (File.Exists(filePath) && ShouldProcess(filePath, "Save"))
-                {
-                    _manifest.Save(filePath);
-                    if (Commit.IsPresent || CommitAll.IsPresent) Git.Stage(filePath);
-                }
-
-                if (string.IsNullOrEmpty(Message))
-                {
-                    Message = $"Change the version number to {_manifest}.";
-                }
-            }
-
             InputObject.GetManifestInfo(out _manifest, out string manifestPath);
             Overwrite(_manifest);
 
@@ -118,32 +103,50 @@ namespace Acklann.Ncrement.Cmdlets
                 _manifest.Version = _manifest.Version.NextPatch();
                 saveManifest(manifestPath);
             }
+            else
+            {
+                saveManifest(manifestPath);
+            }
+
+            void saveManifest(string filePath)
+            {
+                if (File.Exists(filePath) && ShouldProcess(filePath, "Save"))
+                {
+                    _manifest.Save(filePath);
+                    if (Commit.IsPresent || CommitAll.IsPresent) Git.Stage(filePath);
+                }
+
+                if (string.IsNullOrEmpty(Message))
+                {
+                    Message = $"Change the version number to {_manifest}.";
+                }
+            }
         }
 
         /// <summary>
         /// </summary>
         protected override void ProcessRecord()
         {
-            if (File.Exists(AbsolutePath) == false) return;
+            if (File.Exists(ProjectFile) == false) return;
 
-            string repositoryPath = Git.GetWorkingDirectory(AbsolutePath);
+            string repositoryPath = Git.GetWorkingDirectory(ProjectFile);
             _repositories.Add(repositoryPath);
             _manifest.SetVersionFormat(Git.GetCurrentBranchName(repositoryPath));
 
             IDictionary<string, string> tokens = ReplacementToken.Create();
             tokens.AddGitTokens(repositoryPath);
-            tokens["item-name"] = Path.GetFileName(AbsolutePath);
-            tokens["item-basename"] = Path.GetFileNameWithoutExtension(AbsolutePath);
-            tokens["item-directory"] = Path.GetDirectoryName(AbsolutePath);
-            tokens["item-directory-name"] = Path.GetFileName(Path.GetDirectoryName(AbsolutePath));
+            tokens["item-name"] = Path.GetFileName(ProjectFile);
+            tokens["item-basename"] = Path.GetFileNameWithoutExtension(ProjectFile);
+            tokens["item-directory"] = Path.GetDirectoryName(ProjectFile);
+            tokens["item-directory-name"] = Path.GetFileName(Path.GetDirectoryName(ProjectFile));
 
-            if (ShouldProcess(AbsolutePath))
+            if (ShouldProcess(ProjectFile))
             {
-                File.WriteAllText(AbsolutePath, Editor.UpdateProjectFile(AbsolutePath, _manifest, tokens));
-                if (Commit) Git.Stage(AbsolutePath, repositoryPath);
+                File.WriteAllText(ProjectFile, Editor.UpdateProjectFile(ProjectFile, _manifest, tokens));
+                if (Commit) Git.Stage(ProjectFile, repositoryPath);
             }
 
-            WriteObject(AbsolutePath);
+            WriteObject(ProjectFile);
         }
 
         /// <summary>

@@ -44,16 +44,16 @@ namespace Acklann.Ncrement.Cmdlets
         /// </summary>
         protected override void ProcessRecord()
         {
-            Manifest Manifest = InputObject.ToManifest();
+            InputObject.GetManifestInfo(out Manifest manifest, out string _);
 
             if (Major.IsPresent)
-                Manifest.Version = Manifest.Version.NextMajor();
+                manifest.Version = manifest.Version.NextMajor();
             else if (Minor.IsPresent)
-                Manifest.Version = Manifest.Version.NextMinor();
-            else
-                Manifest.Version = Manifest.Version.NextPatch();
+                manifest.Version = manifest.Version.NextMinor();
+            else if (Patch.IsPresent)
+                manifest.Version = manifest.Version.NextPatch();
 
-            WriteObject(Manifest);
+            WriteObject(manifest.ToPSObject());
         }
     }
 }

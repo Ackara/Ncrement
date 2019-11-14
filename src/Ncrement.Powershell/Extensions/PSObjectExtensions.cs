@@ -66,7 +66,7 @@ namespace Acklann.Ncrement.Extensions
                         break;
 
                     case nameof(Manifest.BranchVersionMap):
-                        manifest.BranchVersionMap = ToDictionary(pso);
+                        manifest.BranchVersionMap = (source.Value is Dictionary<string, string> dic ? dic : null);
                         break;
                 }
             }
@@ -109,6 +109,43 @@ namespace Acklann.Ncrement.Extensions
             }
 
             return default(T);
+        }
+
+        public static PSObject ToPSObject(this Manifest manifest)
+        {
+            var result = new PSObject();
+
+            var properties = from p in typeof(Manifest).GetProperties()
+                             where p.CanWrite
+                             select p;
+
+            string name; object value = null;
+            foreach (PropertyInfo p in properties)
+            {
+                name = p.Name.ToCamelCase();
+                value = p.GetValue(manifest);
+                if (value == null) continue;
+
+                switch (p.Name)
+                {
+                    default: result.Properties.Add(new PSNoteProperty(name, value)); break;
+
+                    case nameof(Manifest.Version):
+                        var v = (SemanticVersion)value;
+                        result.Properties.Add(new PSNoteProperty(name, new
+                        {
+                            major = v.Major,
+                            minor = v.Minor,
+                            patch = v.Patch
+                        }));
+                        break;
+
+                    case nameof(Manifest.VersionFormat):
+                        continue;
+                }
+            }
+
+            return result;
         }
 
         private static string ToCamelCase(this string text)

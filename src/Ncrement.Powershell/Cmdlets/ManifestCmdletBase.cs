@@ -8,7 +8,7 @@ namespace Acklann.Ncrement.Cmdlets
     /// </summary>
     /// <seealso cref="System.Management.Automation.Cmdlet" />
     /// <seealso cref="Acklann.Ncrement.IManifest" />
-    public abstract class CmdletBase : Cmdlet, IManifest
+    public abstract class ManifestCmdletBase : Cmdlet, IManifest
     {
         /// <summary>
         /// <para type="description">The manifest ID.</para>
@@ -103,7 +103,7 @@ namespace Acklann.Ncrement.Cmdlets
         /// <returns></returns>
         protected internal Manifest Overwrite(Manifest manifest)
         {
-            var cmdletProperties = from x in typeof(CmdletBase).GetMembers()
+            var cmdletProperties = from x in typeof(ManifestCmdletBase).GetMembers()
                                    where
                                     x.MemberType == MemberTypes.Property
                                     &&
@@ -116,11 +116,11 @@ namespace Acklann.Ncrement.Cmdlets
                                      where x.MemberType == MemberTypes.Property
                                      select (x as PropertyInfo);
 
-            foreach (PropertyInfo cp in cmdletProperties)
-                foreach (PropertyInfo mp in manifestProperties)
-                    if (mp.Name == cp.Name)
+            foreach (PropertyInfo src in cmdletProperties)
+                foreach (PropertyInfo dest in manifestProperties)
+                    if (dest.Name == src.Name)
                     {
-                        mp.SetValue(manifest, cp.GetValue(this));
+                        dest.SetValue(manifest, src.GetValue(this));
                         break;
                     }
 

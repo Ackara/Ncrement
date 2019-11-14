@@ -94,7 +94,10 @@ namespace Acklann.Ncrement
                 ("PackageId", expand(manifest.Id)),
                 ("Title", expand(manifest.Name)),
                 ("Description", expand(manifest.Description)),
+                
                 ("Version", expand(manifest.Version.ToString(manifest.VersionFormat?? "g"))),
+                //("PackageVersion", expand(manifest.Version.ToString(manifest.VersionFormat?? "g"))),
+                //("AssemblyVersion", expand(manifest.Version.ToString(manifest.VersionFormat?? "g"))),
 
                 ("PackageIconUrl", expand(manifest.Icon)),
                 ("RepositoryUrl", expand(manifest.Repository)),
