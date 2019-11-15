@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
+using System.Text;
 
 namespace Acklann.Ncrement
 {
@@ -72,7 +73,7 @@ namespace Acklann.Ncrement
             if (!File.Exists(filePath)) throw new FileNotFoundException($"Could not find file at '{filePath}'.");
 
             using (var file = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-            using (var reader = new StreamReader(file))
+            using (var reader = new StreamReader(file, Encoding.UTF8))
             {
                 return ParseJson(reader.ReadToEnd());
             }

@@ -62,7 +62,7 @@ namespace Acklann.Ncrement.Extensions
                     default: p.SetValue(manifest, source.Value); break;
 
                     case nameof(Manifest.Version):
-                        manifest.Version = ToSemanticVersion(source.Value as PSObject);
+                        manifest.Version = ToSemanticVersion(PSObject.AsPSObject(source.Value));
                         break;
 
                     case nameof(Manifest.BranchVersionMap):
@@ -76,14 +76,19 @@ namespace Acklann.Ncrement.Extensions
 
         public static SemanticVersion ToSemanticVersion(this PSObject pso)
         {
-            if (pso == null) return new SemanticVersion();
+            if (pso == null) throw new ArgumentNullException(nameof(pso));
+
+            ushort get(string name)
+            {
+                ushort result = pso.GetValue<ushort>(name.ToLowerInvariant());
+                if (result == default) result = pso.GetValue<ushort>(name);
+                return result;
+            }
 
             return new SemanticVersion(
-                pso.GetValue<int>(nameof(SemanticVersion.Major)),
-                pso.GetValue<int>(nameof(SemanticVersion.Minor)),
-                pso.GetValue<int>(nameof(SemanticVersion.Patch)),
-                pso.GetValue<string>(nameof(SemanticVersion.PreRelease)),
-                pso.GetValue<string>(nameof(SemanticVersion.Build))
+                get(nameof(SemanticVersion.Major)),
+                get(nameof(SemanticVersion.Minor)),
+                get(nameof(SemanticVersion.Patch))
                 );
         }
 

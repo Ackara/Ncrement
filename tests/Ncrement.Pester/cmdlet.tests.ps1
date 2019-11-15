@@ -41,6 +41,7 @@ Describe "Edit-Manifest" {
 	Join-Path $context.SampleDirectory "manifest.json" | Resolve-Path | Copy-Item -Destination $manifestPath -Force;
 	$manifest = Get-Content $manifestPath | ConvertFrom-Json;
 	$manifest.Name = "Changed";
+	$manifest.Version.Major = 11;
 
 	It "PS: Can edit manifest file" {
 
@@ -90,9 +91,8 @@ Describe "Update-ProjectFile" {
 
 #	# Create manifest.
 #	$manifest = New-NcrementManifest -Title "Pester";
-#	It "PS: (Step 1) can create new manifest" {
-#		$manifest.Name | Should Be "Pester";
-#	}
+	
+	
 
 #	# Save manifest.
 #	$manifestPath = Join-Path $rootFolder "manifest.json";
@@ -100,10 +100,9 @@ Describe "Update-ProjectFile" {
 
 #	# Increment version number
 #	$manifest = $manifestPath | Step-NcrementVersionNumber -Patch;
-#	$manifest | ConvertTo-Json | Out-File -FilePath $manifestPath -Encoding utf8;
 
-#	# Get version number
-#	$version = $manifestPath | Select-NcrementVersionNumber;
-#	Write-Host "v: $version";
-#	$manifest | Write-Host;
+#	$manifest | Edit-NcrementManifest $manifestPath | ConvertTo-Json;
+#	#$manifest | ConvertTo-Json | Write-host;
+#	Get-Content $manifestPath | Out-String| Write-host;
+#	#$manifest | Select-NcrementVersionNumber | Write-Host;
 #}

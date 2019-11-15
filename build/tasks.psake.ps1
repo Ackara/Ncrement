@@ -142,7 +142,7 @@ Task "Generate-Packages" -alias "pack" -description "This task generates the app
 
 	$dll = Join-Path (Split-Path $proj -Parent) "bin/$Configuration/*/publish/*.CodeGen.dll" | Resolve-Path;
 	$schema = Join-Path $RootDir "schema.json";
-	&dotnet $dll "$schema";
+	#&dotnet $dll "$schema";
 }
 
 Task "Publish-PowershellGallery" -alias "push-ps" -description "" `

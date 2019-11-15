@@ -118,8 +118,10 @@ namespace Acklann.Ncrement.Cmdlets
 
             foreach (PropertyInfo src in cmdletProperties)
                 foreach (PropertyInfo dest in manifestProperties)
-                    if (dest.Name == src.Name)
+                    if (src.Name == dest.Name)
                     {
+                        //System.Console.WriteLine("override " + dest.Name);
+
                         dest.SetValue(manifest, src.GetValue(this));
                         break;
                     }
