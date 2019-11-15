@@ -14,9 +14,9 @@ namespace Acklann.Ncrement.Cmdlets
         /// <summary>
         /// <para type="description">The source control current branch.</para>
         /// </summary>
-        [Parameter]
         [Alias("b", "Branch")]
         [ValidateNotNullOrEmpty]
+        [Parameter(Position = 1)]
         public string CurrentBranch { get; set; }
 
         /// <summary>
@@ -30,6 +30,7 @@ namespace Acklann.Ncrement.Cmdlets
         /// <para type="description">The format string.</para>
         /// </summary>
         [Parameter]
+        [Alias("f")]
         [ValidateNotNullOrEmpty]
         public string Format { get; set; }
 

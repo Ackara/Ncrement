@@ -27,6 +27,12 @@ namespace Acklann.Ncrement.Cmdlets
         public PSObject InputObject { get; set; }
 
         /// <summary>
+        /// <para type="description">Determine whether the modified file should be staged in source control.</para>
+        /// </summary>
+        [Parameter]
+        public SwitchParameter Stage { get; set; }
+
+        /// <summary>
         /// Processes the record.
         /// </summary>
         protected override void ProcessRecord()
@@ -34,7 +40,7 @@ namespace Acklann.Ncrement.Cmdlets
             Manifest manifest = null; string manifestPath = null;
             InputObject?.GetManifestInfo(out manifest, out manifestPath);
 
-            manifest = Overwrite(manifest ?? Manifest.LoadFrom(ManifestPath ?? manifestPath));
+            manifest = Overwrite(manifest ?? Manifest.LoadFrom(ManifestPath = ManifestPath ?? manifestPath));
             string json = Editor.UpdateManifestFile(ManifestPath, manifest);
 
             using (var file = new FileStream(ManifestPath, FileMode.Open, FileAccess.Write, FileShare.Read))
@@ -43,6 +49,8 @@ namespace Acklann.Ncrement.Cmdlets
                 writer.Write(json);
                 writer.Flush();
             }
+
+            if (Stage) Git.Stage(ManifestPath);
 
             WriteObject(manifest.ToPSObject());
         }
