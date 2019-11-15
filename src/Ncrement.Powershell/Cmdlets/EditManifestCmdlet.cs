@@ -1,0 +1,45 @@
+using Acklann.Ncrement.Extensions;
+using System.IO;
+using System.Management.Automation;
+
+namespace Acklann.Ncrement.Cmdlets
+{
+    /// <summary>
+    /// <para type="synopsis">Edit a manifest file.</para>
+    /// </summary>
+    /// <seealso cref="Acklann.Ncrement.Cmdlets.ManifestCmdletBase" />
+    [Cmdlet(VerbsData.Edit, (nameof(Ncrement) + nameof(Manifest)), ConfirmImpact = ConfirmImpact.Medium)]
+    public class EditManifestCmdlet : ManifestCmdletBase
+    {
+        /// <summary>
+        /// <para type="description">The [Manifest] to be used to overwritting the file.</para>
+        /// </summary>
+        [Parameter(Position = 1)]
+        public PSObject InputObject { get; set; }
+
+        /// <summary>
+        /// <para type="description">The absolute path of the manifest file.</para>
+        /// </summary>
+        [Alias(nameof(PathInfo.Path), nameof(FileInfo.FullName))]
+        [Parameter(Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true)]
+        public string ManifestPath { get; set; }
+
+        /// <summary>
+        /// Processes the record.
+        /// </summary>
+        protected override void ProcessRecord()
+        {
+            Manifest manifest = Overwrite(InputObject?.ToManifest() ?? Manifest.LoadFrom(ManifestPath));
+            string json = Editor.UpdateManifestFile(ManifestPath, manifest);
+
+            using (var file = new FileStream(ManifestPath, FileMode.Open, FileAccess.Write, FileShare.Read))
+            using (var writer = new StreamWriter(file))
+            {
+                writer.Write(json);
+                writer.Flush();
+            }
+
+            WriteObject(manifest.ToPSObject());
+        }
+    }
+}

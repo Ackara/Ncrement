@@ -4,6 +4,7 @@
 <Title>Ncrement</Title>
 <Description>A collection of powershell scripts and modules designed for continuous builds and deployments.</Description>
 <Version>0.0.3</Version>
+<AssemblyVersion>0.0.3</AssemblyVersion>
 <PackageIconUrl>https://raw.githubusercontent.com/Ackara/Ncrement/master/assets/icon.png</PackageIconUrl>
 <RepositoryUrl>https://github.com/Ackara/Ncrement.git</RepositoryUrl>
 <PackageProjectUrl>https://github.com/Ackara/Ncrement</PackageProjectUrl>
@@ -13,6 +14,5 @@
 <PackageLicenseFile>https://github.com/Ackara/Ncrement/blob/master/LICENSE</PackageLicenseFile>
 </PropertyGroup>
  
-<PropertyGroup>
-</PropertyGroup>
+
 </Project>

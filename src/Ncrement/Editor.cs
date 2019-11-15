@@ -1,7 +1,10 @@
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
@@ -10,6 +13,44 @@ namespace Acklann.Ncrement
 {
     public partial class Editor
     {
+        public static string UpdateManifestFile(string filePath, Manifest manifest)
+        {
+            if (manifest == null) throw new ArgumentNullException(nameof(manifest));
+            if (!File.Exists(filePath)) throw new FileNotFoundException($"Could not find file at '{filePath}'.");
+
+            using (var file = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (var reader = new JsonTextReader(new StreamReader(file)))
+            {
+                var properties = from p in typeof(Manifest).GetProperties()
+                                 where p.CanRead && p.CanWrite
+                                 select p;
+
+                JObject document = JObject.Load(reader);
+                JProperty jp;
+
+                foreach (PropertyInfo info in properties)
+                    switch (info.Name)
+                    {
+                        default:
+                            jp = document.Property(info.Name, StringComparison.OrdinalIgnoreCase);
+                            if (jp != null) jp.Value = new JValue(info.GetValue(manifest));
+                            break;
+
+                        case nameof(Manifest.Version):
+                            jp = document.Property(info.Name, StringComparison.OrdinalIgnoreCase);
+                            if (jp != null) jp.Value = new JObject(
+                                new JProperty("major", manifest.Version.Major),
+                                new JProperty("minor", manifest.Version.Minor),
+                                new JProperty("patch", manifest.Version.Patch));
+                            break;
+
+                        case nameof(Manifest.BranchVersionMap): continue;
+                    }
+
+                return document.ToString();
+            }
+        }
+
         public static string UpdateProjectFile(string filePath, Manifest manifest, IDictionary<string, string> tokens = null)
         {
             if (string.IsNullOrEmpty(filePath)) throw new ArgumentNullException(nameof(filePath));
@@ -29,7 +70,7 @@ namespace Acklann.Ncrement
             throw new NotSupportedException($"'{Path.GetExtension(filePath)}' files are not supported as yet.");
         }
 
-        public static string UpdatePackageJson(string filePath, Manifest manifest, IDictionary<string, string> tokens)
+        internal static string UpdatePackageJson(string filePath, Manifest manifest, IDictionary<string, string> tokens)
         {
             if (!File.Exists(filePath)) throw new FileNotFoundException($"Could not find file at '{filePath}'.");
             if (manifest == null) throw new ArgumentNullException(nameof(manifest));
@@ -228,6 +269,31 @@ namespace Acklann.Ncrement
                 }
 
             return document.ToString(SaveOptions.DisableFormatting);
+        }
+
+        private static string ToCamel(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return text;
+            else if (text.Length == 1) return text.ToUpperInvariant();
+            else
+            {
+                var camel = new System.Text.StringBuilder();
+                ReadOnlySpan<char> span = text.AsSpan();
+
+                for (int i = 0; i < span.Length; i++)
+                {
+                    if (span[i] == ' ' || span[i] == '_')
+                        continue;
+                    else if (i == 0)
+                        camel.Append(char.ToLowerInvariant(span[i]));
+                    else if (span[i - 1] == ' ' || span[i - 1] == '_')
+                        camel.Append(char.ToUpperInvariant(span[i]));
+                    else
+                        camel.Append(span[i]);
+                }
+
+                return camel.ToString();
+            }
         }
     }
 }

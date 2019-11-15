@@ -4,6 +4,27 @@
         <name>Acklann.Ncrement.Powershell</name>
     </assembly>
     <members>
+        <member name="T:Acklann.Ncrement.Cmdlets.EditManifestCmdlet">
+            <summary>
+            <para type="synopsis">Edit a manifest file.</para>
+            </summary>
+            <seealso cref="T:Acklann.Ncrement.Cmdlets.ManifestCmdletBase" />
+        </member>
+        <member name="P:Acklann.Ncrement.Cmdlets.EditManifestCmdlet.InputObject">
+            <summary>
+            <para type="description">The [Manifest] to be used to overwritting the file.</para>
+            </summary>
+        </member>
+        <member name="P:Acklann.Ncrement.Cmdlets.EditManifestCmdlet.ManifestPath">
+            <summary>
+            <para type="description">The absolute path of the manifest file.</para>
+            </summary>
+        </member>
+        <member name="M:Acklann.Ncrement.Cmdlets.EditManifestCmdlet.ProcessRecord">
+            <summary>
+            Processes the record.
+            </summary>
+        </member>
         <member name="T:Acklann.Ncrement.Cmdlets.ManifestCmdletBase">
             <summary>
             </summary>

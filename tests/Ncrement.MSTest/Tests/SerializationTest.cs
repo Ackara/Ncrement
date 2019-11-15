@@ -18,7 +18,6 @@ namespace Acklann.Ncrement.Tests
 
             // Act
             var manifest = Manifest.LoadFrom(manifestPath);
-
             manifest.Save(manifestPath);
             var json = File.ReadAllText(manifestPath);
 

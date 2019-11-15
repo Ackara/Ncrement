@@ -11,12 +11,12 @@ namespace Acklann.Ncrement
 {
     public class Manifest : IManifest
     {
+        [DataMember(IsRequired = true)]
         public string Id { get; set; }
 
         [DataMember(IsRequired = true)]
         public string Name { get; set; }
 
-        [DataMember(IsRequired = true)]
         public string Description { get; set; }
 
         [DataMember(IsRequired = true)]
@@ -25,7 +25,6 @@ namespace Acklann.Ncrement
         [IgnoreDataMember]
         public string VersionFormat { get; set; }
 
-        [DataMember(IsRequired = true)]
         public string Company { get; set; }
 
         [DataMember(IsRequired = true)]
@@ -45,6 +44,7 @@ namespace Acklann.Ncrement
 
         public string Tags { get; set; }
 
+        [DataMember(IsRequired = true)]
         public Dictionary<string, string> BranchVersionMap { get; set; }
 
         public static Manifest CreateTemplate()
@@ -71,12 +71,10 @@ namespace Acklann.Ncrement
         {
             if (!File.Exists(filePath)) throw new FileNotFoundException($"Could not find file at '{filePath}'.");
 
-            switch (Path.GetExtension(filePath).ToLowerInvariant())
+            using (var file = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (var reader = new StreamReader(file))
             {
-                default:
-                case ".json": return ParseJson(File.ReadAllText(filePath));
-
-                case ".xml": throw new System.NotImplementedException();
+                return ParseJson(reader.ReadToEnd());
             }
         }
 
@@ -202,31 +200,6 @@ namespace Acklann.Ncrement
                 }
 
                 return pascal.ToString();
-            }
-        }
-
-        private static string ToCamel(string text)
-        {
-            if (string.IsNullOrEmpty(text)) return text;
-            else if (text.Length == 1) return text.ToUpperInvariant();
-            else
-            {
-                var camel = new System.Text.StringBuilder();
-                ReadOnlySpan<char> span = text.AsSpan();
-
-                for (int i = 0; i < span.Length; i++)
-                {
-                    if (span[i] == ' ' || span[i] == '_')
-                        continue;
-                    else if (i == 0)
-                        camel.Append(char.ToLowerInvariant(span[i]));
-                    else if (span[i - 1] == ' ' || span[i - 1] == '_')
-                        camel.Append(char.ToUpperInvariant(span[i]));
-                    else
-                        camel.Append(span[i]);
-                }
-
-                return camel.ToString();
             }
         }
 

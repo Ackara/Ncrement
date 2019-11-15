@@ -1,0 +1,22 @@
+{
+    "name":  "Changed",
+    "description":  "A collection of powershell scripts and modules designed for continuous builds and deployments.",
+    "version":  {
+                    "major":  0,
+                    "minor":  0,
+                    "patch":  3
+                },
+    "company":  "Acklann",
+    "author":  "Ackara \u0026 Contributors",
+    "copyright":  "Released under the MIT license.",
+    "website":  "https://github.com/Ackara/Ncrement",
+    "repository":  "https://github.com/Ackara/Ncrement.git",
+    "icon":  "https://raw.githubusercontent.com/Ackara/Ncrement/master/assets/icon.png",
+    "releaseNotes":  "https://github.com/Ackara/Ncrement/blob/master/releaseNotes.txt",
+    "license":  "https://github.com/Ackara/Ncrement/blob/master/LICENSE",
+    "tags":  "build automation continous deployment vsts",
+    "branchVersionMap":  {
+                             "master":  "C",
+                             "default":  "G"
+                         }
+}

@@ -17,7 +17,7 @@ Describe "Step-Version" {
 	It "PS: can increment version number" {
 		$case1 = $manifestPath | Step-NcrementVersionNumber -Major:$false -Minor:$false -Patch;
 		$case1.Version.Patch | Should Be 4;
-		
+
 		$case2 = $manifest | Step-NcrementVersionNumber;
 		$case2.Version.Patch | Should Be 3;
 	}
@@ -33,6 +33,18 @@ Describe "Select-VersionNumber" {
 
 		$result2 = $manifestPath | Select-NcrementVersionNumber -format "z.y.x" -Verbose;
 		$result2 | Should Be "3.0.0";
+	}
+}
+
+Describe "Edit-Manifest" {
+	[string]$manifestPath = Join-Path ([IO.Path]::GetTempPath()) "pester-manifest.json";
+	Join-Path $context.SampleDirectory "manifest.json" | Resolve-Path | Copy-Item -Destination $manifestPath -Force;
+	$manifest = Get-Content $manifestPath | ConvertFrom-Json;
+	$manifest.Name = "Changed";
+
+	It "PS: Can edit manifest file" {
+		$result = $manifest | ConvertTo-Json;
+		Approve-Results $result "edit-manifest" | Should Be $true;
 	}
 }
 
@@ -80,15 +92,15 @@ Describe "Update-ProjectFile" {
 #	It "PS: (Step 1) can create new manifest" {
 #		$manifest.Name | Should Be "Pester";
 #	}
-	
+
 #	# Save manifest.
 #	$manifestPath = Join-Path $rootFolder "manifest.json";
 #	$manifest | ConvertTo-Json | Out-File -FilePath $manifestPath -Encoding utf8;
-	
+
 #	# Increment version number
 #	$manifest = $manifestPath | Step-NcrementVersionNumber -Patch;
 #	$manifest | ConvertTo-Json | Out-File -FilePath $manifestPath -Encoding utf8;
-	
+
 #	# Get version number
 #	$version = $manifestPath | Select-NcrementVersionNumber;
 #	Write-Host "v: $version";

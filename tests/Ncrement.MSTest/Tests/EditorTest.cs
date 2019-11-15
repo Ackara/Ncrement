@@ -11,6 +11,26 @@ namespace Acklann.Ncrement.Tests
     [TestClass]
     public class EditorTest
     {
+        [TestMethod]
+        public void Can_edit_manifest_file()
+        {
+            // Arrange
+            var sourceFile = Sample.GetManifestJSON().FullName;
+
+            var manifestPath = Path.Combine(Path.GetTempPath(), "manifest.tmp");
+            string folder = Path.GetDirectoryName(manifestPath);
+            if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
+
+            File.Copy(sourceFile, manifestPath, overwrite: true);
+            var manifest = Manifest.LoadFrom(manifestPath);
+
+            // Act
+            var result = Editor.UpdateManifestFile(sourceFile, manifest);
+
+            // Assert
+            Diff.Approve(result, ".json");
+        }
+
         [DataTestMethod]
         [DynamicData(nameof(GetProjectFiles), DynamicDataSourceType.Method)]
         public void Can_update_project_file(string fileName)
