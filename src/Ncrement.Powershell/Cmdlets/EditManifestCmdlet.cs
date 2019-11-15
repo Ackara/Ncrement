@@ -33,11 +33,9 @@ namespace Acklann.Ncrement.Cmdlets
         {
             Manifest manifest = null; string manifestPath = null;
             InputObject?.GetManifestInfo(out manifest, out manifestPath);
-            System.Console.WriteLine("ver: " + manifest.Version);
 
             manifest = Overwrite(manifest ?? Manifest.LoadFrom(ManifestPath ?? manifestPath));
             string json = Editor.UpdateManifestFile(ManifestPath, manifest);
-
 
             using (var file = new FileStream(ManifestPath, FileMode.Open, FileAccess.Write, FileShare.Read))
             using (var writer = new StreamWriter(file, Encoding.UTF8))
