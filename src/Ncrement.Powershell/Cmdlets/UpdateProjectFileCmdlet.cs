@@ -69,9 +69,6 @@ namespace Acklann.Ncrement.Cmdlets
         {
             InputObject.GetManifestInfo(out _manifest, out string _);
             Overwrite(_manifest);
-            _commitMsg
-                .AppendLine($"Change the version number to '{_manifest.Version.ToString("C")}'")
-                .AppendLine();
         }
 
         /// <summary>
@@ -83,8 +80,6 @@ namespace Acklann.Ncrement.Cmdlets
             string repositoryPath = Git.GetWorkingDirectory(ProjectFile);
             _manifest.SetVersionFormat(Git.GetCurrentBranchName(repositoryPath));
             _repositories.Add(repositoryPath);
-
-            _commitMsg.AppendLine($"* Changed '{Path.GetFileName(Path.GetDirectoryName(ProjectFile))}/{Path.GetFileName(ProjectFile)}' version number to '{_manifest.Version.ToString("C")}'.");
 
             IDictionary<string, string> tokens = ReplacementToken.Create();
             tokens.AddGitTokens(repositoryPath);
@@ -107,12 +102,18 @@ namespace Acklann.Ncrement.Cmdlets
         protected override void EndProcessing()
         {
             if (Commit || CommitAll)
+            {
+                _commitMsg
+                    .AppendLine($"Change the version number to '{_manifest.Version.ToString("C")}'")
+                    .AppendLine();
+
                 foreach (string folder in _repositories.Distinct())
                     if (ShouldProcess(folder, "git-commit"))
                     {
                         if (CommitAll) Git.StageAll(folder);
                         Git.Commit(folder, (Message ?? _commitMsg.ToString()));
                     }
+            }
         }
 
         #region Backing Members

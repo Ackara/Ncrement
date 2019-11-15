@@ -12,7 +12,7 @@
 RootModule = '.\Acklann.Ncrement.Powershell.dll'
 
 # Version number of this module.
-ModuleVersion = '8.2.8'
+ModuleVersion = '8.2.9'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
