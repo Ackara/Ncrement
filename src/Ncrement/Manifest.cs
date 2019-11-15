@@ -63,7 +63,7 @@ namespace Acklann.Ncrement
                 BranchVersionMap = new Dictionary<string, string>()
                 {
                     { "master", "C" },
-                    { DEFAULT, "g" }
+                    { DEFAULT, "x.y.z-\\beta" }
                 }
             };
         }

@@ -43,7 +43,7 @@ namespace Acklann.Ncrement
         {
             if (string.IsNullOrEmpty(message)) throw new ArgumentNullException(nameof(message));
 
-            return Invoke(repositoryPath, "commit -m \"{message}\"");
+            return Invoke(repositoryPath, $"commit -m \"{message}\"");
         }
 
         public static string GetCurrentBranchName(string repositoryPath)
