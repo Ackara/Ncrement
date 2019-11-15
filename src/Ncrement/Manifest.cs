@@ -53,12 +53,12 @@ namespace Acklann.Ncrement
             return new Manifest()
             {
                 Copyright = "Copyright {year} {company}, All Rights Reserved.",
+                License = "license.md",
+                Icon = "icon.png",
 
                 Website = "https://github.com/{company}/{name}",
                 Repository = "https://github.com/{company}/{name}.git",
-                License = "https://github.com/{company}/{name}/blob/master/license.txt",
-                ReleaseNotes = "https://github.com/{company}/{name}/blob/master/release-notes.md",
-                Icon = "https://raw.githubusercontent.com/{company}/{name}/master/art/icon.png",
+                ReleaseNotes = "https://github.com/{company}/{name}/blob/master/changelog.md",
 
                 BranchVersionMap = new Dictionary<string, string>()
                 {

@@ -21,7 +21,7 @@
     <Description>xxx</Description>
     <RepositoryUrl>xxx</RepositoryUrl>
     <PackageProjectUrl>xxx</PackageProjectUrl>
-    <PackageIconUrl>xxx</PackageIconUrl>
+    <PackageIcon>xxx</PackageIcon>
     <PackageReleaseNotes>xxx</PackageReleaseNotes>
     <PackageTags>xxx</PackageTags>
 

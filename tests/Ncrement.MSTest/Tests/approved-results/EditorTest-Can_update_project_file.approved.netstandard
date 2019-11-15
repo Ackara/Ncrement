@@ -17,7 +17,7 @@
     <Description>xxx</Description>
     <RepositoryUrl>xxx</RepositoryUrl>
     <PackageProjectUrl>xxx</PackageProjectUrl>
-    <PackageIconUrl>xxx</PackageIconUrl>
+    <PackageIcon>xxx</PackageIcon>
     <PackageReleaseNotes>xxx</PackageReleaseNotes>
     <PackageTags>xxx</PackageTags>
     
@@ -47,7 +47,7 @@
     <Description>This is a useful package.</Description>
     <RepositoryUrl>https://acme.com/repo/ncrement.git</RepositoryUrl>
     <PackageProjectUrl>https://acme.com</PackageProjectUrl>
-    <PackageIconUrl>http://cdn.acme.com/img/logo.png</PackageIconUrl>
+    <PackageIcon>http://cdn.acme.com/img/logo.png</PackageIcon>
     <PackageReleaseNotes>https://acme.com/project/ncrement/notes</PackageReleaseNotes>
     <PackageTags>awesome cool</PackageTags>
     

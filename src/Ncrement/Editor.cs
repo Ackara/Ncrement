@@ -138,7 +138,7 @@ namespace Acklann.Ncrement
                 ("Version", expand(manifest.Version.ToString(manifest.VersionFormat?? "g"))),
                 ("AssemblyVersion", expand(manifest.Version.ToString("C"))),
 
-                ("PackageIconUrl", expand(manifest.Icon)),
+                ("PackageIcon", expand(manifest.Icon)),
                 ("RepositoryUrl", expand(manifest.Repository)),
                 ("PackageProjectUrl", expand(manifest.Website)),
                 ("PackageReleaseNotes", expand(manifest.ReleaseNotes)),
