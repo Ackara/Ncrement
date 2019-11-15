@@ -12,24 +12,28 @@ namespace Acklann.Ncrement.Cmdlets
     public class EditManifestCmdlet : ManifestCmdletBase
     {
         /// <summary>
-        /// <para type="description">The [Manifest] to be used to overwritting the file.</para>
-        /// </summary>
-        [Parameter(Position = 1)]
-        public PSObject InputObject { get; set; }
-
-        /// <summary>
         /// <para type="description">The absolute path of the manifest file.</para>
         /// </summary>
-        [Alias(nameof(PathInfo.Path), nameof(FileInfo.FullName))]
-        [Parameter(Mandatory = true, ValueFromPipeline = true, ValueFromPipelineByPropertyName = true)]
+        [ValidateNotNullOrEmpty]
+        [Parameter(Position = 1)]
         public string ManifestPath { get; set; }
+
+        /// <summary>
+        /// <para type="description">The [Manifest] to be used to overwritting the file.</para>
+        /// </summary>
+        [Alias(nameof(PathInfo.Path), nameof(FileInfo.FullName))]
+        [Parameter(ValueFromPipeline = true, ValueFromPipelineByPropertyName = true)]
+        public PSObject InputObject { get; set; }
 
         /// <summary>
         /// Processes the record.
         /// </summary>
         protected override void ProcessRecord()
         {
-            Manifest manifest = Overwrite(InputObject?.ToManifest() ?? Manifest.LoadFrom(ManifestPath));
+            Manifest manifest = null; string manifestPath = null;
+            InputObject?.GetManifestInfo(out manifest, out manifestPath);
+
+            manifest = Overwrite(manifest ?? Manifest.LoadFrom(ManifestPath ?? manifestPath));
             string json = Editor.UpdateManifestFile(ManifestPath, manifest);
 
             using (var file = new FileStream(ManifestPath, FileMode.Open, FileAccess.Write, FileShare.Read))

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2036
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29509.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "build", "build\build.pssproj", "{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}"
 EndProject
@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".misc", ".misc", "{61E11AA7
 		commands.json = commands.json
 		README.md = README.md
 		releaseNotes.txt = releaseNotes.txt
+		schema.json = schema.json
 	EndProjectSection
 EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Ncrement.Pester", "tests\Ncrement.Pester\Ncrement.Pester.pssproj", "{5E14149B-55A6-4857-A267-3106D836189B}"
@@ -21,7 +22,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ncrement.MSTest", "tests\Nc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ncrement.Powershell", "src\Ncrement.Powershell\Ncrement.Powershell.csproj", "{A2E8638C-A5E5-4D68-8EEC-C30BF8FB3F71}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ncrement.CodeGen", "src\Ncrement.CodeGen\Ncrement.CodeGen.csproj", "{FFFBC8CB-481A-4A85-82B9-8D3219CFA968}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ncrement.CodeGen", "src\Ncrement.CodeGen\Ncrement.CodeGen.csproj", "{FFFBC8CB-481A-4A85-82B9-8D3219CFA968}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

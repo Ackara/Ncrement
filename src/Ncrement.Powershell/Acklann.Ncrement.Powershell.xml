@@ -10,14 +10,14 @@
             </summary>
             <seealso cref="T:Acklann.Ncrement.Cmdlets.ManifestCmdletBase" />
         </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.EditManifestCmdlet.InputObject">
-            <summary>
-            <para type="description">The [Manifest] to be used to overwritting the file.</para>
-            </summary>
-        </member>
         <member name="P:Acklann.Ncrement.Cmdlets.EditManifestCmdlet.ManifestPath">
             <summary>
             <para type="description">The absolute path of the manifest file.</para>
+            </summary>
+        </member>
+        <member name="P:Acklann.Ncrement.Cmdlets.EditManifestCmdlet.InputObject">
+            <summary>
+            <para type="description">The [Manifest] to be used to overwritting the file.</para>
             </summary>
         </member>
         <member name="M:Acklann.Ncrement.Cmdlets.EditManifestCmdlet.ProcessRecord">

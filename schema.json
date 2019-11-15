@@ -105,24 +105,6 @@
         "patch": {
           "type": "integer",
           "format": "int32"
-        },
-        "preRelease": {
-          "type": [
-            "null",
-            "string"
-          ]
-        },
-        "build": {
-          "type": [
-            "null",
-            "string"
-          ]
-        },
-        "isPreRelease": {
-          "type": "boolean"
-        },
-        "isStable": {
-          "type": "boolean"
         }
       }
     }

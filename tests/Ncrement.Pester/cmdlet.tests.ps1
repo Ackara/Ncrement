@@ -43,8 +43,9 @@ Describe "Edit-Manifest" {
 	$manifest.Name = "Changed";
 
 	It "PS: Can edit manifest file" {
-		$result = $manifest | ConvertTo-Json;
-		Approve-Results $result "edit-manifest" | Should Be $true;
+
+		$manifest | Edit-NcrementManifest $manifestPath;
+		$manifestPath | Approve-File | Should Be $true;
 	}
 }
 
