@@ -12,6 +12,14 @@ namespace Acklann.Ncrement.Cmdlets
     public class SelectVersionCmdlet : Cmdlet
     {
         /// <summary>
+        /// <para type="description">The source control current branch.</para>
+        /// </summary>
+        [Parameter]
+        [Alias("b", "Branch")]
+        [ValidateNotNullOrEmpty]
+        public string CurrentBranch { get; set; }
+
+        /// <summary>
         /// <para type="description">The file-path or instance of a [Manifest] object.</para>
         /// </summary>
         [ValidateNotNull]
@@ -24,14 +32,6 @@ namespace Acklann.Ncrement.Cmdlets
         [Parameter]
         [ValidateNotNullOrEmpty]
         public string Format { get; set; }
-
-        /// <summary>
-        /// <para type="description">The source control current branch.</para>
-        /// </summary>
-        [Parameter]
-        [Alias("b")]
-        [ValidateNotNullOrEmpty]
-        public string CurrentBranch { get; set; }
 
         /// <summary>
         /// Processes the record.

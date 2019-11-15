@@ -17,7 +17,7 @@ namespace Acklann.Ncrement
             do
             {
                 folder = Path.GetDirectoryName(folder);
-            } while (Directory.Exists(Path.Combine(folder, ".git")) == false);
+            } while (folder != null && Directory.Exists(Path.Combine(folder, ".git")) == false);
 
             return folder;
         }

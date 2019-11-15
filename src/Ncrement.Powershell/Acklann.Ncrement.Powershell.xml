@@ -132,6 +132,11 @@
             </summary>
             <seealso cref="T:System.Management.Automation.Cmdlet" />
         </member>
+        <member name="P:Acklann.Ncrement.Cmdlets.SelectVersionCmdlet.CurrentBranch">
+            <summary>
+            <para type="description">The source control current branch.</para>
+            </summary>
+        </member>
         <member name="P:Acklann.Ncrement.Cmdlets.SelectVersionCmdlet.InputObject">
             <summary>
             <para type="description">The file-path or instance of a [Manifest] object.</para>
@@ -140,11 +145,6 @@
         <member name="P:Acklann.Ncrement.Cmdlets.SelectVersionCmdlet.Format">
             <summary>
             <para type="description">The format string.</para>
-            </summary>
-        </member>
-        <member name="P:Acklann.Ncrement.Cmdlets.SelectVersionCmdlet.CurrentBranch">
-            <summary>
-            <para type="description">The source control current branch.</para>
             </summary>
         </member>
         <member name="M:Acklann.Ncrement.Cmdlets.SelectVersionCmdlet.ProcessRecord">
