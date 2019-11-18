@@ -37,7 +37,9 @@
     <AssemblyName>Acklann.Buildbox</AssemblyName>
     <AssemblyVersion>1.2.3</AssemblyVersion>
     <RootNamespace>Acklann.Buildbox</RootNamespace>
-  </PropertyGroup>
+  
+<Company>Acme</Company>
+</PropertyGroup>
 
   <PropertyGroup>
     <PackageId>Acme.Ncrement</PackageId>
@@ -56,4 +58,6 @@
     <PackageLicenseFile>MIT</PackageLicenseFile>
     
   </PropertyGroup>
+
+
 </Project>

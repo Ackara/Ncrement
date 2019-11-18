@@ -5,7 +5,7 @@
 <Description>A collection of powershell scripts and modules designed for continuous builds and deployments.</Description>
 <Version>0.0.3</Version>
 <AssemblyVersion>0.0.3</AssemblyVersion>
-<PackageIconUrl>https://raw.githubusercontent.com/Ackara/Ncrement/master/assets/icon.png</PackageIconUrl>
+<PackageIcon>https://raw.githubusercontent.com/Ackara/Ncrement/master/assets/icon.png</PackageIcon>
 <RepositoryUrl>https://github.com/Ackara/Ncrement.git</RepositoryUrl>
 <PackageProjectUrl>https://github.com/Ackara/Ncrement</PackageProjectUrl>
 <PackageReleaseNotes>https://github.com/Ackara/Ncrement/blob/master/releaseNotes.txt</PackageReleaseNotes>

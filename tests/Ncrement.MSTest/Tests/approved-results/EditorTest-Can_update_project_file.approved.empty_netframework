@@ -24,6 +24,7 @@
 <PackageReleaseNotes>https://acme.com/project/ncrement/notes</PackageReleaseNotes>
 <PackageTags>awesome cool</PackageTags>
 <Authors>Ackara</Authors>
+<Company>Acme</Company>
 <Copyright>Copyright 2019 Acme All Rights Reserved.</Copyright>
 <PackageLicenseFile>MIT</PackageLicenseFile>
 </PropertyGroup>

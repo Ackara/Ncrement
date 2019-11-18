@@ -58,10 +58,10 @@ namespace Acklann.Ncrement
             if (tokens == null) tokens = ReplacementToken.Create();
             ReplacementToken.Append(tokens, manifest);
 
-            if (filePath.EndsWith("proj", StringComparison.OrdinalIgnoreCase))
-                return UpdateDotnetProjectFile(filePath, manifest, tokens);
-            else if (string.Equals(Path.GetFileName(filePath), "package.json", StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(Path.GetFileName(filePath), "package.json", StringComparison.OrdinalIgnoreCase))
                 return UpdatePackageJson(filePath, manifest, tokens);
+            else if (filePath.EndsWith("proj", StringComparison.OrdinalIgnoreCase))
+                return UpdateDotnetProjectFile(filePath, manifest, tokens);
             else switch (Path.GetExtension(filePath).ToLowerInvariant())
                 {
                     case ".vsixmanifest": return UpdateVsixManifest(filePath, manifest, tokens);
@@ -145,6 +145,7 @@ namespace Acklann.Ncrement
                 ("PackageTags", expand(manifest.Tags)),
 
                 ("Authors", expand(manifest.Authors)),
+                ("Company", expand(manifest.Company)),
                 ("Copyright", expand(manifest.Copyright)),
 
                 ("PackageLicenseFile", expand(manifest.License))
