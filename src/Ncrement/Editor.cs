@@ -135,7 +135,7 @@ namespace Acklann.Ncrement
                 ("Title", expand(manifest.Name)),
                 ("Description", expand(manifest.Description)),
 
-                ("Version", expand(manifest.Version.ToString(manifest.VersionFormat?? "g"))),
+                ("Version", expand(manifest.Version.ToString(manifest.VersionFormat?? "C"))),
                 ("AssemblyVersion", expand(manifest.Version.ToString("C"))),
 
                 ("PackageIcon", expand(manifest.Icon)),
@@ -163,11 +163,15 @@ namespace Acklann.Ncrement
                 if (!string.IsNullOrWhiteSpace(value))
                 {
                     XElement targetElement = root.XPathSelectElement(string.Format("{0}PropertyGroup/{0}{1}", prefix, name), namespaces);
+
                     if (targetElement == null)
                     {
                         if (group == null)
                         {
-                            group = root.XPathSelectElement($"{prefix}PropertyGroup", namespaces) ?? new XElement(XName.Get("PropertyGroup", xmlns));
+                            group = root.XPathSelectElement($"{prefix}PropertyGroup[@Label]", namespaces)
+                                ?? root.XPathSelectElement($"{prefix}PropertyGroup", namespaces)
+                                ?? new XElement(XName.Get("PropertyGroup", xmlns));
+
                             group.Add(Environment.NewLine);
                             root.Add(Environment.NewLine);
                             root.Add(Environment.NewLine);

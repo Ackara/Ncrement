@@ -91,10 +91,7 @@
     <AssemblyName>dotnet_project</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-  
-<AssemblyVersion>1.2.3</AssemblyVersion>
-<Company>Acme</Company>
-</PropertyGroup>
+  </PropertyGroup>
 
   <PropertyGroup Label="Package">
     <PackageId>Acme.Ncrement</PackageId>
@@ -112,7 +109,10 @@
     <Copyright>Copyright 2019 Acme All Rights Reserved.</Copyright>
     <PackageLicenseFile>MIT</PackageLicenseFile>
 
-  </PropertyGroup>
+  
+<AssemblyVersion>1.2.3</AssemblyVersion>
+<Company>Acme</Company>
+</PropertyGroup>
   
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
