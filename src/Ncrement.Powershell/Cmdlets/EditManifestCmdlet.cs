@@ -43,7 +43,7 @@ namespace Acklann.Ncrement.Cmdlets
             manifest = Overwrite(manifest ?? Manifest.LoadFrom(ManifestPath = ManifestPath ?? manifestPath));
             string json = Editor.UpdateManifestFile(ManifestPath, manifest);
 
-            using (var file = new FileStream(ManifestPath, FileMode.Open, FileAccess.Write, FileShare.Read))
+            using (var file = new FileStream(ManifestPath, FileMode.Create, FileAccess.Write, FileShare.Read))
             using (var writer = new StreamWriter(file, Encoding.UTF8))
             {
                 writer.Write(json);
