@@ -202,7 +202,6 @@ namespace Acklann.Ncrement
                 ("x:Metadata/x:DisplayName", expand(manifest.Name)),
                 ("x:Metadata/x:Description", expand(manifest.Description)),
                 ("x:Metadata/x:MoreInfo", expand(manifest.Website)),
-                ("x:Metadata/x:ReleaseNotes", expand(manifest.ReleaseNotes)),
                 ("x:Metadata/x:Tags", expand(manifest.Tags)),
             };
 
@@ -255,7 +254,7 @@ namespace Acklann.Ncrement
 
             IEnumerable<(string, string)> identityMap = new (string, string)[]
             {
-                ("Version", expand(manifest.Version.ToString(manifest.VersionFormat?? "C"))),
+                ("Version", expand(manifest.Version.ToString("C"))),
                 ("Publisher", expand(manifest.Company))
             };
             foreach ((string name, string value) in identityMap)
@@ -274,31 +273,6 @@ namespace Acklann.Ncrement
                 }
 
             return document.ToString(SaveOptions.DisableFormatting);
-        }
-
-        private static string ToCamel(string text)
-        {
-            if (string.IsNullOrEmpty(text)) return text;
-            else if (text.Length == 1) return text.ToUpperInvariant();
-            else
-            {
-                var camel = new System.Text.StringBuilder();
-                ReadOnlySpan<char> span = text.AsSpan();
-
-                for (int i = 0; i < span.Length; i++)
-                {
-                    if (span[i] == ' ' || span[i] == '_')
-                        continue;
-                    else if (i == 0)
-                        camel.Append(char.ToLowerInvariant(span[i]));
-                    else if (span[i - 1] == ' ' || span[i - 1] == '_')
-                        camel.Append(char.ToUpperInvariant(span[i]));
-                    else
-                        camel.Append(span[i]);
-                }
-
-                return camel.ToString();
-            }
         }
     }
 }

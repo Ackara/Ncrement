@@ -29,7 +29,6 @@
     <DisplayName>Ncrement</DisplayName>
     <Description>This is a useful package.</Description>
   <MoreInfo>https://acme.com</MoreInfo>
-<ReleaseNotes>https://acme.com/project/ncrement/notes</ReleaseNotes>
 <Tags>awesome cool</Tags>
 </Metadata>
   <Installation>
