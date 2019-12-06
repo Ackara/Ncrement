@@ -46,11 +46,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Acme.Ncrement")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("This is a useful package.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Acme")]
 [assembly: AssemblyProduct("Ncrement")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyCopyright("Copyright 2019 Acme All Rights Reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

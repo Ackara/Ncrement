@@ -302,7 +302,7 @@ namespace Acklann.Ncrement
                 ("AssemblyFileVersion", expand(manifest.Version.ToString("C")))
             };
 
-            const string pattern = @"(?i)^\[assembly:\s*{0}\s*\(\s*""[^""]+""\s*\)\s*\]$";
+            const string pattern = @"^\[assembly:\s*{0}\s*\(\s*""[^""]*""\s*\)\s*\]$";
 
             var builder = new StringBuilder();
             foreach (string line in File.ReadLines(filePath))
@@ -310,10 +310,10 @@ namespace Acklann.Ncrement
                 bool notFound = true;
                 foreach ((string attribute, string value) in map)
                 {
-                    Match match = Regex.Match(line, string.Format(pattern, attribute));
+                    Match match = Regex.Match(line, string.Format(pattern, attribute), RegexOptions.IgnoreCase);
                     if (match.Success && !string.IsNullOrEmpty(value))
                     {
-                        builder.AppendFormat("[assembly: {0}(\"{1}\")]", attribute, expand(value));
+                        builder.AppendFormat("[assembly: {0}(\"{1}\")]", attribute, value);
                         builder.AppendLine();
                         notFound = false;
                         break;
