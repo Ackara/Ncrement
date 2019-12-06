@@ -29,7 +29,5 @@ namespace Acklann.Ncrement.Tests
             json.ShouldNotBeNullOrEmpty();
             Diff.Approve(json, ".json");
         }
-
-
     }
 }
