@@ -15,6 +15,7 @@
 <Description>This is a useful package.</Description>
 <Version>1.2.3</Version>
 <AssemblyVersion>1.2.3</AssemblyVersion>
+<AssemblyFileVersion>1.2.3</AssemblyFileVersion>
 <PackageIcon>http://cdn.acme.com/img/logo.png</PackageIcon>
 <RepositoryUrl>https://acme.com/repo/ncrement.git</RepositoryUrl>
 <PackageProjectUrl>https://acme.com</PackageProjectUrl>

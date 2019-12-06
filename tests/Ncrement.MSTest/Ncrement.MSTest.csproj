@@ -13,6 +13,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="samples\projects\AssemblyInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Acklann.Diffa" Version="1.0.3" />
     <PackageReference Include="AutoBogus.Conventions" Version="2.7.1" />
     <PackageReference Include="AutoBogus.FakeItEasy" Version="2.7.1" />
@@ -26,6 +30,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="samples\projects\AssemblyInfo.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="samples\projects\empty_netframework.csproj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -41,7 +48,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Ncrement.Powershell\Ncrement.Powershell.csproj" />
     <ProjectReference Include="..\..\src\Ncrement\Ncrement.csproj" />
   </ItemGroup>
 

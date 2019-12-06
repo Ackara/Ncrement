@@ -38,6 +38,7 @@
     <AssemblyVersion>1.2.3</AssemblyVersion>
     <RootNamespace>Acklann.Buildbox</RootNamespace>
   
+<AssemblyFileVersion>1.2.3</AssemblyFileVersion>
 <Company>Acme</Company>
 </PropertyGroup>
 

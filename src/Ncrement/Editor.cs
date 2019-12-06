@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
@@ -13,6 +15,27 @@ namespace Acklann.Ncrement
 {
     public partial class Editor
     {
+        public static string UpdateProjectFile(string filePath, Manifest manifest, IDictionary<string, string> tokens = null)
+        {
+            if (string.IsNullOrEmpty(filePath)) throw new ArgumentNullException(nameof(filePath));
+
+            if (tokens == null) tokens = ReplacementToken.Create();
+            ReplacementToken.Append(tokens, manifest);
+
+            if (string.Equals(Path.GetFileName(filePath), "package.json", StringComparison.OrdinalIgnoreCase))
+                return UpdatePackageJson(filePath, manifest, tokens);
+            if (string.Equals(Path.GetFileName(filePath), "AssemblyInfo.cs", StringComparison.OrdinalIgnoreCase))
+                return UpdateAssemblyInfo(filePath, manifest, tokens);
+            else if (filePath.EndsWith("proj", StringComparison.OrdinalIgnoreCase))
+                return UpdateDotnetProjectFile(filePath, manifest, tokens);
+            else switch (Path.GetExtension(filePath).ToLowerInvariant())
+                {
+                    case ".vsixmanifest": return UpdateVsixManifest(filePath, manifest, tokens);
+                }
+
+            throw new NotSupportedException($"'{Path.GetExtension(filePath)}' files are not supported as yet.");
+        }
+
         public static string UpdateManifestFile(string filePath, Manifest manifest)
         {
             if (manifest == null) throw new ArgumentNullException(nameof(manifest));
@@ -49,25 +72,6 @@ namespace Acklann.Ncrement
 
                 return document.ToString();
             }
-        }
-
-        public static string UpdateProjectFile(string filePath, Manifest manifest, IDictionary<string, string> tokens = null)
-        {
-            if (string.IsNullOrEmpty(filePath)) throw new ArgumentNullException(nameof(filePath));
-
-            if (tokens == null) tokens = ReplacementToken.Create();
-            ReplacementToken.Append(tokens, manifest);
-
-            if (string.Equals(Path.GetFileName(filePath), "package.json", StringComparison.OrdinalIgnoreCase))
-                return UpdatePackageJson(filePath, manifest, tokens);
-            else if (filePath.EndsWith("proj", StringComparison.OrdinalIgnoreCase))
-                return UpdateDotnetProjectFile(filePath, manifest, tokens);
-            else switch (Path.GetExtension(filePath).ToLowerInvariant())
-                {
-                    case ".vsixmanifest": return UpdateVsixManifest(filePath, manifest, tokens);
-                }
-
-            throw new NotSupportedException($"'{Path.GetExtension(filePath)}' files are not supported as yet.");
         }
 
         internal static string UpdatePackageJson(string filePath, Manifest manifest, IDictionary<string, string> tokens)
@@ -135,8 +139,9 @@ namespace Acklann.Ncrement
                 ("Title", expand(manifest.Name)),
                 ("Description", expand(manifest.Description)),
 
-                ("Version", expand(manifest.Version.ToString(manifest.VersionFormat?? "C"))),
+                ("Version", expand(manifest.Version.ToString("C"))),
                 ("AssemblyVersion", expand(manifest.Version.ToString("C"))),
+                ("AssemblyFileVersion", expand(manifest.Version.ToString("C"))),
 
                 ("PackageIcon", expand(manifest.Icon)),
                 ("RepositoryUrl", expand(manifest.Repository)),
@@ -155,15 +160,17 @@ namespace Acklann.Ncrement
             XElement root = document.Root, group = null;
 
             var namespaces = new XmlNamespaceManager(new NameTable());
-            string xmlns = (root.HasAttributes ? root.Attribute("xmlns")?.Value : null) ?? string.Empty;
+            string xmlns = ((root.HasAttributes ? root.Attribute("xmlns")?.Value : null) ?? string.Empty);
             string prefix = (string.IsNullOrEmpty(xmlns) ? string.Empty : "ms:");
             if (!string.IsNullOrEmpty(xmlns)) namespaces.AddNamespace(prefix.TrimEnd(':'), xmlns);
 
             foreach ((string name, string value) in map)
                 if (!string.IsNullOrWhiteSpace(value))
                 {
-                    XElement targetElement = root.XPathSelectElement(string.Format("{0}PropertyGroup/{0}{1}", prefix, name), namespaces);
+                    if (!string.IsNullOrEmpty(xmlns) && name == "AssemblyVersion") continue;
+                    if (!string.IsNullOrEmpty(xmlns) && name == "AssemblyFileVersion") continue;
 
+                    XElement targetElement = root.XPathSelectElement(string.Format("{0}PropertyGroup/{0}{1}", prefix, name), namespaces);
                     if (targetElement == null)
                     {
                         if (group == null)
@@ -272,7 +279,50 @@ namespace Acklann.Ncrement
                     }
                 }
 
+            if (document.Declaration == null) document.Declaration = new XDeclaration("1.0", "utf-8", null);
             return document.ToString(SaveOptions.DisableFormatting);
+        }
+
+        internal static string UpdateAssemblyInfo(string filePath, Manifest manifest, IDictionary<string, string> tokens)
+        {
+            if (manifest == null) throw new ArgumentNullException(nameof(manifest));
+            if (!File.Exists(filePath)) throw new FileNotFoundException($"Could not find file at '{filePath}'.");
+
+            string expand(string input) => ReplacementToken.Expand(input, tokens);
+            IEnumerable<(string, string)> map = new (string, string)[]
+            {
+                ("AssemblyTitle", expand(manifest.Id)),
+                ("AssemblyProduct", expand(manifest.Name)),
+                ("AssemblyDescription", expand(manifest.Description)),
+
+                ("AssemblyCompany", expand(manifest.Company)),
+                ("AssemblyCopyright", expand(manifest.Copyright)),
+
+                ("AssemblyVersion", expand(manifest.Version.ToString("C"))),
+                ("AssemblyFileVersion", expand(manifest.Version.ToString("C")))
+            };
+
+            const string pattern = @"(?i)^\[assembly:\s*{0}\s*\(\s*""[^""]+""\s*\)\s*\]$";
+
+            var builder = new StringBuilder();
+            foreach (string line in File.ReadLines(filePath))
+            {
+                bool notFound = true;
+                foreach ((string attribute, string value) in map)
+                {
+                    Match match = Regex.Match(line, string.Format(pattern, attribute));
+                    if (match.Success && !string.IsNullOrEmpty(value))
+                    {
+                        builder.AppendFormat("[assembly: {0}(\"{1}\")]", attribute, expand(value));
+                        builder.AppendLine();
+                        notFound = false;
+                        break;
+                    }
+                }
+
+                if (notFound) builder.AppendLine(line);
+            }
+            return builder.ToString();
         }
     }
 }

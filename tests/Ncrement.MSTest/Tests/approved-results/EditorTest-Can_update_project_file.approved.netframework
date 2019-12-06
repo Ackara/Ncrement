@@ -110,7 +110,6 @@
     <PackageLicenseFile>MIT</PackageLicenseFile>
 
   
-<AssemblyVersion>1.2.3</AssemblyVersion>
 <Company>Acme</Company>
 </PropertyGroup>
   
